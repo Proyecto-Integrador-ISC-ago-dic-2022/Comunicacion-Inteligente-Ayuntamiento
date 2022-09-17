@@ -28,24 +28,24 @@ Partiendo de lo anterior, es que el presente proyecto tiene como **objetivo**: *
 Éste estará integrado por un grupo de **doce personas**, organizadas en **dos equipos de seis** para poder garantizar el desarrollo completo de ambos sistemas mencionados. Concretamente, éstos se conforman de los siguientes integrantes:
 
 #### Equipo encargado de *chatbot*
-•	SpacecOOk - Michel Antoine Dionne Gutiérrez  
-•	RodrigoCravioto - Rodrigo Cravioto Caballero 
-•	OscarMaRo - Oscar Macías Rodríguez 
-•	CurielVF - Victor Fernando Curiel Ortega
-•	HowlandAlek - Alek Fernando Howland Aguilar
-•	pacoeldeveloper - Francisco Ariel Arenas Enciso
+*	SpacecOOk - Michel Antoine Dionne Gutiérrez  
+*	RodrigoCravioto - Rodrigo Cravioto Caballero 
+*	OscarMaRo - Oscar Macías Rodríguez 
+*	CurielVF - Victor Fernando Curiel Ortega
+*	HowlandAlek - Alek Fernando Howland Aguilar
+*	pacoeldeveloper - Francisco Ariel Arenas Enciso
 
 #### Equipo encargado de *dashboard*
-•	FernandoSSilvaM - Fernando Sebastián Silva Miramontes 
-•	SebastianMoralesMartin - Sebastian Morales Martín 
-•	MullerDerRaumdeuter13 - Eduardo Roberto Müller Romero
-•	Diana Paulina Bravo Pérez 
-•	Pablo García Morales 
-•	Andrés Reyes Rangel
+*	FernandoSSilvaM - Fernando Sebastián Silva Miramontes 
+*	SebastianMoralesMartin - Sebastian Morales Martín 
+*	MullerDerRaumdeuter13 - Eduardo Roberto Müller Romero
+*	Diana Paulina Bravo Pérez 
+*	Pablo García Morales 
+*	Andrés Reyes Rangel
 
 ## 🚀 Herramientas a utilizar 
 
-•	Microsoft Teams - Almacenamiento *cloud* para archivos de interes común (minutas, documentos de avances, documentos PM), tareas generales y medio de comunicación (reuniones entre equipo)
-•	Zoom - Reuniones con el cliente y/o profesor
-•	Whatsapp - Medio de mensajería rápida para notificaciones y avisos urgentes entre el cliente y miembros del equipo
-•	Github - Almacenamiento *cloud* para código y kanban de tareas de codificación
+*	Microsoft Teams - Almacenamiento *cloud* para archivos de interes común (minutas, documentos de avances, documentos PM), tareas generales y medio de comunicación (reuniones entre equipo)
+*	Zoom - Reuniones con el cliente y/o profesor
+*	Whatsapp - Medio de mensajería rápida para notificaciones y avisos urgentes entre el cliente y miembros del equipo
+*	Github - Almacenamiento *cloud* para código y kanban de tareas de codificación
