@@ -104,8 +104,8 @@
                         </div>
                       </td>
                       <td>
-                        <div class="form-check form-switch">
-                          <input class="form-check-input" type="checkbox">
+                        <div class="form-check form-switch" checked>
+                          <input class="form-check-input" role="switch" type="checkbox">
                         </div>
                       </td>
                     </tr>
@@ -129,54 +129,6 @@
                     </tr>
                   </thead>
                   <tbody id="table-areas-body">
-                    <!--<tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Bomberos</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="form-check form-switch">
-                          <input class="form-check-input" type="checkbox">
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Policia</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="form-check form-switch">
-                          <input class="form-check-input" type="checkbox">
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Repavimentado</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="form-check form-switch">
-                          <input class="form-check-input" type="checkbox">
-                        </div>
-                      </td>
-                    </tr>-->
                   </tbody>
                 </table>
               </div>
@@ -191,7 +143,7 @@
               <h6>Guardar cambios</h6>
             </div>
             <div class="card-body d-md-block gap-2">
-              <button type="button" class="btn btn-primary">Guardar</button>
+              <button type="button" class="btn btn-primary" onclick="saveChanges()">Guardar</button>
             </div>
           </div>
         </div>
@@ -236,6 +188,7 @@
         var toggle = document.createElement("input");
         toggle.className = "form-check-input";
         toggle.type = "checkbox";
+        toggle.checked = true
         console.log(toggle)
         toggleDiv.appendChild(toggleCell);
         toggleCell.appendChild(toggle);
@@ -252,6 +205,11 @@
       table.appendChild(tableBody);
     }
     createTable(data)
+  </script>
+  <script>
+    function saveChanges(){
+      document.location.reload()
+    }
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
