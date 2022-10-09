@@ -35,7 +35,7 @@
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
-  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+  <div class="min-height-300 bg-gradient-warning position-absolute w-100"></div>
   <aside
     class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 "
     id="sidenav-main">
@@ -120,15 +120,16 @@
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
+                <table class="table align-items-center mb-0" id="table-areas">
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Departamento</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mantenimiento / Activo</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mantenimiento
+                        / Activo</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
+                  <tbody id="table-areas-body">
+                    <!--<tr>
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div>
@@ -166,7 +167,7 @@
                           <div>
                           </div>
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Repavimentado</h6> 
+                            <h6 class="mb-0 text-sm">Repavimentado</h6>
                           </div>
                         </div>
                       </td>
@@ -175,7 +176,7 @@
                           <input class="form-check-input" type="checkbox">
                         </div>
                       </td>
-                    </tr>
+                    </tr>-->
                   </tbody>
                 </table>
               </div>
@@ -212,6 +213,45 @@
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+  </script>
+  <script>
+    var data = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
+
+
+
+
+    function createTable(data) {
+      var table = document.getElementById('table-areas');
+      var tableBody = document.getElementById('table-areas-body');
+      data.forEach(function (rowData) {
+        var div = document.createElement('div');
+        div.className = 'd-flex flex-column justify-content-center'
+        var row = document.createElement('tr');
+        var cell = document.createElement('td');
+        cell.appendChild(document.createTextNode(rowData));
+        row.appendChild(cell)
+        var toggleDiv = document.createElement('div');
+        toggleDiv.className = 'form-check form-switch mx-7'
+        var toggleCell = document.createElement('td');
+        var toggle = document.createElement("input");
+        toggle.className = "form-check-input";
+        toggle.type = "checkbox";
+        console.log(toggle)
+        toggleDiv.appendChild(toggleCell);
+        toggleCell.appendChild(toggle);
+        row.appendChild(toggleDiv);
+        console.log(rowData);
+        /*rowData.forEach(function (cellData) {
+          var cell = document.createElement('td');
+          cell.appendChild(document.createTextNode(cellData));
+          row.appendChild(cell);
+          
+        });*/
+        tableBody.appendChild(row);
+      });
+      table.appendChild(tableBody);
+    }
+    createTable(data)
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
