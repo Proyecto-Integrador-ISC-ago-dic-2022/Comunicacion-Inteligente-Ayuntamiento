@@ -4,7 +4,7 @@ var sass = require('gulp-sass')(require('sass'));
 var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
 var open = require('gulp-open');
-var bs = require('browser-sync').create();
+var server = require('gulp-webserver');
 
 var Paths = {
   HERE: './',
@@ -28,6 +28,15 @@ gulp.task('compile-scss', function() {
 gulp.task('watch', function() {
   gulp.watch(Paths.SCSS, gulp.series('compile-scss'));
 });
+
+/*  gulp.task('server', function(){
+  gulp.src('pages.login.html')
+  .pipe(server({
+    livereload: true,
+    open: true,
+    port: 8081
+  }));
+});*/
 
 gulp.task('open', function() {
   gulp.src('pages/login.html')
