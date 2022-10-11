@@ -4,6 +4,7 @@ var sass = require('gulp-sass')(require('sass'));
 var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
 var open = require('gulp-open');
+var bs = require('browser-sync').create();
 
 var Paths = {
   HERE: './',
@@ -12,6 +13,7 @@ var Paths = {
   SCSS_TOOLKIT_SOURCES: './assets/scss/argon-dashboard.scss',
   SCSS: './assets/scss/**/**'
 };
+
 
 gulp.task('compile-scss', function() {
   return gulp.src(Paths.SCSS_TOOLKIT_SOURCES)
@@ -22,12 +24,13 @@ gulp.task('compile-scss', function() {
     .pipe(gulp.dest(Paths.CSS));
 });
 
+
 gulp.task('watch', function() {
   gulp.watch(Paths.SCSS, gulp.series('compile-scss'));
 });
 
 gulp.task('open', function() {
-  gulp.src('pages/dashboard.html')
+  gulp.src('pages/login.html')
     .pipe(open());
 });
 

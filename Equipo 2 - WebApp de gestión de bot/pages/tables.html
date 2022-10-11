@@ -35,7 +35,8 @@
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
-  <div class="min-height-300 bg-gradient-warning position-absolute w-100"></div>
+  <div class="min-height-300 position-absolute w-100"
+    style="background-image: linear-gradient(45deg,#1cd6e7,rgb(211, 28, 187),  rgb(183, 49, 224));"></div>
   <aside
     class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 "
     id="sidenav-main">
@@ -143,7 +144,30 @@
               <h6>Guardar cambios</h6>
             </div>
             <div class="card-body d-md-block gap-2">
-              <button type="button" class="btn btn-primary" onclick="saveChanges()">Guardar</button>
+              <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Guardar
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Seguro=</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Los cambios se guardarán en el sistema.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar  </button>
+        <button type="button" class="btn btn-success" onclick="saveChanges()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
             </div>
           </div>
         </div>
@@ -181,6 +205,7 @@
         div.className = 'd-flex flex-column justify-content-center'
         var row = document.createElement('tr');
         var cell = document.createElement('td');
+        cell.className = 'px-5'
         cell.appendChild(document.createTextNode(rowData));
         row.appendChild(cell)
         var toggleDiv = document.createElement('div');
@@ -208,7 +233,7 @@
     createTable(data)
   </script>
   <script>
-    function saveChanges(){
+    function saveChanges() {
       document.location.reload()
     }
   </script>
