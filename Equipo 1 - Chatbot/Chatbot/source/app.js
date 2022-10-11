@@ -56,7 +56,11 @@ class Chatbox {
         })
             .then((r) => r.json())
             .then((r) => {
-                let msg2 = { name: "Sam", message: r.answer };
+                let msg2 = {
+                    name: "Asistente Virtual Atizapan",
+                    message: r.answer,
+                    is_link: r.is_link,
+                };
                 this.messages.push(msg2);
                 this.updateChatText(chatbox);
                 textField.value = "";
@@ -74,11 +78,25 @@ class Chatbox {
             .slice()
             .reverse()
             .forEach(function (item, index) {
-                if (item.name === "Sam") {
-                    html +=
-                        '<div class="messages__item messages__item--visitor">' +
-                        item.message +
-                        "</div>";
+                if (item.name === "Asistente Virtual Atizapan") {
+                    if (item.is_link) {
+                        html +=
+                            '<div class="messages__item messages__item--visitor_link">' +
+                            "<a href=" +
+                            item.message +
+                            ">" +
+                            "Clic aquí ..." +
+                            "</a>" +
+                            "</div>" +
+                            '<div class="messages__item messages__item--visitor">' +
+                            "El siguiente enlance puede ser de ayuda" +
+                            "</div>";
+                    } else {
+                        html +=
+                            '<div class="messages__item messages__item--visitor">' +
+                            item.message +
+                            "</div>";
+                    }
                 } else {
                     html +=
                         '<div class="messages__item messages__item--operator">' +

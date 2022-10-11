@@ -156,6 +156,13 @@ html {
     border-bottom-right-radius: 20px;
 }
 
+.messages__item--visitor_link {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    color: #6294c6;
+}
+
 .messages__item--operator {
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
