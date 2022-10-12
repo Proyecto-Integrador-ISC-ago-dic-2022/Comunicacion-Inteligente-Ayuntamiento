@@ -40,7 +40,7 @@ Partiendo de lo anterior, es que el presente proyecto tiene como **objetivo**: *
 *	SebastianMoralesMartin - Sebastian Morales Martín 
 *	MullerDerRaumdeuter13 - Eduardo Roberto Müller Romero
 *	Diana Paulina Bravo Pérez 
-*	Pablo García Morales 
+*	PabloGarciaM - Pablo García Morales 
 *	Andrés Reyes Rangel
 
 ## 🚀 Herramientas a utilizar 
