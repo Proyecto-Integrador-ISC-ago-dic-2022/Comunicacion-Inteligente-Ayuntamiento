@@ -14,6 +14,16 @@ var Paths = {
   SCSS: './assets/scss/**/**'
 };
 
+gulp.task('server', function(){
+  gulp.src('./')
+  .pipe(server({
+    livereload: true,
+    open: true,
+    port: 8081,
+    fallback: './pages/login.html'
+  }));
+  console.log('server online on loopback address (127.0.0.1) port: 8081')
+});
 
 gulp.task('compile-scss', function() {
   return gulp.src(Paths.SCSS_TOOLKIT_SOURCES)
@@ -29,18 +39,11 @@ gulp.task('watch', function() {
   gulp.watch(Paths.SCSS, gulp.series('compile-scss'));
 });
 
-/*  gulp.task('server', function(){
-  gulp.src('pages.login.html')
-  .pipe(server({
-    livereload: true,
-    open: true,
-    port: 8081
-  }));
-});*/
+
 
 gulp.task('open', function() {
   gulp.src('pages/login.html')
     .pipe(open());
 });
 
-gulp.task('open-app', gulp.parallel('open', 'watch'));
+gulp.task('open-app', gulp.parallel('server', 'watch'));
