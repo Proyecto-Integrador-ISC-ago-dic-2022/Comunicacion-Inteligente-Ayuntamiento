@@ -23,7 +23,7 @@ gulp.task('server', function(){
     port: 8081,
     fallback: './pages/login.html'
   }));
-  console.log('server online on loopback address (127.0.0.1) port: 8081')
+  console.log('server online on loopback address (127.0.0.1) port: 8081');
 });
 
 
