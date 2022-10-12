@@ -14,6 +14,7 @@ var Paths = {
   SCSS: './assets/scss/**/**'
 };
 
+// Genera el servidor loopback para accesar a la página en el puerto 8081
 gulp.task('server', function(){
   gulp.src('./')
   .pipe(server({
@@ -24,6 +25,8 @@ gulp.task('server', function(){
   }));
   console.log('server online on loopback address (127.0.0.1) port: 8081')
 });
+
+
 
 gulp.task('compile-scss', function() {
   return gulp.src(Paths.SCSS_TOOLKIT_SOURCES)
@@ -40,10 +43,11 @@ gulp.task('watch', function() {
 });
 
 
-
+//Abre una página en específico, uusado en pruebas de interacción yy visuales
 gulp.task('open', function() {
   gulp.src('pages/login.html')
     .pipe(open());
 });
 
+//Inicializa los tasks de gulp, abre el servidor en el puerto 8081
 gulp.task('open-app', gulp.parallel('server', 'watch'));

@@ -203,9 +203,9 @@ var ctx1 = document.getElementById("chart-line").getContext("2d");
     }
   </script>
   <script>
-    var data = [['parchado', 30], ["bomberos", 600], ['policia', 10]];
+    var data = [['SAPASA', 1538], ["Obras Públicas", 605], ['Tránsito', 4028], ['DIF', 2672]];
 
-    data.sort()
+    const sortedData = data.sort((a, b) => b[1] - a[1]);
     
 
     
@@ -217,13 +217,14 @@ var ctx1 = document.getElementById("chart-line").getContext("2d");
         rowData.forEach(function(cellData){
           var cell = document.createElement('td');
           cell.appendChild(document.createTextNode(cellData));
+          cell.className = 'px-5'
           row.appendChild(cell);
         });
         tableBody.appendChild(row);
       });
       table.appendChild(tableBody);
     }
-    createTable(data)
+    createTable(sortedData)
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
