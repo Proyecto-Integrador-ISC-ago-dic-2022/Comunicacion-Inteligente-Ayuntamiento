@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var path = require('path');
 var sass = require('gulp-sass')(require('sass'));
 var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
@@ -49,5 +48,5 @@ gulp.task('open', function() {
     .pipe(open());
 });
 
-//Inicializa los tasks de gulp, abre el servidor en el puerto 8081
+//Inicializa los tasks de gulp y paraleliza los tasks server y watch. Abre el servidor en el puerto 8081
 gulp.task('open-app', gulp.parallel('server', 'watch'));
