@@ -11,7 +11,14 @@ En este repositorio se almacenaran los sistemas pertenecientes al proyecto de co
 Iniciar ambiente de python
 ```
 $ python3 -m venv venv
+```
+Mac
+```
 $ . venv/bin/activate
+```
+Windows
+```
+$ .\venv\Scripts\activate
 ```
 
 Instalar dependencias
