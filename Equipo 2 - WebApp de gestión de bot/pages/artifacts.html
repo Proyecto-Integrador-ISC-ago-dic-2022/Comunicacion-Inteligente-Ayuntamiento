@@ -152,8 +152,8 @@
                                         </table>
                                         <!--<textarea class="form-control" id="interaccion" rows="3"
                                             name="interaccion"></textarea>-->
-                                            <button type="button" class="btn btn-primary"  onclick="addRow">Nuevo campo</button>
-                                            <button type="button" class="btn btn-secondary">Eliminar campo</button>
+                                            <button type="button" class="btn btn-primary"  onclick="addRow()">Nuevo campo</button>
+                                            <button type="button" class="btn btn-secondary" onclick="deleteRow()">Eliminar campo</button>
                                     </div>
                                     <div class="form-group">
                                         <label for="sucesor">Sucesor</label>
@@ -226,12 +226,39 @@
         function addRow(){
             var  table = document.getElementById('tablaInt');
             var row = document.createElement('tr');
-            var cellPregunta = document.createElement('td')
-            var cellRespuesta = document.createElement('td')
-            cellPregunta.appendChild(document.createTextNode('this test'))
-            cellRespuesta.appendChild(document.createTextNode('that test'))
+            var cellPregunta = document.createElement('td');
+            var cellRespuesta = document.createElement('td');
+            // Pregunta
+            // HTML: <input class="form-control" type="text" placeholder="pregunta" name="pregunta">
+            var pregunta = document.createElement('input');
+            pregunta.type = 'text';
+            pregunta.name = 'pregunta';
+            pregunta.className = "form-control";
+            pregunta.placeholder = "pregunta";
+
+            // Respuesta
+            // HTML: <input class="form-control" type="text" placeholder="respuesta" name="respuesta">
+            var respuesta = document.createElement('input');
+            respuesta.className = 'form-control';
+            respuesta.name = 'respuesta';
+            respuesta.type = 'text';
+            respuesta.placeholder = 'respuesta';
+            cellPregunta.appendChild(pregunta);
+            cellRespuesta.appendChild(respuesta);
             row.appendChild(cellPregunta);
             row.appendChild(cellRespuesta)
+            table.appendChild(row);
+        }
+
+        function deleteRow(){
+            var table = document.getElementById('tablaInt');
+            var rowCount = table.rows.length;
+            if(rowCount > '1'){
+                var row = table.deleteRow(rowCount-1);
+                rowCount--;
+            }else{
+                alert('No puedes tener menos de una pregunta y respuesta.')
+            }
         }
     </script>
 
