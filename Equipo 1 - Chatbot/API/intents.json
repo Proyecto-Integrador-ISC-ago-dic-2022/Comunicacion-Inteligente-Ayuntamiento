@@ -1,0 +1,70 @@
+{
+    "intents": [
+        {
+            "tag": "Saludo",
+            "patterns": [
+                "hola",
+                "buenos dias",
+                "buenas tardes",
+                "buenas noches",
+                "hello",
+                "que tal"
+            ],
+            "responses": [
+                "¿En qué te puedo ayudar?",
+                "¿De qué te gustaría consultar hoy?",
+                "¿Cómo te puedo ayudar hoy?",
+                "¿Qué información estás buscando?"
+            ],
+            "is_link": false
+        },
+        {
+            "tag": "Despedida",
+            "patterns": ["adios", "hasta luego", "nos vemos"],
+            "responses": [
+                "Gracias por tu consulta.",
+                "Que tengas un buen día."
+            ],
+            "is_link": false
+        },
+        {
+            "tag": "Agradecimiento",
+            "patterns": ["Gracias", "Muchas gracias", "Me ayudo mucho", "grax"],
+            "responses": ["¡Estamos para servirte!"],
+            "is_link": false
+        },
+        {
+            "tag": "Informacion",
+            "patterns": ["¿Que puedo consultar?", "Informacion"],
+            "responses": [
+                "Ponemos a tu alcance la siguiente información: <br><br>1. Aviso de privacidad<br>2. Catálogo Municipal de Regulaciones<br>3. Tesorería Digital<br><br>¿Qué deseas consultar?"
+            ],
+            "is_link": false
+        },
+        {
+            "tag": "Aviso privacidad",
+            "patterns": ["Aviso de privacidad", "privacidad", "1"],
+            "responses": ["https://atizapan.gob.mx/avisos-de-privacidad/"],
+            "is_link": true
+        },
+        {
+            "tag": "Catalogo Municipal de Regulaciones",
+            "patterns": [
+                "Regulaciones",
+                "Catalogo Municipal de Regulaciones",
+                "Catalogo Regulaciones",
+                "2"
+            ],
+            "responses": [
+                "https://atizapan.gob.mx/catalogo-municipal-de-regulaciones/"
+            ],
+            "is_link": true
+        },
+        {
+            "tag": "Tesoreria Digital",
+            "patterns": ["Tesoreria", "Tesoreria Digital", "3"],
+            "responses": ["https://tesoreriadigitalat.com:444/"],
+            "is_link": true
+        }
+    ]
+}
