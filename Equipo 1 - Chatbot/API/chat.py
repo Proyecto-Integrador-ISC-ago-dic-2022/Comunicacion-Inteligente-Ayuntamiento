@@ -50,11 +50,11 @@ def get_response(msg):
 
 
 if __name__ == "__main__":
-    print("Let's chat! (type 'quit' to exit)")
+    print("Hablemos! (escriba 'terminar' para salir)")
     while True:
         # sentence = "do you use credit cards?"
-        sentence = input("You: ")
-        if sentence == "quit":
+        sentence = input("Usuario: ")
+        if sentence == "terminar":
             break
 
         resp = get_response(sentence)

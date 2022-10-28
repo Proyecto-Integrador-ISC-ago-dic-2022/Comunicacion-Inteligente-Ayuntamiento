@@ -1,70 +1,196 @@
 {
-    "intents": [
+    "interacciones": [
         {
-            "tag": "Saludo",
-            "patterns": [
-                "hola",
-                "buenos dias",
-                "buenas tardes",
-                "buenas noches",
-                "hello",
-                "que tal"
+            "Id": 1,
+            "Etiqueta": "Saludo",
+            "Tipo": 1,
+            "Categoria": "Lenguaje",
+            "Patron": [
+                "Buenas",
+                "Hola",
+                "Que tal"
             ],
-            "responses": [
-                "¿En qué te puedo ayudar?",
-                "¿De qué te gustaría consultar hoy?",
-                "¿Cómo te puedo ayudar hoy?",
-                "¿Qué información estás buscando?"
+            "Respuesta": [
+                "Hola",
+                "Que tal",
+                "En que te puedo ayudar?"
             ],
-            "is_link": false
+            "Sucesor_de": null,
+            "Link": null,
+            "Nivel": 0,
+            "children": []
         },
         {
-            "tag": "Despedida",
-            "patterns": ["adios", "hasta luego", "nos vemos"],
-            "responses": [
-                "Gracias por tu consulta.",
-                "Que tengas un buen día."
+            "Id": 2,
+            "Etiqueta": "Directorio",
+            "Tipo": 2,
+            "Categoria": "Informacion",
+            "Patron": [
+                "Contactos",
+                "Directorio"
             ],
-            "is_link": false
-        },
-        {
-            "tag": "Agradecimiento",
-            "patterns": ["Gracias", "Muchas gracias", "Me ayudo mucho", "grax"],
-            "responses": ["¡Estamos para servirte!"],
-            "is_link": false
-        },
-        {
-            "tag": "Informacion",
-            "patterns": ["¿Que puedo consultar?", "Informacion"],
-            "responses": [
-                "Ponemos a tu alcance la siguiente información: <br><br>1. Aviso de privacidad<br>2. Catálogo Municipal de Regulaciones<br>3. Tesorería Digital<br><br>¿Qué deseas consultar?"
+            "Respuesta": [
+                "Ponemos a tu alcance la siguiente información: \\n1. Regidores\\n2. Directores\\n\\n¿Qué deseas consultar?"
             ],
-            "is_link": false
+            "Sucesor_de": null,
+            "Link": null,
+            "Nivel": 0,
+            "children": [
+                {
+                    "Id": 3,
+                    "Etiqueta": "Regidores",
+                    "Tipo": 3,
+                    "Categoria": "Link Informacion",
+                    "Patron": [
+                        "Regidores",
+                        "Regidores"
+                    ],
+                    "Respuesta": [
+                        "Aqui esta tu link"
+                    ],
+                    "Sucesor_de": 2,
+                    "Link": "https://atizapan.gob.mx/regidores/",
+                    "Nivel": 1,
+                    "children": []
+                },
+                {
+                    "Id": 4,
+                    "Etiqueta": "Directores",
+                    "Tipo": 3,
+                    "Categoria": "Link Informacion",
+                    "Patron": [
+                        "Directores",
+                        "Directores"
+                    ],
+                    "Respuesta": [
+                        "Link a continuacion",
+                        "Link",
+                        "Enlace"
+                    ],
+                    "Sucesor_de": 2,
+                    "Link": "https://atizapan.gob.mx/directores/",
+                    "Nivel": 1,
+                    "children": []
+                }
+            ]
         },
         {
-            "tag": "Aviso privacidad",
-            "patterns": ["Aviso de privacidad", "privacidad", "1"],
-            "responses": ["https://atizapan.gob.mx/avisos-de-privacidad/"],
-            "is_link": true
-        },
-        {
-            "tag": "Catalogo Municipal de Regulaciones",
-            "patterns": [
-                "Regulaciones",
-                "Catalogo Municipal de Regulaciones",
-                "Catalogo Regulaciones",
-                "2"
+            "Id": 5,
+            "Etiqueta": "Transparencia",
+            "Tipo": 2,
+            "Categoria": "Informacion",
+            "Patron": [
+                "Transparencia"
             ],
-            "responses": [
-                "https://atizapan.gob.mx/catalogo-municipal-de-regulaciones/"
+            "Respuesta": [
+                "Ponemos a tu alcance la siguiente información: \\n\\n1. Avisos de privacidad\\n2. Registro de denuncias\\n3. IPOMEX\\n\\n¿Qué deseas consultar?"
             ],
-            "is_link": true
-        },
-        {
-            "tag": "Tesoreria Digital",
-            "patterns": ["Tesoreria", "Tesoreria Digital", "3"],
-            "responses": ["https://tesoreriadigitalat.com:444/"],
-            "is_link": true
+            "Sucesor_de": null,
+            "Link": null,
+            "Nivel": 0,
+            "children": [
+                {
+                    "Id": 6,
+                    "Etiqueta": "Avisos de Privacidad",
+                    "Tipo": 2,
+                    "Categoria": "Menu Informacion",
+                    "Patron": [
+                        "Avisos de Privacidad",
+                        "Aviso"
+                    ],
+                    "Respuesta": [
+                        "Ponemos a tu alcance la siguiente información: \\n\\n1. Avisos de privacidad de tesoreria\\n2. Avisos de privacidad de sipinna\\n3. Avisos de privacidad de servicios publicos\\n\\n¿Qué deseas consultar?"
+                    ],
+                    "Sucesor_de": 5,
+                    "Link": null,
+                    "Nivel": 1,
+                    "children": [
+                        {
+                            "Id": 7,
+                            "Etiqueta": "Avisos de Privacidad de Tesoreria",
+                            "Tipo": 3,
+                            "Categoria": "Link Informacion",
+                            "Patron": [
+                                "Avisos de Privacidad de Tesoreria",
+                                "Avisos de Privacidad de Tesoreria"
+                            ],
+                            "Respuesta": [
+                                "Toma tu link"
+                            ],
+                            "Sucesor_de": 6,
+                            "Link": "https://atizapan.gob.mx/avisos-de-privacidad/#1659027685883-8add730e-ac92",
+                            "Nivel": 2,
+                            "children": []
+                        },
+                        {
+                            "Id": 8,
+                            "Etiqueta": "Avisos de Privacidad de Sipinna",
+                            "Tipo": 3,
+                            "Categoria": "Link Informacion",
+                            "Patron": [
+                                "Avisos de Privacidad de Sipinna",
+                                "Avisos de Privacidad de Sipinna"
+                            ],
+                            "Respuesta": [
+                                "El siguiente enlace te puede ayudar"
+                            ],
+                            "Sucesor_de": 6,
+                            "Link": "https://atizapan.gob.mx/avisos-de-privacidad/#1659027896817-abdce76c-ba4d",
+                            "Nivel": 2,
+                            "children": []
+                        },
+                        {
+                            "Id": 9,
+                            "Etiqueta": "Avisos de Privacidad de Servicios Publicos",
+                            "Tipo": 3,
+                            "Categoria": "Link Informacion",
+                            "Patron": [
+                                "Avisos de Privacidad de Servicios Publicos",
+                                "Avisos de Privacidad de Servicios Publicos"
+                            ],
+                            "Respuesta": [
+                                "Link"
+                            ],
+                            "Sucesor_de": 6,
+                            "Link": "https://atizapan.gob.mx/avisos-de-privacidad/#1659028215096-93cbfa02-50e4",
+                            "Nivel": 2,
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "Id": 10,
+                    "Etiqueta": "Registro de denuncias",
+                    "Tipo": 3,
+                    "Categoria": "Link externo",
+                    "Patron": [
+                        "Registro de denuncias"
+                    ],
+                    "Respuesta": [
+                        "Link a continuacion"
+                    ],
+                    "Sucesor_de": 5,
+                    "Link": "https://www.transparenciaestadodemexico.org.mx/denciu/denuncia/insert.page",
+                    "Nivel": 1,
+                    "children": []
+                },
+                {
+                    "Id": 11,
+                    "Etiqueta": "IPOMEX",
+                    "Tipo": 3,
+                    "Categoria": "Link externo",
+                    "Patron": [
+                        "IPOMEX"
+                    ],
+                    "Respuesta": [
+                        "Enlace"
+                    ],
+                    "Sucesor_de": 5,
+                    "Link": "https://www.ipomex.org.mx/ipo3/lgt/indice/atizapandezaragoza.web?token=03AIIukzhq2gtycwSGN0DbuXv82WYqRc1RT5nnWJoLha0zuCFUEJKyD0YFjku2pkz9lTQ0uZXR27oHSeftrcKH5HmzR_E1R9adijzVMJkdzJuQWHizKBMb182_5undr8Rf4Af2_Vuky8BObct2VazeZ9qClcADWx2z-aMt2UC7849z4LX_MTdnSOghHA0uKIhXiJS7hFvAe1GSIwESjKAMdCtCxk39EfAyVc7tkFnltZi3kGJpxdMn3TnHVMFuvaHbFA_iV97W1O0se1SNx993Azx6BS_xivrSXGscb5UxoBarkpcud1A9LQgJ0kmoXJmDUaQ0z3-GXoPPFTDC206zsKh8_sTWCprycXDy6HAMIdTJB85MxaqpfHCQY8-s10Bk8eVC1ZngWQep1Q-Dgq6LzIynmrRknT6GqW9zWDYFkMBivH1IuuyHZwdPd3rZZKUuIISRCpcOhMoCYwePkgJS8IjM_3R_up7kvizC-JVjTCdzIu7IuoXWa03RqFgouqOLWnwIPaYLa1iUH7Hr5hvkMOAHrg2x9heDp9Duvjq2uX1AmF9QylT3zB-LEi9BRJLuJUp327pErkNu",
+                    "Nivel": 1,
+                    "children": []
+                }
+            ]
         }
     ]
 }
