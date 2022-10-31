@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Diseño Front end del dashboard para administrar al bot",
   "main": "pages/login.html",
-  "type": "module",
+  "type": "commonjs",
   "directories": {
     "example": "root"
   },
