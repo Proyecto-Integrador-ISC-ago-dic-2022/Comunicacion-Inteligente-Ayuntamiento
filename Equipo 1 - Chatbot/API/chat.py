@@ -8,7 +8,7 @@ from nltk_utils import bag_of_words, tokenize
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-with open('intents.json', 'r', encoding="utf-8") as json_data:
+with open('interacciones.json', 'r', encoding="utf-8") as json_data:
     intents = json.load(json_data)
 
 FILE = "data.pth"
@@ -27,7 +27,7 @@ model.eval()
 
 bot_name = "Asistente Virtual Atizapan"
 
-def get_response(msg):
+def get_response(msg, old_children):
     sentence = tokenize(msg)
     X = bag_of_words(sentence, all_words)
     X = X.reshape(1, X.shape[0])
@@ -42,21 +42,12 @@ def get_response(msg):
     prob = probs[0][predicted.item()]
     print(prob.item())
     if prob.item() > 0.75:
-        for intent in intents['intents']:
-            if tag == intent["tag"]:
-                return (random.choice(intent['responses']),  intent['is_link'])
+        for old_child in old_children:
+            if tag == old_child["Etiqueta"]:
+                return (random.choice(old_child['Respuesta']),  old_child['Link'], old_child['Tipo'], old_child['children'])
+
+        for intent in intents['interacciones']:
+            if tag == intent["Etiqueta"]:
+                return (random.choice(intent['Respuesta']),  intent['Link'], intent['Tipo'], intent['children'])
     
-    return ("Lo siento. No te entendí.", False)
-
-
-if __name__ == "__main__":
-    print("Let's chat! (type 'quit' to exit)")
-    while True:
-        # sentence = "do you use credit cards?"
-        sentence = input("You: ")
-        if sentence == "quit":
-            break
-
-        resp = get_response(sentence)
-        print(resp)
-
+    return ("Lo siento. No te entendí.", "", 1, [])
