@@ -15,25 +15,23 @@ function handleSubmit(event) {
     console.log(value)
 
     
-    //let xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     let url = '127.0.0.1:8080/artefactos/create'
 
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+    xhr.open("POST", url, true)
+    xhr.setRequestHeader('Content-Type', 'application/json')
 
-        },
-        body: JSON.stringify(value)
-    }).then(response=> response.json())
-    // xhr.open("POST", url)
-    // xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState === 4 && xhr.status === 200){
+            console.log(xhr.responseText)
+            var json = JSON.parse(xhr.responseText);
+        }
+    }
 
 
-    // xhr.send(value);
-    // console.log(JSON.stringify(value))
-    // console.log('posted.')
+    xhr.send(JSON.stringify(value));
+    console.log(JSON.stringify(value))
+    console.log('posted.')
 
 }
 
