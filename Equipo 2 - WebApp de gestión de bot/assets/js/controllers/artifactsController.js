@@ -33,6 +33,7 @@ exports.readData = async(req, res)=> {
 }
 
 //Create
+//FIXIT: si borran el ultimo elemento es posible que se rompa la base de datos... NMMS ARREGLAR ESTO PUEDE SER UN PEDO...
 exports.postData = async(req, res)=>{
     var data = req.body
 
@@ -59,6 +60,7 @@ exports.postData = async(req, res)=>{
     })
 
     //Permutaciones si tiene link o sucesor_de; los codigos son iguales solo cambia el insert, si se puede mejorar chido sino no
+    //TODO: atrapar la excepcion si una etiqueta no es unica (evitar que el progreso del modal desaparezca si se puede); porque no lo hice con los patrones... no se pero ya lo hice joder
     if(data.hasOwnProperty("link") && data.hasOwnProperty("sucesor_de")) {
 
         setTimeout(() => {   //Tenemos que esperar a que los otros querys se completen... hay mejores maneras que esperar pero me da igual
@@ -194,6 +196,7 @@ exports.postData = async(req, res)=>{
                     console.log("Agregado con exito en interaccion");
                 });
 
+
                 data['patrones'].forEach(function (patron) {
                     conexion.query(`INSERT INTO patron (id_interaccion, patron) VALUES (${intRows}, '${patron}');`, function (err, result) {
                         if (err) throw err;
@@ -223,12 +226,20 @@ exports.postData = async(req, res)=>{
     
 
 }
-//Update
 
+//Update
 exports.postUpdate = async(req, res)=>{
 
 }
 //Delete
+//ES BUENA PRACTICA HACER UN FAKEDELETE PERO ME VALE
 exports.deleteData = async(req,res)=> {
+    var data = req.body
+
+    conexion.query(`DELETE FROM interaccion WHERE etiqueta= '${data['etiqueta']}' `, (err) => {
+        if(err) throw err
+    })
+
+    res.send("borrando")
 
 }
