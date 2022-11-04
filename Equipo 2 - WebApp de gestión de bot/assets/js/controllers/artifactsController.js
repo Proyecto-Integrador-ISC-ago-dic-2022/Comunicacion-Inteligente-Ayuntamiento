@@ -1,6 +1,19 @@
 // public instance IP: 35.247.112.172
 //const database = require('../views/database');
 
+/*
+El formato de los json son asi, link y sucesor de son opcionales
+{
+    "etiqueta": "test", |string
+    "tipo": 1, |int
+    "categoria": "sapasa",|
+    "patrones": ["ghfjgh", "ewtdfgcfgb", "ertyfghbcvgbn"],| array
+    "respuestas": ["lorem", "ipsum"],| array
+    "link":"www.quierountamal.com",| string
+    "sucesor_de": 2| int
+}
+*/
+
 
 var mysql = require('mysql')
 
@@ -10,18 +23,20 @@ var conexion = mysql.createConnection({
     user: 'root',
 });
 
-//QUE DIOS NOS AMPARE PORQUE NO REVISAMOS QUE SE CONECTE PORQUE ROMPE LA APP Y SI LO ACEMOS SE ROMPE ESTA MADRE
-
-//Read
-exports.readData = async(req, res)=> {
     // conexion.connect(function(err) {
     //     if (err) throw err;
     //     console.log("Connected!");
     //   });
 
+//QUE DIOS NOS AMPARE PORQUE NO REVISAMOS QUE SE CONECTE PORQUE ROMPE LA APP Y SI LO ACEMOS SE ROMPE ESTA MADRE
+
+//Read
+exports.readData = async(req, res)=> {
+
+
     conexion.query('select * from interaccion', (err, rows) => {
         if(err) throw err
-        console.log('Datos de la tabla:\n ' + rows);
+
         rows.forEach(function (rowData){
             console.log(rowData)
         })
@@ -30,6 +45,71 @@ exports.readData = async(req, res)=> {
     })
     // conexion.end()
     res.status(201)
+}
+//Read solo 1 interaccion, tomamos la etiqueta del url
+exports.readOneData = async(req, res) => {
+
+    var data = req.params["etiq"]
+
+    var interaccion = new Object()
+
+    var intId = 0
+
+   
+
+    conexion.query(`select * FROM interaccion WHERE etiqueta= '${data}' `, (err, row) => {
+        if(err) throw err
+        console.log(data)
+
+        intId = row[0]["id"]
+        interaccion.etiqueta = row[0]["etiqueta"]
+        interaccion.tipo = row[0]["tipo"]
+        interaccion.categoria= row[0]["categoria"]
+        if (!row["link"]) interaccion.link = row[0]["link"]
+        if (!row["sucesor_de"]) interaccion.sucesor_de = row[0]["sucesor_de"]
+    })
+
+    
+
+
+    setTimeout(() => { 
+        var patrones = []
+        var respuestas = []
+        conexion.query(`select patron FROM patron WHERE id_interaccion= '${intId}' `, (err, rows) => {
+            if(err) throw err
+            console.log()
+
+            rows.forEach(function (row) {
+                
+                patrones.push(row["patron"])
+            })
+        })
+
+        conexion.query(`select respuesta FROM respuesta WHERE id_interaccion= '${intId}' `, (err, rows) => {
+            if(err) throw err
+
+            rows.forEach(function (row) {
+                respuestas.push(row["respuesta"])
+            })
+        })
+
+
+        interaccion.patrones = patrones
+        interaccion.respuestas = respuestas
+
+
+
+        setTimeout(() => { 
+   
+
+            var retJson = JSON.stringify(interaccion)
+            res.send(retJson)
+        },500)
+
+    }, 200)
+
+
+
 }
 
 //Create

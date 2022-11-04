@@ -5,6 +5,8 @@ const controller = require('../controllers/artifactsController');
 
 router.get('/read', controller.readData)
 
+router.get('/readone/:etiq', controller.readOneData)
+
 router.post('/create', controller.postData)
 
 router.post('/update', controller.postUpdate)
