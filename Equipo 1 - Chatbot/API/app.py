@@ -28,10 +28,13 @@ def update():
         #Si estructura esta bien
         if checarEStructura == True:
             #Sobrescribir el json con los nuevos valores
-            with open("intents.json", "w") as file:
+            with open("interacciones.json", "w") as file:
                 file.write(json.dumps(body))
             #Entrenar el modelo
-            train()
+            intents = {}
+            with open('interacciones.json', 'r') as f:
+                intents = json.load(f)
+            train(intents)
             #Avisar que el modelo fue entrenado exitosamente
             return Response("El modelo se ha entrenado",status=200)
         else:
