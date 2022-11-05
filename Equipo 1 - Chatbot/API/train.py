@@ -9,24 +9,31 @@ from torch.utils.data import Dataset, DataLoader
 from nltk_utils import bag_of_words, tokenize, stem
 from model import NeuralNet
 
-with open('intents.json', 'r') as f:
+with open('interacciones.json', 'r') as f:
     intents = json.load(f)
 
 all_words = []
 tags = []
 xy = []
-# loop through each sentence in our intents patterns
-for intent in intents['intents']:
-    tag = intent['tag']
-    # add to tag list
-    tags.append(tag)
-    for pattern in intent['patterns']:
-        # tokenize each word in the sentence
-        w = tokenize(pattern)
-        # add to our words list
-        all_words.extend(w)
-        # add to xy pair
-        xy.append((w, tag))
+
+def train(intents):
+    # loop through each sentence in our intents patterns
+    for intent in intents:
+        tag = intent['Etiqueta']
+        # add to tag list
+        tags.append(tag)
+        for pattern in intent['Patron']:
+            # tokenize each word in the sentence
+            w = tokenize(pattern)
+            # add to our words list
+            all_words.extend(w)
+            # add to xy pair
+            xy.append((w, tag))
+        if(len(intent['children'])!= 0):
+            train(intent['children'])
+
+train(intents['interacciones'])
+
 
 # stem and lower each word
 ignore_words = ['?', '.', '!']

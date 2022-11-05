@@ -48,7 +48,13 @@ class Chatbox {
 
         fetch("http://127.0.0.1:5000/predict", {
             method: "POST",
-            body: JSON.stringify({ message: text1 }),
+            body: JSON.stringify({
+                message: text1,
+                old_children:
+                    this.messages[this.messages.length - 2] == undefined
+                        ? []
+                        : this.messages[this.messages.length - 2]["children"],
+            }),
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
@@ -59,7 +65,9 @@ class Chatbox {
                 let msg2 = {
                     name: "Asistente Virtual Atizapan",
                     message: r.answer,
-                    is_link: r.is_link,
+                    link: r.link,
+                    type: r.type,
+                    children: r.children,
                 };
                 this.messages.push(msg2);
                 this.updateChatText(chatbox);
@@ -79,17 +87,17 @@ class Chatbox {
             .reverse()
             .forEach(function (item, index) {
                 if (item.name === "Asistente Virtual Atizapan") {
-                    if (item.is_link) {
+                    if (item.type == 3) {
                         html +=
                             '<div class="messages__item messages__item--visitor_link">' +
                             "<a href=" +
-                            item.message +
+                            item.link +
                             ">" +
                             "Clic aquí ..." +
                             "</a>" +
                             "</div>" +
                             '<div class="messages__item messages__item--visitor">' +
-                            "El siguiente enlance puede ser de ayuda" +
+                            item.message +
                             "</div>";
                     } else {
                         html +=
