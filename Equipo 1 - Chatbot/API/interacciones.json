@@ -5,16 +5,8 @@
             "Etiqueta": "Saludo",
             "Tipo": 1,
             "Categoria": "Lenguaje",
-            "Patron": [
-                "Buenas",
-                "Hola",
-                "Que tal"
-            ],
-            "Respuesta": [
-                "Hola",
-                "Que tal",
-                "En que te puedo ayudar?"
-            ],
+            "Patron": ["Buenas", "Hola", "Que tal"],
+            "Respuesta": ["Hola", "Que tal", "En que te puedo ayudar?"],
             "Sucesor_de": null,
             "Link": null,
             "Nivel": 0,
@@ -25,10 +17,7 @@
             "Etiqueta": "Directorio",
             "Tipo": 2,
             "Categoria": "Informacion",
-            "Patron": [
-                "Contactos",
-                "Directorio"
-            ],
+            "Patron": ["Contactos", "Directorio"],
             "Respuesta": [
                 "Ponemos a tu alcance la siguiente información: \\n1. Regidores\\n2. Directores\\n\\n¿Qué deseas consultar?"
             ],
@@ -41,13 +30,8 @@
                     "Etiqueta": "Regidores",
                     "Tipo": 3,
                     "Categoria": "Link Informacion",
-                    "Patron": [
-                        "Regidores",
-                        "Regidores"
-                    ],
-                    "Respuesta": [
-                        "Aqui esta tu link"
-                    ],
+                    "Patron": ["Regidores", "Regidores"],
+                    "Respuesta": ["Aqui esta tu link"],
                     "Sucesor_de": 2,
                     "Link": "https://atizapan.gob.mx/regidores/",
                     "Nivel": 1,
@@ -58,15 +42,8 @@
                     "Etiqueta": "Directores",
                     "Tipo": 3,
                     "Categoria": "Link Informacion",
-                    "Patron": [
-                        "Directores",
-                        "Directores"
-                    ],
-                    "Respuesta": [
-                        "Link a continuacion",
-                        "Link",
-                        "Enlace"
-                    ],
+                    "Patron": ["Directores", "Directores"],
+                    "Respuesta": ["Link a continuacion", "Link", "Enlace"],
                     "Sucesor_de": 2,
                     "Link": "https://atizapan.gob.mx/directores/",
                     "Nivel": 1,
@@ -79,9 +56,7 @@
             "Etiqueta": "Transparencia",
             "Tipo": 2,
             "Categoria": "Informacion",
-            "Patron": [
-                "Transparencia"
-            ],
+            "Patron": ["Transparencia"],
             "Respuesta": [
                 "Ponemos a tu alcance la siguiente información: \\n\\n1. Avisos de privacidad\\n2. Registro de denuncias\\n3. IPOMEX\\n\\n¿Qué deseas consultar?"
             ],
@@ -94,10 +69,7 @@
                     "Etiqueta": "Avisos de Privacidad",
                     "Tipo": 2,
                     "Categoria": "Menu Informacion",
-                    "Patron": [
-                        "Avisos de Privacidad",
-                        "Aviso"
-                    ],
+                    "Patron": ["Avisos de Privacidad", "Aviso"],
                     "Respuesta": [
                         "Ponemos a tu alcance la siguiente información: \\n\\n1. Avisos de privacidad de tesoreria\\n2. Avisos de privacidad de sipinna\\n3. Avisos de privacidad de servicios publicos\\n\\n¿Qué deseas consultar?"
                     ],
@@ -114,9 +86,7 @@
                                 "Avisos de Privacidad de Tesoreria",
                                 "Avisos de Privacidad de Tesoreria"
                             ],
-                            "Respuesta": [
-                                "Toma tu link"
-                            ],
+                            "Respuesta": ["Toma tu link"],
                             "Sucesor_de": 6,
                             "Link": "https://atizapan.gob.mx/avisos-de-privacidad/#1659027685883-8add730e-ac92",
                             "Nivel": 2,
@@ -148,9 +118,7 @@
                                 "Avisos de Privacidad de Servicios Publicos",
                                 "Avisos de Privacidad de Servicios Publicos"
                             ],
-                            "Respuesta": [
-                                "Link"
-                            ],
+                            "Respuesta": ["Link"],
                             "Sucesor_de": 6,
                             "Link": "https://atizapan.gob.mx/avisos-de-privacidad/#1659028215096-93cbfa02-50e4",
                             "Nivel": 2,
@@ -163,12 +131,8 @@
                     "Etiqueta": "Registro de denuncias",
                     "Tipo": 3,
                     "Categoria": "Link externo",
-                    "Patron": [
-                        "Registro de denuncias"
-                    ],
-                    "Respuesta": [
-                        "Link a continuacion"
-                    ],
+                    "Patron": ["Registro de denuncias"],
+                    "Respuesta": ["Link a continuacion"],
                     "Sucesor_de": 5,
                     "Link": "https://www.transparenciaestadodemexico.org.mx/denciu/denuncia/insert.page",
                     "Nivel": 1,
@@ -179,12 +143,8 @@
                     "Etiqueta": "IPOMEX",
                     "Tipo": 3,
                     "Categoria": "Link externo",
-                    "Patron": [
-                        "IPOMEX"
-                    ],
-                    "Respuesta": [
-                        "Enlace"
-                    ],
+                    "Patron": ["IPOMEX"],
+                    "Respuesta": ["Enlace"],
                     "Sucesor_de": 5,
                     "Link": "https://www.ipomex.org.mx/ipo3/lgt/indice/atizapandezaragoza.web?token=03AIIukzhq2gtycwSGN0DbuXv82WYqRc1RT5nnWJoLha0zuCFUEJKyD0YFjku2pkz9lTQ0uZXR27oHSeftrcKH5HmzR_E1R9adijzVMJkdzJuQWHizKBMb182_5undr8Rf4Af2_Vuky8BObct2VazeZ9qClcADWx2z-aMt2UC7849z4LX_MTdnSOghHA0uKIhXiJS7hFvAe1GSIwESjKAMdCtCxk39EfAyVc7tkFnltZi3kGJpxdMn3TnHVMFuvaHbFA_iV97W1O0se1SNx993Azx6BS_xivrSXGscb5UxoBarkpcud1A9LQgJ0kmoXJmDUaQ0z3-GXoPPFTDC206zsKh8_sTWCprycXDy6HAMIdTJB85MxaqpfHCQY8-s10Bk8eVC1ZngWQep1Q-Dgq6LzIynmrRknT6GqW9zWDYFkMBivH1IuuyHZwdPd3rZZKUuIISRCpcOhMoCYwePkgJS8IjM_3R_up7kvizC-JVjTCdzIu7IuoXWa03RqFgouqOLWnwIPaYLa1iUH7Hr5hvkMOAHrg2x9heDp9Duvjq2uX1AmF9QylT3zB-LEi9BRJLuJUp327pErkNu",
                     "Nivel": 1,
