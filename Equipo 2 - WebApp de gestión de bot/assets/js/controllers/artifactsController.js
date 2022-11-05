@@ -14,6 +14,9 @@ El formato de los json son asi, link y sucesor de son opcionales
 }
 */
 
+    // Lista de categorias: ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
+        
+
 
 var mysql = require('mysql')
 
@@ -32,19 +35,18 @@ var conexion = mysql.createConnection({
 
 //Read
 exports.readData = async(req, res)=> {
-
-
     conexion.query('select * from interaccion', (err, rows) => {
         if(err) throw err
-
+        
         rows.forEach(function (rowData){
-            console.log(rowData)
+            console.log(JSON.stringify(rowData))
         })
         console.log('finished searching.')
+        console.log('rows: \n', JSON.stringify(rows))
+        res.send(JSON.stringify(rows))
 
     })
     // conexion.end()
-    res.status(201)
 }
 //Read solo 1 interaccion, tomamos la etiqueta del url
 exports.readOneData = async(req, res) => {
@@ -94,7 +96,7 @@ exports.readOneData = async(req, res) => {
         })
 
 
-        interaccion.patrones = patrones
+        interaccion.patrones = patrones 
         interaccion.respuestas = respuestas
 
 

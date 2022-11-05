@@ -16,7 +16,7 @@ function handleSubmit(event) {
 
     
     let xhr = new XMLHttpRequest();
-    let url = '127.0.0.1:8080/artefactos/create'
+    let url = 'http://127.0.0.1:8080/artefactos/create'
 
     xhr.open("POST", url, true)
     xhr.setRequestHeader('Content-Type', 'application/json')

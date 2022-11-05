@@ -103,7 +103,6 @@
                     data-bs-backdrop="static">
                     <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
-
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Modificador de interacciones.</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -130,7 +129,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="interaccion">Interacción</label>
-                                        <table class="table table-striped-rows"  id="interaccion">
+                                        <table class="table table-striped-rows" id="interaccion">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Pregunta</th>
@@ -140,20 +139,21 @@
                                             <tbody class="table-body" id="tablaInt">
                                                 <tr>
                                                     <td>
-                                                        <input class="form-control" type="text" placeholder="patrones" name="patrones">
+                                                        <input class="form-control" type="text" placeholder="patrones"
+                                                            name="patrones">
 
                                                     </td>
                                                     <td>
-                                                        <input class="form-control" type="text" placeholder="respuesta" name="respuesta">
-
+                                                        <input class="form-control" type="text" placeholder="respuesta"
+                                                            name="respuesta">
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <!--<textarea class="form-control" id="interaccion" rows="3"
-                                            name="interaccion"></textarea>-->
-                                            <button type="button" class="btn btn-primary"  onclick="addRow()">Nuevo campo</button>
-                                            <button type="button" class="btn btn-secondary" onclick="deleteRow()">Eliminar campo</button>
+                                        <button type="button" class="btn btn-primary" onclick="addRow()">Nuevo
+                                            campo</button>
+                                        <button type="button" class="btn btn-secondary" onclick="deleteRow()">Eliminar
+                                            campo</button>
                                     </div>
                                     <div class="form-group">
                                         <label for="sucesor_de">Sucesor</label>
@@ -177,6 +177,16 @@
                         </div>
                     </div>
                 </div>
+                <!--End modal-->
+                <!--Modal ramas-->
+                <div id="modalRamas" class='modal fade' tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable ">
+                        <div class="modal-content">
+                            <p id="ramas">Hi</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
@@ -186,7 +196,7 @@
     <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script src="../assets/js/formSubmit.js"></script>
-
+    <script src="../assets/js/artifactsFunctions.js"></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -195,107 +205,7 @@
             }
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
-    </script>
-
-
-
-    <script>
-        var data = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
-        var dropdown = document.getElementById('categoria');
-        data.forEach(function (row) {
-            var option = document.createElement('option');
-            option.value = row;
-            option.appendChild(document.createTextNode(row));
-            dropdown.appendChild(option);
-        });
-
-        function addRow(){
-            var  table = document.getElementById('tablaInt');
-            var row = document.createElement('tr');
-            var cellPregunta = document.createElement('td');
-            var cellRespuesta = document.createElement('td');
-            // Pregunta
-            // HTML: <input class="form-control" type="text" placeholder="pregunta" name="pregunta">
-            var pregunta = document.createElement('input');
-            pregunta.type = 'text';
-            pregunta.name = 'patrones';
-            pregunta.className = "form-control";
-            pregunta.placeholder = "pregunta";
-
-            // Respuesta
-            // HTML: <input class="form-control" type="text" placeholder="respuesta" name="respuesta">
-            var respuesta = document.createElement('input');
-            respuesta.className = 'form-control';
-            respuesta.name = 'respuesta';
-            respuesta.type = 'text';
-            respuesta.placeholder = 'respuesta';
-            cellPregunta.appendChild(pregunta);
-            cellRespuesta.appendChild(respuesta);
-            row.appendChild(cellPregunta);
-            row.appendChild(cellRespuesta)
-            table.appendChild(row);
-        }
-
-        function deleteRow(){
-            var table = document.getElementById('tablaInt');
-            var rowCount = table.rows.length;
-            if(rowCount > '1'){
-                var row = table.deleteRow(rowCount-1);
-                rowCount--;
-            }else{
-                alert('No puedes tener menos de una pregunta y respuesta.')
-            }
-        }
-    </script>
-
-
-    <script>
-        var data = [['SAPASA', 1538], ["Obras Públicas", 605], ['Tránsito', 4028], ['DIF', 2672]];
-
-
-
-        function createTable(data) {
-            var table = document.getElementById('table-consultas');
-            var tableBody = document.getElementById('table-consultas-body');
-            data.forEach(function (rowData) {
-                var row = document.createElement('tr');
-                rowData.forEach(function (cellData, index, array) {
-                    if (index === array.length - 1) {
-                        var cell = document.createElement('td');
-                        cell.appendChild(document.createTextNode(cellData));
-                        cell.className = 'px-5'
-                        var buttonCell = document.createElement('td');
-                        var buttonTest = document.createElement('button')
-                        buttonTest.type = 'button'
-                        buttonTest.className = 'btn btn-primary'
-                        buttonTest.setAttribute('data-bs-toggle', 'modal')
-                        buttonTest.setAttribute('data-bs-target', '#modalInteraccion')
-                        buttonTest.appendChild(document.createTextNode('Ver Ramas'))
-                        var button = '<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalInteraccion" >Modificar</button>'
-                        //buttonCell.insertAdjacentHTML('beforeend', button);
-                        buttonCell.appendChild(buttonTest)
-                        row.appendChild(cell);
-                        row.appendChild(buttonCell);
-                    }
-                    else {
-                        var cell = document.createElement('td');
-                        cell.appendChild(document.createTextNode(cellData));
-                        cell.className = 'px-5'
-                        row.appendChild(cell);
-                    }
-
-
-                });
-                tableBody.appendChild(row);
-            });
-            table.appendChild(tableBody);
-
-
-        }
-        createTable(data)
-    </script>
-
-
+    </script>  
 </body>
 
 </html>
