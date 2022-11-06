@@ -36,22 +36,20 @@ const lstCat = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos
 
 //Read
 exports.readCount = async(req, res)=> {
-    conexion.query('select categoria,  from interaccion', (err, rows) => {
+    conexion.query('SELECT categoria, COUNT(id) AS total FROM interaccion GROUP BY categoria', (err, rows) => {
         if(err) throw err
-
-        .forEach(function (rowData){
-            
-        })
-
         res.send(JSON.stringify(rows))
-
     })
-
 }
 
 exports.readData = async(req, res)=> {
-    console.log("HOLIWIS")
-    res.send("in progress")
+    var data = req.params["categ"]
+
+    conexion.query('SELECT etiqueta, tipo, sucesor_de, link FROM interaccion ', (err, rows) => {
+        if(err) throw err
+        res.send(JSON.stringify(rows))
+    })
+
 }
 
 //Read solo 1 interaccion, tomamos la etiqueta del url
@@ -100,11 +98,7 @@ exports.readOneData = async(req, res) => {
         interaccion.patrones = patrones 
         interaccion.respuestas = respuestas
 
-
-
         setTimeout(() => { 
-   
-
             var retJson = JSON.stringify(interaccion)
             res.send(retJson)
         },500)
