@@ -32,7 +32,30 @@ def get_response(msg, old_children):
     model.load_state_dict(model_state)
     model.eval()
 
+    
     sentence = tokenize(msg)
+    tag, prob = get_tag(sentence,tags,all_words,device,model)
+
+
+    if len(old_children) != 0 and old_children is not None:
+        sentence_child = tokenize(str(old_children[0]['Sucesor_de'])+" "+msg)
+        tag_child, prob_child = get_tag(sentence_child,tags,all_words,device,model)
+        if prob_child.item() > 0.75:
+            for old_child in old_children:
+                if tag_child == old_child["Etiqueta"]:
+                    return (random.choice(old_child['Respuesta']),  old_child['Link'], old_child['Tipo'], old_child['children'])
+
+    if prob.item() > 0.75:
+        for intent in intents['interacciones']:
+            if tag == intent["Etiqueta"]:
+                return (random.choice(intent['Respuesta']),  intent['Link'], intent['Tipo'], intent['children'])
+    
+    return (random.choice([
+        "Lo siento. No te entendí.",
+        "Perdon, no comprendo.", 
+        "Una disculpa, podría repetirlo."]), "", 1, [])
+
+def get_tag(sentence,tags,all_words,device,model):
     X = bag_of_words(sentence, all_words)
     X = X.reshape(1, X.shape[0])
     X = torch.from_numpy(X).to(device)
@@ -44,13 +67,4 @@ def get_response(msg, old_children):
 
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
-    if prob.item() > 0.75:
-        for old_child in old_children:
-            if tag == old_child["Etiqueta"]:
-                return (random.choice(old_child['Respuesta']),  old_child['Link'], old_child['Tipo'], old_child['children'])
-
-        for intent in intents['interacciones']:
-            if tag == intent["Etiqueta"]:
-                return (random.choice(intent['Respuesta']),  intent['Link'], intent['Tipo'], intent['children'])
-    
-    return ("Lo siento. No te entendí.", "", 1, [])
+    return tag, prob

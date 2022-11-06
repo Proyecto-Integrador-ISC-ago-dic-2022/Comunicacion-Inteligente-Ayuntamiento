@@ -20,7 +20,10 @@ def recursiveTrain(intents, tags, all_words, xy):
         tags.append(tag)
         for pattern in intent['Patron']:
             # tokenize each word in the sentence
-            w = tokenize(pattern)
+            if intent['Sucesor_de'] is None:
+                w = tokenize(pattern)
+            else:
+                w = tokenize(str(intent['Sucesor_de'])+" "+pattern)
             # add to our words list
             all_words.extend(w)
             # add to xy pair
