@@ -31,25 +31,29 @@ var conexion = mysql.createConnection({
 
 //QUE DIOS NOS AMPARE PORQUE NO REVISAMOS QUE SE CONECTE PORQUE ROMPE LA APP Y SI LO ACEMOS SE ROMPE ESTA MADRE
 
-//const lstCat = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
+const lstCat = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
 
 
 //Read
-exports.readData = async(req, res)=> {
-    conexion.query('select * from interaccion', (err, rows) => {
+exports.readCount = async(req, res)=> {
+    conexion.query('select categoria,  from interaccion', (err, rows) => {
         if(err) throw err
-        console.log(typeof rows)
 
-        rows.forEach(function (rowData){
+        .forEach(function (rowData){
             
         })
-        console.log('finished searching.')
-        console.log('rows: \n', JSON.stringify(rows))
+
         res.send(JSON.stringify(rows))
 
     })
-    // conexion.end()
+
 }
+
+exports.readData = async(req, res)=> {
+    console.log("HOLIWIS")
+    res.send("in progress")
+}
+
 //Read solo 1 interaccion, tomamos la etiqueta del url
 exports.readOneData = async(req, res) => {
 
@@ -153,8 +157,6 @@ exports.postData = async(req, res)=>{
 
         })
     })
-
-    //Revisamos si hay algun patron repetido
 
 
     //Permutaciones si tiene link o sucesor_de; los codigos son iguales solo cambia el insert, si se puede mejorar chido sino no
@@ -277,7 +279,9 @@ exports.postData = async(req, res)=>{
 
 //Update
 exports.postUpdate = async(req, res)=>{
-
+    this.deleteData(req, res)
+    this.postData(req, res)
+    res.status(201)
 }
 
 //Delete
@@ -289,6 +293,7 @@ exports.deleteData = async(req,res)=> {
         if(err) throw err
     })
 
-    res.send("Se borro con exito")
+    res.status(201)
+    //res.send("Se borro con exito")
 
 }

@@ -3,7 +3,9 @@ const controller = require('../controllers/artifactsController');
 
 
 
-router.get('/read', controller.readData)
+router.get('/readCat/:categ', controller.readData)
+
+router.get('/readCount', controller.readCount)
 
 router.get('/readone/:etiq', controller.readOneData)
 
