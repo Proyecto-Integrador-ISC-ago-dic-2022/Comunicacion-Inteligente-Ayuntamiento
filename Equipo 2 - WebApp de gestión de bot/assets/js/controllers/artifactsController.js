@@ -56,10 +56,8 @@ exports.readOneData = async(req, res) => {
     var data = req.params["etiq"]
 
     var interaccion = new Object()
-
     var intId = 0
 
-   
 
     conexion.query(`select * FROM interaccion WHERE etiqueta= '${data}' `, (err, row) => {
         if(err) throw err
@@ -180,6 +178,8 @@ exports.postData = async(req, res)=>{
                 
                 setTimeout(() => {
                     addPreguntasRespuestas(data['patrones'], data['respuestas'])
+                }, 500)
+
             } else {
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
                 //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
