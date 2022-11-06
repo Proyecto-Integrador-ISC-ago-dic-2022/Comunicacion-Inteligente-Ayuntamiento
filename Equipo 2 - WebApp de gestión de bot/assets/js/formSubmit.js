@@ -2,36 +2,33 @@ function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const value = Object.fromEntries(data.entries());
+    value.link = document.getElementById('link').value
     value.patrones = data.getAll('patrones')
-    value.respuesta = data.getAll('respuesta')
+    value.respuestas = data.getAll('respuestas')
     const cleansedPreguntas = value.patrones.filter(element => {
         return element !== '';
     })
-    const cleansedRespuestas = value.respuesta.filter(element => {
+    const cleansedRespuestas = value.respuestas.filter(element => {
         return element !== '';
     })
     value.patrones = cleansedPreguntas;
-    value.respuesta = cleansedRespuestas;
-    console.log(value)
+    value.respuestas = cleansedRespuestas;
+    console.log(value.link)
+    var jsonBody = JSON.stringify(value)
 
     
-    let xhr = new XMLHttpRequest();
     let url = 'http://127.0.0.1:8080/artefactos/create'
+    //ME SIENTO SUCIO IMPLEMETANDOLO DE ESTA MANERA
+    setTimeout(()=> {
+        fetch(url, {
+            method: "POST", 
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(value)
+        }).then(raw => raw.json)
+        .then(data=> console.log(data))
+    }, 500)
 
-    xhr.open("POST", url, true)
-    xhr.setRequestHeader('Content-Type', 'application/json')
-
-    xhr.onreadystatechange = function(){
-        if(xhr.readyState === 4 && xhr.status === 200){
-            console.log(xhr.responseText)
-            var json = JSON.parse(xhr.responseText);
-        }
-    }
-
-
-    xhr.send(JSON.stringify(value));
     console.log(JSON.stringify(value))
-    console.log('posted.')
 
 }
 

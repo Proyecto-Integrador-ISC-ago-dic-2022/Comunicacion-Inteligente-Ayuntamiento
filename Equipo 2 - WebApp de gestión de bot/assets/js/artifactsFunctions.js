@@ -30,7 +30,7 @@ function addRow() {
     // HTML: <input class="form-control" type="text" placeholder="respuesta" name="respuesta">
     var respuesta = document.createElement('input');
     respuesta.className = 'form-control';
-    respuesta.name = 'respuesta';
+    respuesta.name = 'respuestas';
     respuesta.type = 'text';
     respuesta.placeholder = 'respuesta';
     cellPregunta.appendChild(pregunta);
@@ -54,6 +54,7 @@ function deleteRow() {
 
 
 function createTable(data) {
+    fetch('127.0.0.1:8080/artefactos').then
     var table = document.getElementById('table-consultas');
     var tableBody = document.getElementById('table-consultas-body');
     data.forEach(function (rowData) {
@@ -74,7 +75,12 @@ function createTable(data) {
                 button.setAttribute('data-bs-toggle', 'modal')
                 button.setAttribute('data-bs-target', '#modalRamas')
                 button.appendChild(document.createTextNode('Ver Ramas'))
-                button.onclick = genrateTreeTable;
+
+                button.addEventListener('click', function(){
+                    genrateTreeTable()
+                    
+                    hideAside()
+                })
                 buttonCell.appendChild(button);
                 row.appendChild(cell);
                 row.appendChild(buttonCell);
@@ -108,8 +114,6 @@ function obtenerRamas() {
 }
 
 function genrateTreeTable() {
-    var aside = document.getElementById('sidenav-main')
-    aside.hidden = true
     var data = []
     fetch('http://127.0.0.1:8080/artefactos/read').then(function (response) {
         return response.json();
@@ -124,17 +128,14 @@ function genrateTreeTable() {
             }
             data.push(rowArray)
         })
+
         //array is now ordered and ready to be set as a table with the query data
-        console.log(data)
 
         var ramasTable = document.getElementById('tableRamas-body')
         data.forEach(function (tableRow) {
             var row = document.createElement('tr')
             tableRow.forEach(function (cellData, index, array) {
-                if(cellData == null){
-                    cellData = ' '
-                }
-                console.log(cellData)
+                //if(cellData == null){cellData = ' '}
                 if (index === array.length - 1) {
                     var cell = document.createElement('td');
                     cell.appendChild(document.createTextNode(cellData));
@@ -148,11 +149,30 @@ function genrateTreeTable() {
                     button.id = array[1]
                     button.setAttribute('data-bs-toggle', 'modal')
                     button.setAttribute('data-bs-target', '#modalInteraccion')
-                    button.appendChild(document.createTextNode('Ver Ramas'))
-                    button.onclick = genrateTreeTable;
+                    button.appendChild(document.createTextNode('Editar Rama'))
+                    button.addEventListener('click', function(){
+                        editArtifact(button.id)
+                        hideAside()
+                    })
                     buttonCell.appendChild(button);
+                    
+                    //Delete button
+                    var deleteButtonCell = document.createElement('td')
+                    var deleteButton = document.createElement('button')
+
+                    deleteButton.type = button
+                    deleteButton.className = 'btn btn-danger'
+                    deleteButton.id = array[1]
+                    deleteButton.onclick = deleteArtifact
+                    deleteButton.appendChild(document.createTextNode('Borrar Campo'))
+                    deleteButtonCell.appendChild(deleteButton)
+                    
+
                     row.appendChild(cell);
                     row.appendChild(buttonCell);
+                    row.appendChild(deleteButtonCell);
+
+
                 }
                 else {
                     var cell = document.createElement('td');
@@ -172,4 +192,40 @@ function genrateTreeTable() {
     })
     //console.log(data)
 }
+
+function deleteArtifact(){
+    console.log('boooooooo')
+}
+
+function editArtifact(etiqueta){
+    //console.log(etiqueta)
+    url = 'http://127.0.0.1:8080/artefactos/readone/' + etiqueta
+    console.log(url)
+    fetch(url).then((result) => result.json())
+    .then((data) => {
+        var tag = document.getElementById('etiqueta')
+        var type = document.getElementById('tipo')
+        var cat = document.getElementById('categoria')
+        var sucesor = document.getElementById('sucesor_de')
+        var link = document.getElementById('link')
+        console.log(data.patrones)
+        console.log(data.respuesta)
+        tag.value = data.etiqueta
+        type.value = data.tipo
+        cat.value = data.categoria
+        sucesor.value = data.sucesor_de
+        link.value = data.link
+    })
+}
+
+function hideAside(){
+    var aside = document.getElementById('sidenav-main')
+    aside.hidden = true
+}
+
+function showAside(){
+    var aside = document.getElementById('sidenav-main')
+    aside.hidden = false
+}
+
 createTable(tableData)

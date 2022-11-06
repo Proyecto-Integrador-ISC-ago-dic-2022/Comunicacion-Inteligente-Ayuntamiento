@@ -75,7 +75,7 @@
                         <div class="card-header pb-0 pt-3 bg-transparent">
                             <h6 class="text-capitalize">Interacciones</h6>
                             <button type="button" class="btn btn-success" id="btnNewInt" data-bs-toggle="modal"
-                                data-bs-target="#modalInteraccion">
+                                data-bs-target="#modalInteraccion" onclick="hideAside()">
                                 Nueva interacción
                             </button>
                         </div>
@@ -145,7 +145,7 @@
                                                     </td>
                                                     <td>
                                                         <input class="form-control" type="text" placeholder="respuesta"
-                                                            name="respuesta">
+                                                            name="respuestas">
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -169,9 +169,9 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="showAside()">Cancelar
                                 </button>
-                                <button type="submit" class="btn btn-success">Guardar</button>
+                                <button type="submit" class="btn btn-success" onclick="showAside()">Guardar</button>
                             </div>
                             </form>
                         </div>
@@ -179,8 +179,8 @@
                 </div>
                 <!--End modal-->
                 <!--Modal ramas-->
-                <div id="modalRamas" class='modal modal-xl' tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable ">
+                <div id="modalRamas" class='modal ' tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+                    <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
                         <div class="modal-content">
                             <diV class="modal-header">
                                 <h6>Ramas</h6>
@@ -189,6 +189,10 @@
                                 <table class="table table-stripedd-rows" id="tableRamas">
                                     <tbody id="tableRamas-body"></tbody>
                                 </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="showAside()">Cancelar
+                                </button>
                             </div>
                         </div>
                     </div>
