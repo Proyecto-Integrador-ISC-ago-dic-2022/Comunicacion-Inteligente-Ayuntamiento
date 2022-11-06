@@ -14,7 +14,6 @@ El formato de los json son asi, link y sucesor de son opcionales
 }
 */
 
-    // Lista de categorias: ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
         
 
 
@@ -29,17 +28,21 @@ var conexion = mysql.createConnection({
     // conexion.connect(function(err) {
     //     if (err) throw err;
     //     console.log("Connected!");
-    //   });
+    //   });    
 
 //QUE DIOS NOS AMPARE PORQUE NO REVISAMOS QUE SE CONECTE PORQUE ROMPE LA APP Y SI LO ACEMOS SE ROMPE ESTA MADRE
+
+const lstCat = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
+
 
 //Read
 exports.readData = async(req, res)=> {
     conexion.query('select * from interaccion', (err, rows) => {
         if(err) throw err
-        
+        console.log(typeof rows)
+
         rows.forEach(function (rowData){
-            console.log(JSON.stringify(rowData))
+            
         })
         console.log('finished searching.')
         console.log('rows: \n', JSON.stringify(rows))
@@ -158,21 +161,24 @@ exports.postData = async(req, res)=>{
                     if (err) throw err;
                     console.log("Agregado con exito en interaccion");
                 });
+                setTimeout(() => {
+                    data['patrones'].forEach(function (patron) {
+                        conexion.query(`INSERT INTO patron (id_interaccion, patron) VALUES (${intRows}, '${patron}');`, function (err, result) {
+                            if (err) throw err;
+                            console.log("se agrrgo patron");
+                        });
+                    })
 
-                data['patrones'].forEach(function (patron) {
-                    conexion.query(`INSERT INTO patron (id_interaccion, patron) VALUES (${intRows}, '${patron}');`, function (err, result) {
-                        if (err) throw err;
-                        console.log("se agrrgo patron");
-                    });
-                })
 
+                    data['respuestas'].forEach(function (respuesta) {
+                        conexion.query(`INSERT INTO respuesta (id_interaccion, respuesta) VALUES (${intRows}, '${respuesta}');`, function (err, result) {
+                            if (err) throw err;
+                            console.log("se agrrgo respuesta");
+                        });
+                    })
 
-                data['respuestas'].forEach(function (respuesta) {
-                    conexion.query(`INSERT INTO respuesta (id_interaccion, respuesta) VALUES (${intRows}, '${respuesta}');`, function (err, result) {
-                        if (err) throw err;
-                        console.log("se agrrgo respuesta");
-                    });
-                })
+                }, 500)
+                
             } else {
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
                 //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
@@ -198,21 +204,24 @@ exports.postData = async(req, res)=>{
                     if (err) throw err;
                     console.log("Agregado con exito en interaccion");
                 });
+                setTimeout(() => {
+                    data['patrones'].forEach(function (patron) {
+                        conexion.query(`INSERT INTO patron (id_interaccion, patron) VALUES (${intRows}, '${patron}');`, function (err, result) {
+                            if (err) throw err;
+                            console.log("se agrrgo patron");
+                        });
+                    })
 
-                data['patrones'].forEach(function (patron) {
-                    conexion.query(`INSERT INTO patron (id_interaccion, patron) VALUES (${intRows}, '${patron}');`, function (err, result) {
-                        if (err) throw err;
-                        console.log("se agrrgo patron");
-                    });
-                })
 
+                    data['respuestas'].forEach(function (respuesta) {
+                        conexion.query(`INSERT INTO respuesta (id_interaccion, respuesta) VALUES (${intRows}, '${respuesta}');`, function (err, result) {
+                            if (err) throw err;
+                            console.log("se agrrgo respuesta");
+                        });
+                    })
 
-                data['respuestas'].forEach(function (respuesta) {
-                    conexion.query(`INSERT INTO respuesta (id_interaccion, respuesta) VALUES (${intRows}, '${respuesta}');`, function (err, result) {
-                        if (err) throw err;
-                        console.log("se agrrgo respuesta");
-                    });
-                })
+                }, 500)
+                
             } else {
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
                 //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
@@ -238,21 +247,24 @@ exports.postData = async(req, res)=>{
                     if (err) throw err;
                     console.log("Agregado con exito en interaccion");
                 });
+                setTimeout(() => {
+                    data['patrones'].forEach(function (patron) {
+                        conexion.query(`INSERT INTO patron (id_interaccion, patron) VALUES (${intRows}, '${patron}');`, function (err, result) {
+                            if (err) throw err;
+                            console.log("se agrrgo patron");
+                        });
+                    })
 
-                data['patrones'].forEach(function (patron) {
-                    conexion.query(`INSERT INTO patron (id_interaccion, patron) VALUES (${intRows}, '${patron}');`, function (err, result) {
-                        if (err) throw err;
-                        console.log("se agrrgo patron");
-                    });
-                })
 
+                    data['respuestas'].forEach(function (respuesta) {
+                        conexion.query(`INSERT INTO respuesta (id_interaccion, respuesta) VALUES (${intRows}, '${respuesta}');`, function (err, result) {
+                            if (err) throw err;
+                            console.log("se agrrgo respuesta");
+                        });
+                    })
 
-                data['respuestas'].forEach(function (respuesta) {
-                    conexion.query(`INSERT INTO respuesta (id_interaccion, respuesta) VALUES (${intRows}, '${respuesta}');`, function (err, result) {
-                        if (err) throw err;
-                        console.log("se agrrgo respuesta");
-                    });
-                })
+                }, 500)
+                
             } else {
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
                 //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
@@ -278,21 +290,24 @@ exports.postData = async(req, res)=>{
                     console.log("Agregado con exito en interaccion");
                 });
 
+                setTimeout(() => {
+                    data['patrones'].forEach(function (patron) {
+                        conexion.query(`INSERT INTO patron (id_interaccion, patron) VALUES (${intRows}, '${patron}');`, function (err, result) {
+                            if (err) throw err;
+                            console.log("se agrrgo patron");
+                        });
+                    })
 
-                data['patrones'].forEach(function (patron) {
-                    conexion.query(`INSERT INTO patron (id_interaccion, patron) VALUES (${intRows}, '${patron}');`, function (err, result) {
-                        if (err) throw err;
-                        console.log("se agrrgo patron");
-                    });
-                })
 
+                    data['respuestas'].forEach(function (respuesta) {
+                        conexion.query(`INSERT INTO respuesta (id_interaccion, respuesta) VALUES (${intRows}, '${respuesta}');`, function (err, result) {
+                            if (err) throw err;
+                            console.log("se agrrgo respuesta");
+                        });
+                    })
 
-                data['respuestas'].forEach(function (respuesta) {
-                    conexion.query(`INSERT INTO respuesta (id_interaccion, respuesta) VALUES (${intRows}, '${respuesta}');`, function (err, result) {
-                        if (err) throw err;
-                        console.log("se agrrgo respuesta");
-                    });
-                })
+                }, 500)
+                
             } else {
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
                 //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
