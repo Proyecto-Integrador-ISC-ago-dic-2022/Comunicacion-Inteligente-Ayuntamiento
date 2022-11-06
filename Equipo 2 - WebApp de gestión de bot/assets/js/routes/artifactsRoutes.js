@@ -7,6 +7,8 @@ router.get('/readCat/:categ', controller.readData)
 
 router.get('/readCount', controller.readCount)
 
+router.get('/read', controller.readTest)
+
 router.get('/readone/:etiq', controller.readOneData)
 
 router.post('/create', controller.postData)

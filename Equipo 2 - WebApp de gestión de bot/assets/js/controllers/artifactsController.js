@@ -13,9 +13,6 @@ El formato de los json son asi, link y sucesor de son opcionales
 }
 */
 
-        
-
-
 var mysql = require('mysql')
 
 var conexion = mysql.createConnection({
@@ -41,6 +38,16 @@ exports.readCount = async(req, res)=> {
         res.send(JSON.stringify(rows))
     })
 }
+
+exports.readTest = async(req, res)=> {
+
+    conexion.query('SELECT * from interaccion', (err, rows) => {
+        if(err) throw err
+        res.send(JSON.stringify(rows))
+    })
+}
+
+
 
 exports.readData = async(req, res)=> {
     var data = req.params["categ"]
