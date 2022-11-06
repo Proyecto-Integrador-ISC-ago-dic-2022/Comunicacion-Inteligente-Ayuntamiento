@@ -108,24 +108,68 @@ function obtenerRamas() {
 }
 
 function genrateTreeTable() {
+    var aside = document.getElementById('sidenav-main')
+    aside.hidden = true
     var data = []
     fetch('http://127.0.0.1:8080/artefactos/read').then(function (response) {
         return response.json();
-    }).then(function (data) {
-        console.log(data);
-        data.forEach(function (row){
+    }).then(function (query) {
+        //console.log(query);
+        query.forEach(function (row) {
             var rowArray = []
-            console.log(row)
-            for(var i in row){
-                console.log(row[i])
+            //console.log(row)
+            for (var i in row) {
+                //console.log(row[i])
                 rowArray.push(row[i])
             }
             data.push(rowArray)
         })
+        //array is now ordered and ready to be set as a table with the query data
+        console.log(data)
+
+        var ramasTable = document.getElementById('tableRamas-body')
+        data.forEach(function (tableRow) {
+            var row = document.createElement('tr')
+            tableRow.forEach(function (cellData, index, array) {
+                if(cellData == null){
+                    cellData = ' '
+                }
+                console.log(cellData)
+                if (index === array.length - 1) {
+                    var cell = document.createElement('td');
+                    cell.appendChild(document.createTextNode(cellData));
+                    cell.className = 'px-5'
+
+                    //Boton para ver las ramas
+                    var buttonCell = document.createElement('td');
+                    var button = document.createElement('button')
+                    button.type = 'button'
+                    button.className = 'btn btn-primary'
+                    button.id = array[1]
+                    button.setAttribute('data-bs-toggle', 'modal')
+                    button.setAttribute('data-bs-target', '#modalInteraccion')
+                    button.appendChild(document.createTextNode('Ver Ramas'))
+                    button.onclick = genrateTreeTable;
+                    buttonCell.appendChild(button);
+                    row.appendChild(cell);
+                    row.appendChild(buttonCell);
+                }
+                else {
+                    var cell = document.createElement('td');
+                    cell.appendChild(document.createTextNode(cellData));
+                    cell.className = 'px-5'
+                    row.appendChild(cell);
+                }
+
+
+            })
+            ramasTable.appendChild(row)
+        })
+
 
     }).catch(function (err) {
         console.log(err)
     })
-    console.log(data)
+    //console.log(data)
 }
 createTable(tableData)
