@@ -18,7 +18,6 @@ function handleSubmit(event) {
 
     
     let url = 'http://127.0.0.1:8080/artefactos/create'
-    //ME SIENTO SUCIO IMPLEMETANDOLO DE ESTA MANERA
     setTimeout(()=> {
         fetch(url, {
             method: "POST", 
@@ -29,6 +28,10 @@ function handleSubmit(event) {
     }, 500)
 
     console.log(JSON.stringify(value))
+
+    //Reloads the page so the update on the database will be seen on the artifacts main page
+    setTimeout(()=> document.location.reload(), 1000)
+    
 
 }
 
