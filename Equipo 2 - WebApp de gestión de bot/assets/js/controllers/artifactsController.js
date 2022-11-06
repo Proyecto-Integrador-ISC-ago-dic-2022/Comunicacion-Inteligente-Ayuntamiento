@@ -35,8 +35,15 @@ const lstCat = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos
 exports.readCount = async(req, res)=> {
     conexion.query('SELECT categoria, COUNT(id) AS total FROM interaccion GROUP BY categoria', (err, rows) => {
         if(err) throw err
-        res.send(JSON.stringify(rows))
+        var diccs = {}
+
+        rows.forEach(function (row) {
+            diccs[row['categoria']] = row['total']
+            
+        })
+        res.send(JSON.stringify(diccs))    
     })
+    
 }
 
 exports.readTest = async(req, res)=> {
@@ -52,7 +59,7 @@ exports.readTest = async(req, res)=> {
 exports.readData = async(req, res)=> {
     var data = req.params["categ"]
 
-    conexion.query('SELECT etiqueta, tipo, sucesor_de, link FROM interaccion ', (err, rows) => {
+    conexion.query(`SELECT etiqueta, tipo, sucesor_de, link FROM interaccion WHERE categoria= '${data}'`, (err, rows) => {
         if(err) throw err
         res.send(JSON.stringify(rows))
     })
@@ -88,7 +95,6 @@ exports.readOneData = async(req, res) => {
             console.log()
 
             rows.forEach(function (row) {
-                
                 patrones.push(row["patron"])
             })
         })
