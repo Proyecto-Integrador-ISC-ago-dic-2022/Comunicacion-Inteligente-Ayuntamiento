@@ -24,11 +24,131 @@ var conexion = mysql.createConnection({
     // conexion.connect(function(err) {
     //     if (err) throw err;
     //     console.log("Connected!");
-    //   });    
+    //   });
 
 //QUE DIOS NOS AMPARE PORQUE NO REVISAMOS QUE SE CONECTE PORQUE ROMPE LA APP Y SI LO ACEMOS SE ROMPE ESTA MADRE
 
-const lstCat = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
+//const lstCat = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
+
+function recursiveTree(array) {
+    function getChildren(parents, input) {
+      return parents.map((parent) => {
+        const children = input.filter((x) => x.sucesor_de === parent.id);// agarra todos sus relacionados
+        parent.children = children;
+        if (children.length == 0) {
+
+          return parent;
+        } else {
+          parent.children = getChildren(children, input);
+          return parent;
+        }
+      });
+    }
+
+    const roots = array.filter((x) => x.sucesor_de == 0);
+
+    return getChildren(roots, array);
+  }
+
+function recTree(array){
+    function getChildren(parents, db, lst) {
+
+        parents.forEach(function (dad) {
+
+
+            const children = db.filter((x) => x.sucesor_de === dad.id)
+
+            if(children.length == 0){  
+                console.log('------hoja:'+ dad.id)
+              
+                lst.push(dad)
+
+            } else {
+                children.map((inter) =>{
+                    inter['nivel']++
+                })
+
+                getChildren(children, db, dad.children)
+                lst.push(dad)
+                console.log('------rama:'+ dad.id)
+
+            }
+
+        })
+
+    }
+
+    const heads = array.filter((x) => x.sucesor_de === 0);
+    var lstRet = []
+    getChildren(heads, array, lstRet)
+    return lstRet
+}
+
+exports.readForAI = async(req, res)=> {
+
+    var allDB = []
+
+
+    conexion.query('SELECT * from interaccion', (err, rows) => {
+        if(err) throw err
+
+
+
+        rows.forEach(function (row) {
+
+            var interaccion = new Object()
+            var intId = 0
+
+            interaccion.id = row["id"]
+
+            interaccion.etiqueta = row["etiqueta"]
+            interaccion.tipo = row["tipo"]
+            interaccion.categoria= row["categoria"]
+            interaccion.link = row["link"]
+            interaccion.sucesor_de = row["sucesor_de"]
+            interaccion.nivel = 0
+            interaccion.children = []
+
+            var patrones = []
+            var respuestas = []
+
+            conexion.query(`select patron FROM patron WHERE id_interaccion= '${interaccion.id}' `, (err, rows) => {
+                if(err) throw reject(err)
+
+                rows.forEach(function (row) {
+                    patrones.push(row["patron"])
+                })
+            })
+
+            conexion.query(`select respuesta FROM respuesta WHERE id_interaccion= '${interaccion.id}' `, (err, rows) => {
+                if(err) reject(err)
+
+                rows.forEach(function (row) {
+                    respuestas.push(row["respuesta"])
+                })
+            })
+
+
+            interaccion.patrones = patrones
+            interaccion.respuestas = respuestas
+
+            setTimeout(() => {
+                allDB.push(interaccion)
+            },500)
+
+
+        })
+
+        setTimeout(() => {
+          res.send(JSON.stringify(recTree(allDB)))
+        },2500)
+
+
+
+    })
+}
+
+
 
 
 //Read
@@ -39,11 +159,11 @@ exports.readCount = async(req, res)=> {
 
         rows.forEach(function (row) {
             diccs[row['categoria']] = row['total']
-            
+
         })
-        res.send(JSON.stringify(diccs))    
+        res.send(JSON.stringify(diccs))
     })
-    
+
 }
 
 exports.readTest = async(req, res)=> {
@@ -66,57 +186,71 @@ exports.readData = async(req, res)=> {
 
 }
 
+
+
+function getOneInter(data) {
+    var interaccion = new Object()
+    var intId = 0
+
+    return new Promise((resolve, reject) => {
+        conexion.query(`select * FROM interaccion WHERE etiqueta= '${data}' `, (err, row) => {
+            if(err) treject(err)
+
+            intId = row[0]["id"]
+            interaccion.id = row[0]["id"]
+
+            interaccion.etiqueta = row[0]["etiqueta"]
+            interaccion.tipo = row[0]["tipo"]
+            interaccion.categoria= row[0]["categoria"]
+            if (!row["link"]) interaccion.link = row[0]["link"]
+            if (!row["sucesor_de"]) interaccion.sucesor_de = row[0]["sucesor_de"]
+        })
+
+        setTimeout(() => {
+            var patrones = []
+            var respuestas = []
+            conexion.query(`select patron FROM patron WHERE id_interaccion= '${intId}' `, (err, rows) => {
+                if(err) throw reject(err)
+
+                rows.forEach(function (row) {
+                    patrones.push(row["patron"])
+                })
+            })
+
+            conexion.query(`select respuesta FROM respuesta WHERE id_interaccion= '${intId}' `, (err, rows) => {
+                if(err) reject(err)
+
+                rows.forEach(function (row) {
+                    respuestas.push(row["respuesta"])
+                })
+            })
+
+
+            interaccion.patrones = patrones
+            interaccion.respuestas = respuestas
+
+            setTimeout(() => {
+                resolve(interaccion)
+            },500)
+
+        }, 500)
+    })
+
+}
+
+
 //Read solo 1 interaccion, tomamos la etiqueta del url
 exports.readOneData = async(req, res) => {
 
     var data = req.params["etiq"]
 
-    var interaccion = new Object()
-    var intId = 0
 
+    const rets = await getOneInter(data)
 
-    conexion.query(`select * FROM interaccion WHERE etiqueta= '${data}' `, (err, row) => {
-        if(err) throw err
-        console.log(data)
+    delete rets.id
+    var retJson = JSON.stringify(rets)
+    res.send(retJson)
 
-        intId = row[0]["id"]
-        interaccion.etiqueta = row[0]["etiqueta"]
-        interaccion.tipo = row[0]["tipo"]
-        interaccion.categoria= row[0]["categoria"]
-        if (!row["link"]) interaccion.link = row[0]["link"]
-        if (!row["sucesor_de"]) interaccion.sucesor_de = row[0]["sucesor_de"]
-    })
-
-    setTimeout(() => { 
-        var patrones = []
-        var respuestas = []
-        conexion.query(`select patron FROM patron WHERE id_interaccion= '${intId}' `, (err, rows) => {
-            if(err) throw err
-            console.log()
-
-            rows.forEach(function (row) {
-                patrones.push(row["patron"])
-            })
-        })
-
-        conexion.query(`select respuesta FROM respuesta WHERE id_interaccion= '${intId}' `, (err, rows) => {
-            if(err) throw err
-
-            rows.forEach(function (row) {
-                respuestas.push(row["respuesta"])
-            })
-        })
-
-
-        interaccion.patrones = patrones 
-        interaccion.respuestas = respuestas
-
-        setTimeout(() => { 
-            var retJson = JSON.stringify(interaccion)
-            res.send(retJson)
-        },500)
-
-    }, 500)
 
 
 
@@ -131,7 +265,7 @@ function addPreguntasRespuestas(patrones, respuestas){
         intRows = rows[0]['id']
     })
 
-    
+
     setTimeout(() => {
         patrones.forEach(function (patron) {
             conexion.query(`INSERT INTO patron (id_interaccion, patron) VALUES (${intRows}, '${patron}');`, function (err, result) {
@@ -170,7 +304,7 @@ exports.postData = async(req, res)=>{
     //TODO: atrapar la excepcion si una etiqueta no es unica (evitar que el progreso del modal desaparezca si se puede); porque no lo hice con los patrones... no se pero ya lo hice joder
     if(data.hasOwnProperty("link") && data.hasOwnProperty("sucesor_de")) {
 
-        setTimeout(() => {   
+        setTimeout(() => {
 
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
@@ -184,7 +318,7 @@ exports.postData = async(req, res)=>{
                     console.log("Agregado con exito en interaccion");
                 });
 
-                
+
                 setTimeout(() => {
                     addPreguntasRespuestas(data['patrones'], data['respuestas'])
                 }, 500)
@@ -193,11 +327,11 @@ exports.postData = async(req, res)=>{
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
                 //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
             }
-    
+
         }, 500);
 
     } else if (data.hasOwnProperty("link") && !data.hasOwnProperty("sucesor_de")){
-        setTimeout(() => {   
+        setTimeout(() => {
 
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
@@ -211,7 +345,7 @@ exports.postData = async(req, res)=>{
                     console.log("Agregado con exito en interaccion");
                 });
 
-                
+
 
                 setTimeout(() => {
                     addPreguntasRespuestas(data['patrones'], data['respuestas'])
@@ -221,11 +355,11 @@ exports.postData = async(req, res)=>{
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
                 //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
             }
-    
+
         }, 500);
 
     } else if (!data.hasOwnProperty("link") && data.hasOwnProperty("sucesor_de")) {
-        setTimeout(() => {   
+        setTimeout(() => {
 
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
@@ -252,7 +386,7 @@ exports.postData = async(req, res)=>{
         }, 500);
 
     } else {
-        setTimeout(() => {   
+        setTimeout(() => {
 
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
@@ -281,7 +415,7 @@ exports.postData = async(req, res)=>{
 
     res.send("Agregado todo exitosamente")
     res.status(201)
-    
+
 }
 
 //Update
