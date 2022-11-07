@@ -1,8 +1,3 @@
-
-
-var tableData = [['SAPASA', 1538], ["Obras Públicas", 605], ['Tránsito', 4028], ['DIF', 2672]];
-
-
 //dropdown menu data and creation
 var data = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
 var dropdown = document.getElementById('categoria');
@@ -11,6 +6,21 @@ data.forEach(function (row) {
     option.value = row;
     option.appendChild(document.createTextNode(row));
     dropdown.appendChild(option);
+});
+
+var dropSucesores = document.getElementById('sucesor_de')
+fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
+    return response.json();
+}).then(function (data) {
+    data.forEach(function (rowData) {
+        var option = document.createElement('option') 
+        option.value = rowData.id
+        option.appendChild(document.createTextNode(rowData.id + ' - ' + rowData.etiqueta))
+        dropSucesores.appendChild(option)
+    })
+
+}).catch(function (err) {
+    console.log(err);
 });
 
 
@@ -149,6 +159,16 @@ function genrateTreeTable(id) {
             tableRow.forEach(function (cellData, index, array) {
                 //if(cellData == null){cellData = ' '}
                 console.log(array[0])
+                if(index === 1){
+                    if(cellData == 1){
+                        cellData = 'Menu'
+                    }else if (cellData == 2){
+                        cellData = 'Link'
+                    }else if(cellData == 3){
+                        cellData = 'Respuesta'
+                    }
+                    console.log(cellData)
+                }
                 if (index === array.length - 1) {
                     var cell = document.createElement('td');
                     cell.appendChild(document.createTextNode(cellData));
@@ -178,7 +198,7 @@ function genrateTreeTable(id) {
                     deleteButton.id = array[0]
                     deleteButton.appendChild(document.createTextNode('Borrar Campo'))
                     deleteButtonCell.appendChild(deleteButton)
-                    deleteButton.addEventListener('click', function(){
+                    deleteButton.addEventListener('click', function () {
                         deleteArtifact(button.id);
                         hideAside();
                     })
@@ -210,15 +230,49 @@ function genrateTreeTable(id) {
 }
 
 function deleteArtifact(etiqueta) {
-    url = 'http://127.0.0.1:8080/artefactos/readone/' + etiqueta;
-    console.log(url)
-    fetch(url).then((result) => console.log(result.json()))
+    url = 'http://127.0.0.1:8080/artefactos/delete'
+    fetch(url, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ "etiqueta": etiqueta })
+    }).then(raw => raw.json)
+        .then(data => console.log(data))
+
 }
 
 function editArtifact(etiqueta) {
     //console.log(etiqueta)
+    //<button type="submit" class="btn btn-success" onclick="showAside()" id='guardarCreate'>Guardar</button> 
+
     url = 'http://127.0.0.1:8080/artefactos/readone/' + etiqueta
-    console.log(url)
+
+    var botonCancelar = document.getElementById('cancelarCreate')
+    var botonGuardar = document.getElementById('guardarCreate')
+    var btnTransferCreate = botonGuardar
+    var btnTransferCancelar = botonCancelar
+
+    var botonCancelarEdit = document.createElement('button')
+    botonCancelarEdit.type = 'button'
+    botonCancelarEdit.id = 'cancelarEdit'
+    botonCancelarEdit.className = 'btn btn-danger'
+    botonCancelarEdit.setAttribute('data-bs-dismiss', 'modal')
+    botonCancelarEdit.appendChild(document.createTextNode('Cancelar cambios'))
+    botonCancelarEdit.addEventListener('click', function () {
+        cancelCreate()
+        cancelEdit(btnTransferCreate, btnTransferCancelar)
+        console.log('cancelado el edit')
+    })
+    botonCancelar.replaceWith(botonCancelarEdit)
+    var btnguardarEdit = document.createElement('button')
+    btnguardarEdit.type = 'button'
+    btnguardarEdit.id = 'crearEdit'
+    btnguardarEdit.className = 'btn btn-warning'
+    btnguardarEdit.appendChild(document.createTextNode('Guardar Cambios'))
+    btnguardarEdit.addEventListener('click', function () {
+        console.log('editando atributo')
+    })
+    botonGuardar.replaceWith(btnguardarEdit)
+
     fetch(url).then((result) => result.json())
         .then((data) => {
             var tag = document.getElementById('etiqueta')
@@ -226,6 +280,8 @@ function editArtifact(etiqueta) {
             var cat = document.getElementById('categoria')
             var sucesor = document.getElementById('sucesor_de')
             var link = document.getElementById('link')
+            //desabilitar el cambio de nombre de la etiqueta para evitar errores
+            tag.disabled = !tag.disabled
             console.log(data.patrones)
             console.log(data.respuestas)
             //adds empty spaces if needed to populate the edit table
@@ -299,10 +355,87 @@ function cancelTree() {
     showAside()
 }
 
-function cancelCreate(){
+function cancelCreate() {
     var interacciones = document.getElementById("tablaInt")
     interacciones.innerHTML = ''
     showAside()
 }
+
+function updateEdit(button1, button2) {
+    var tag = document.getElementById('etiqueta')
+    tag.disabled = !tag.disabled
+    replaceEdittoDefault(button2, button1)
+
+
+}
+
+function replaceEdittoDefault(buttonCancel, buttonSave) {
+    //get the edit button to replace it
+    var btnGuardarEdit = document.getElementById('crearEdit')
+    btnGuardarEdit.replaceWith(buttonSave)
+
+    //Get the cancel button to replace it
+    var btnCancelarEdit = document.getElementById('cancelarEdit')
+    btnCancelarEdit.replaceWith(buttonCancel)
+    const form = document.querySelector('form');
+    form.addEventListener('submit', handleSubmit)
+
+
+
+}
+function cancelEdit(button1, button2) {
+    var tag = document.getElementById('etiqueta')
+    tag.disabled = !tag.disabled
+    replaceEdittoDefault(button2, button1)
+
+    fetch()
+}
+
+
+function handleSubmit(event) {
+    event.preventDefault();
+    console.log(event)
+    const data = new FormData(event.target);
+    const value = Object.fromEntries(data.entries());
+    value.link = document.getElementById('link').value
+    value.patrones = data.getAll('patrones')
+    value.respuestas = data.getAll('respuestas')
+    const cleansedPreguntas = value.patrones.filter(element => {
+        return element !== '';
+    })
+    const cleansedRespuestas = value.respuestas.filter(element => {
+        return element !== '';
+    })
+    value.patrones = cleansedPreguntas;
+    value.respuestas = cleansedRespuestas;
+    console.log(value.link)
+
+    postCreate(value)
+
+
+
+
+}
+
+function postCreate(value) {
+
+    let url = 'http://127.0.0.1:8080/artefactos/create'
+    setTimeout(() => {
+        fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(value)
+        }).then(raw => raw.json)
+            .then(data => console.log(data))
+    }, 500)
+
+    console.log(JSON.stringify(value))
+
+    //Reloads the page so the update on the database will be seen on the artifacts main page
+    setTimeout(() => document.location.reload(), 1000)
+}
+
+const form = document.querySelector('form');
+form.addEventListener('submit', handleSubmit)
 
 createTable()
