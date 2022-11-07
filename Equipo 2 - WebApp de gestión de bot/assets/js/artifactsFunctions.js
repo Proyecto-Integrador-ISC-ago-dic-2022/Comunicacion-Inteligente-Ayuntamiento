@@ -1,4 +1,6 @@
 //dropdown menu data and creation
+
+var isCreate = true
 var data = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
 var dropdown = document.getElementById('categoria');
 data.forEach(function (row) {
@@ -186,6 +188,8 @@ function genrateTreeTable(id) {
                     button.addEventListener('click', function () {
                         editArtifact(button.id)
                         hideAside()
+                        isCreate = false
+                        console.log(isCreate)
                     })
                     buttonCell.appendChild(button);
 
@@ -247,8 +251,6 @@ function editArtifact(etiqueta) {
     url = 'http://127.0.0.1:8080/artefactos/readone/' + etiqueta
 
     var botonCancelar = document.getElementById('cancelarCreate')
-    var botonGuardar = document.getElementById('guardarCreate')
-    var btnTransferCreate = botonGuardar
     var btnTransferCancelar = botonCancelar
 
     var botonCancelarEdit = document.createElement('button')
@@ -258,20 +260,13 @@ function editArtifact(etiqueta) {
     botonCancelarEdit.setAttribute('data-bs-dismiss', 'modal')
     botonCancelarEdit.appendChild(document.createTextNode('Cancelar cambios'))
     botonCancelarEdit.addEventListener('click', function () {
+        cancelTree()
         cancelCreate()
-        cancelEdit(btnTransferCreate, btnTransferCancelar)
-        console.log('cancelado el edit')
+        cancelEdit(btnTransferCancelar)        
+        isCreate = true
+        console.log('cancelado el edit iscreate: ' + isCreate)
     })
     botonCancelar.replaceWith(botonCancelarEdit)
-    var btnguardarEdit = document.createElement('button')
-    btnguardarEdit.type = 'button'
-    btnguardarEdit.id = 'crearEdit'
-    btnguardarEdit.className = 'btn btn-warning'
-    btnguardarEdit.appendChild(document.createTextNode('Guardar Cambios'))
-    btnguardarEdit.addEventListener('click', function () {
-        console.log('editando atributo')
-    })
-    botonGuardar.replaceWith(btnguardarEdit)
 
     fetch(url).then((result) => result.json())
         .then((data) => {
@@ -361,34 +356,26 @@ function cancelCreate() {
     showAside()
 }
 
-function updateEdit(button1, button2) {
+function updateEdit(button1) {
     var tag = document.getElementById('etiqueta')
     tag.disabled = !tag.disabled
-    replaceEdittoDefault(button2, button1)
+    replaceEdittoDefault(button1)
 
 
 }
 
-function replaceEdittoDefault(buttonCancel, buttonSave) {
-    //get the edit button to replace it
-    var btnGuardarEdit = document.getElementById('crearEdit')
-    btnGuardarEdit.replaceWith(buttonSave)
-
+function replaceEdittoDefault(buttonCancel) {
     //Get the cancel button to replace it
     var btnCancelarEdit = document.getElementById('cancelarEdit')
     btnCancelarEdit.replaceWith(buttonCancel)
-    const form = document.querySelector('form');
-    form.addEventListener('submit', handleSubmit)
 
 
 
 }
-function cancelEdit(button1, button2) {
+function cancelEdit(button1) {
     var tag = document.getElementById('etiqueta')
     tag.disabled = !tag.disabled
-    replaceEdittoDefault(button2, button1)
-
-    fetch()
+    replaceEdittoDefault(button1)
 }
 
 
@@ -408,13 +395,36 @@ function handleSubmit(event) {
     })
     value.patrones = cleansedPreguntas;
     value.respuestas = cleansedRespuestas;
-    console.log(value.link)
+    value.etiqueta = document.getElementById('etiqueta').value
+    if(isCreate){
+        console.log('creating')
+        postCreate(value)
+    }else {
+        console.log('updating')
+        postUpdate(value)
+    }
 
-    postCreate(value)
+    
 
 
 
 
+}
+ 
+function postUpdate(value) {
+    let url = 'http://127.0.0.1:8080/artefactos/update'
+    setTimeout(() => {
+        fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(value)
+        }).then(raw => raw.json)
+            .then(data => console.log(data))
+    }, 500)
+        //Reloads the page so the update on the database will be seen on the artifacts main page
+        
+        isCreate = true
+        setTimeout(() => document.location.reload(), 1000)
 }
 
 function postCreate(value) {
