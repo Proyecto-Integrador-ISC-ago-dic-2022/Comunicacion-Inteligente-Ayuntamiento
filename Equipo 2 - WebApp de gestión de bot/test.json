@@ -35,8 +35,8 @@
             "patrones ":["hey ","hola ","buenas"],
             "respuestas ":["bien ","mal ","regular ","lorem ","ipsum ","lorem ","ipsum ","lorem ","ipsum ","lorem ","ipsum "]
     },
-    {"
-        id ":2,
+    {
+        "id ":2,
         "etiqueta":"direccion ",
         "tipo ":2,
         "categoria ":"b",
@@ -45,8 +45,8 @@
         "nivel ":0,
         "children ":[
                         {
-                            "id ":158,"
-                            etiqueta ":"ai ",
+                            "id ":158,
+                            "etiqueta ":"ai ",
                             "tipo ":1,
                             "categoria ":"sapasa ",
                             "link ":null,

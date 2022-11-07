@@ -176,9 +176,12 @@ function genrateTreeTable(id) {
                     deleteButton.type = button
                     deleteButton.className = 'btn btn-danger'
                     deleteButton.id = array[0]
-                    deleteButton.onclick = deleteArtifact
                     deleteButton.appendChild(document.createTextNode('Borrar Campo'))
                     deleteButtonCell.appendChild(deleteButton)
+                    deleteButton.addEventListener('click', function(){
+                        deleteArtifact(button.id);
+                        hideAside();
+                    })
 
 
                     row.appendChild(cell);
@@ -206,8 +209,10 @@ function genrateTreeTable(id) {
     //console.log(data)
 }
 
-function deleteArtifact() {
-    console.log('boooooooo')
+function deleteArtifact(etiqueta) {
+    url = 'http://127.0.0.1:8080/artefactos/readone/' + etiqueta;
+    console.log(url)
+    fetch(url).then((result) => console.log(result.json()))
 }
 
 function editArtifact(etiqueta) {
