@@ -7,7 +7,7 @@
   <title>
     Configuración
   </title>
-  <link rel="website icon" href="../assets/img/Atizapan.png"/>
+  <link rel="website icon" href="../assets/img/Atizapan.png" />
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
@@ -74,11 +74,20 @@
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Bot
-              </h6>
+              <h1>Bot
+              </h1>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h2>Configuración de Categorias</h2>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <form>
               <div class="table-responsive p-0">
+
                 <table class="table align-items-center mb-0">
                   <tbody>
                     <tr>
@@ -87,78 +96,36 @@
                           <div>
                           </div>
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">¿Desplegar en la página?</h6>
+                            <h3 class="mb-0 text-sm">¿Desplegar en la página?</h3>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <form>
-                          <div class="form-check form-switch">
-                            <input class="form-check-input" role="switch" type="checkbox" name="encendido" checked>
-                          </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" role="switch" type="checkbox" name="encendido" checked>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-              </div>
-            </div>
-          </div>
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Departamentos</h6>
-            </div>
-            <div class="card-body px-0 pt-0 pb-2">
-              <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0" id="table-areas">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Área</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mantenimiento
+                      <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7">Categoría</th>
+                      <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">Mantenimiento
                         / Activo</th>
                     </tr>
                   </thead>
                   <tbody id="table-areas-body">
                   </tbody>
                 </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Guardar cambios</h6>
-            </div>
-            <div class="card-body d-md-block gap-2">
-              <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmacion">
-                Guardar
-              </button>
-              
-
-              <!-- Modal -->
-              <div class="modal fade shadow-sm p-3 mb-5 bg-body rounded" id="confirmacion" tabindex="-1"
-                aria-hidden="true" data-bs-backdrop="static">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">¿Seguro?</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      Los cambios se guardarán en el sistema.
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar </button>
-                      <button type="submit" class="btn btn-success">Guardar</button>
-                    </div>
-                  </form>
-                  </div>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">
+                    Guardar
+                  </button>
                 </div>
               </div>
-
+            </form> 
             </div>
           </div>
         </div>
@@ -182,12 +149,19 @@
     }
   </script>
   <script>
-    function handleSumbit(event){
+    function handleSubmit(event) {
       event.preventDefault();
       const data = new FormData(event.target);
+      var checked_boxes = document.querySelectorAll('[name^="area"]:checked');
+      const checked = document.getElementsByName('area');
+      console.log(checked_boxes)
+      console.log(checked)
       const value = Object.fromEntries(data.entries())
-      value.areas = data.getall('area').value
-      console.log(value)
+
+      console.log(JSON.stringify(value))
+      value.categorias = data.getAll('area')
+      value.areas = data.getAll('area')
+      //console.log(value)
     }
     const form = document.querySelector('form');
     form.addEventListener('submit', handleSubmit)
@@ -197,12 +171,18 @@
 
 
     var counter = 1
+    console.log(data.length)
 
-    function createTable(data) {
-
-      var table = document.getElementById('table-areas');
+    function createTable(array) {
+      catArray = []
+      fetch('http://127.0.0.1:8080/artefactos/readCount').then((result)=> result.json()).then(function(data){
+        for(i in data){
+          catArray.push(i)
+        }
+        console.log(catArray)
+        var table = document.getElementById('table-areas');
       var tableBody = document.getElementById('table-areas-body');
-      data.forEach(function (rowData) {
+      catArray.forEach(function (rowData) {
         var div = document.createElement('div');
         div.className = 'd-flex flex-column justify-content-center'
         var row = document.createElement('tr');
@@ -216,8 +196,8 @@
         var toggle = document.createElement("input");
         toggle.className = "form-check-input";
         toggle.type = "checkbox";
-        toggle.id = "" + counter;
-        toggle.name = 'area'
+        toggle.id = rowData
+        toggle.name = rowData
         toggle.checked = true;
         counter++;
         toggleDiv.appendChild(toggleCell);
@@ -232,6 +212,9 @@
         tableBody.appendChild(row);
       });
       table.appendChild(tableBody);
+      })
+
+      
     }
     createTable(data)
   </script>

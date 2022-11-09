@@ -71,7 +71,6 @@ function createTable() {
     var catArray = []
     fetch('http://127.0.0.1:8080/artefactos/readCount').then((result) => result.json()).then(function (data) {
         for (i in data) { catArray.push([i, data[i]]) }
-        console.log(catArray)
         var table = document.getElementById('table-consultas');
         var tableBody = document.getElementById('table-consultas-body');
         catArray.forEach(function (rowData) {
@@ -122,18 +121,6 @@ function createTable() {
 
 
 
-}
-
-function obtenerRamas() {
-    console.log('this should print.')
-    url = "http://127.0.0.1:8080/artefactos/read"
-    fetch(url).then(function (response) {
-        return response.json();
-    }).then(function (data) {
-        console.log(data);
-    }).catch(function (err) {
-        console.log(err);
-    });
 }
 
 function genrateTreeTable(id) {
