@@ -21,36 +21,16 @@ var conexion = mysql.createConnection({
     user: 'root',
 });
 
-    // conexion.connect(function(err) {
-    //     if (err) throw err;
-    //     console.log("Connected!");
-    //   });
+// conexion.connect(function(err) {
+//     if (err) throw err;
+//     console.log("Connected!");
+//   });
 
 //QUE DIOS NOS AMPARE PORQUE NO REVISAMOS QUE SE CONECTE PORQUE ROMPE LA APP Y SI LO ACEMOS SE ROMPE ESTA MADRE
 
 //const lstCat = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
 
-function recursiveTree(array) {
-    function getChildren(parents, input) {
-      return parents.map((parent) => {
-        const children = input.filter((x) => x.sucesor_de === parent.id);// agarra todos sus relacionados
-        parent.children = children;
-        if (children.length == 0) {
-
-          return parent;
-        } else {
-          parent.children = getChildren(children, input);
-          return parent;
-        }
-      });
-    }
-
-    const roots = array.filter((x) => x.sucesor_de == 0);
-
-    return getChildren(roots, array);
-  }
-
-function recTree(array){
+function recTree(array) {
     function getChildren(parents, db, lst) {
 
         parents.forEach(function (dad) {
@@ -58,19 +38,16 @@ function recTree(array){
 
             const children = db.filter((x) => x.sucesor_de === dad.id)
 
-            if(children.length == 0){  
-                console.log('------hoja:'+ dad.id)
-              
+            if (children.length == 0) {
                 lst.push(dad)
 
             } else {
-                children.map((inter) =>{
+                children.map((inter) => {
                     inter['nivel']++
                 })
 
                 getChildren(children, db, dad.children)
                 lst.push(dad)
-                console.log('------rama:'+ dad.id)
 
             }
 
@@ -84,13 +61,13 @@ function recTree(array){
     return lstRet
 }
 
-exports.readForAI = async(req, res)=> {
+exports.readForAI = async (req, res) => {
 
     var allDB = []
 
 
     conexion.query('SELECT * from interaccion', (err, rows) => {
-        if(err) throw err
+        if (err) throw err
 
 
 
@@ -103,7 +80,7 @@ exports.readForAI = async(req, res)=> {
 
             interaccion.etiqueta = row["etiqueta"]
             interaccion.tipo = row["tipo"]
-            interaccion.categoria= row["categoria"]
+            interaccion.categoria = row["categoria"]
             interaccion.link = row["link"]
             interaccion.sucesor_de = row["sucesor_de"]
             interaccion.nivel = 0
@@ -113,7 +90,7 @@ exports.readForAI = async(req, res)=> {
             var respuestas = []
 
             conexion.query(`select patron FROM patron WHERE id_interaccion= '${interaccion.id}' `, (err, rows) => {
-                if(err) throw reject(err)
+                if (err) throw reject(err)
 
                 rows.forEach(function (row) {
                     patrones.push(row["patron"])
@@ -121,7 +98,7 @@ exports.readForAI = async(req, res)=> {
             })
 
             conexion.query(`select respuesta FROM respuesta WHERE id_interaccion= '${interaccion.id}' `, (err, rows) => {
-                if(err) reject(err)
+                if (err) reject(err)
 
                 rows.forEach(function (row) {
                     respuestas.push(row["respuesta"])
@@ -134,14 +111,15 @@ exports.readForAI = async(req, res)=> {
 
             setTimeout(() => {
                 allDB.push(interaccion)
-            },500)
+            }, 500)
 
 
         })
 
         setTimeout(() => {
-          res.send(JSON.stringify(recTree(allDB)))
-        },2500)
+            var jsonRet = {"interaccion" : recTree(allDB)}
+            res.send(JSON.stringify(jsonRet))
+        }, 2500)
 
 
 
@@ -152,9 +130,9 @@ exports.readForAI = async(req, res)=> {
 
 
 //Read
-exports.readCount = async(req, res)=> {
+exports.readCount = async (req, res) => {
     conexion.query('SELECT categoria, COUNT(id) AS total FROM interaccion GROUP BY categoria', (err, rows) => {
-        if(err) throw err
+        if (err) throw err
         var diccs = {}
 
         rows.forEach(function (row) {
@@ -166,21 +144,20 @@ exports.readCount = async(req, res)=> {
 
 }
 
-exports.readTest = async(req, res)=> {
+exports.readTest = async (req, res) => {
 
     conexion.query('SELECT * from interaccion', (err, rows) => {
-        if(err) throw err
+        if (err) throw err
         res.send(JSON.stringify(rows))
     })
 }
 
 
 
-exports.readData = async(req, res)=> {
+exports.readData = async (req, res) => {
     var data = req.params["categ"]
-
     conexion.query(`SELECT etiqueta, tipo, sucesor_de, link FROM interaccion WHERE categoria= '${data}'`, (err, rows) => {
-        if(err) throw err
+        if (err) throw err
         res.send(JSON.stringify(rows))
     })
 
@@ -194,14 +171,14 @@ function getOneInter(data) {
 
     return new Promise((resolve, reject) => {
         conexion.query(`select * FROM interaccion WHERE etiqueta= '${data}' `, (err, row) => {
-            if(err) treject(err)
+            if (err) treject(err)
 
             intId = row[0]["id"]
             interaccion.id = row[0]["id"]
 
             interaccion.etiqueta = row[0]["etiqueta"]
             interaccion.tipo = row[0]["tipo"]
-            interaccion.categoria= row[0]["categoria"]
+            interaccion.categoria = row[0]["categoria"]
             if (!row["link"]) interaccion.link = row[0]["link"]
             if (!row["sucesor_de"]) interaccion.sucesor_de = row[0]["sucesor_de"]
         })
@@ -210,7 +187,7 @@ function getOneInter(data) {
             var patrones = []
             var respuestas = []
             conexion.query(`select patron FROM patron WHERE id_interaccion= '${intId}' `, (err, rows) => {
-                if(err) throw reject(err)
+                if (err) throw reject(err)
 
                 rows.forEach(function (row) {
                     patrones.push(row["patron"])
@@ -218,7 +195,7 @@ function getOneInter(data) {
             })
 
             conexion.query(`select respuesta FROM respuesta WHERE id_interaccion= '${intId}' `, (err, rows) => {
-                if(err) reject(err)
+                if (err) reject(err)
 
                 rows.forEach(function (row) {
                     respuestas.push(row["respuesta"])
@@ -231,7 +208,7 @@ function getOneInter(data) {
 
             setTimeout(() => {
                 resolve(interaccion)
-            },500)
+            }, 500)
 
         }, 500)
     })
@@ -240,10 +217,9 @@ function getOneInter(data) {
 
 
 //Read solo 1 interaccion, tomamos la etiqueta del url
-exports.readOneData = async(req, res) => {
+exports.readOneData = async (req, res) => {
 
     var data = req.params["etiq"]
-
 
     const rets = await getOneInter(data)
 
@@ -256,12 +232,12 @@ exports.readOneData = async(req, res) => {
 
 }
 
-function addPreguntasRespuestas(patrones, respuestas){
+function addPreguntasRespuestas(patrones, respuestas) {
 
     //Calcula a cual va a ser el id de la interaccion como llave foranea de  patrones y respuestas
     var intRows = 0
     conexion.query('SELECT * FROM interaccion ORDER BY ID DESC LIMIT 1', (err, rows) => {
-        if(err) throw err
+        if (err) throw err
         intRows = rows[0]['id']
     })
 
@@ -284,16 +260,49 @@ function addPreguntasRespuestas(patrones, respuestas){
     }, 500)
 }
 
+function getDadsId(id) {
+    var lstDads = []
+    function findDad(dadId){
+        conexion.query(`SELECT sucesor_de FROM interaccion WHERE id= ${dadId}`, (err, row) => {
+            if (err) throw err
+            console.log('el papa es:')
+
+            if(row[0]['sucesor_de'] != 0){
+                console.log(achhu)
+                dadId = row[0]['sucesor_de']
+                idIntPatrones.push(dadId)
+
+            } else{
+                haveDad = false
+                
+            }
+        })
+    }
+
+    findDad(id)
+
+    return lstDads
+
+
+}
+
 
 //Create
-exports.postData = async(req, res)=>{
+exports.postData = async (req, res) => {
     var data = req.body
+    var idIntPatrones
+
+    if(data.hasOwnProperty("sucesor_de")){
+
+        idIntPatrones = getDadsId(data['sucesor_de'])
+
+    }
 
     //Obtenemos la lista de los patrones ya agregados
     var lstPatrones = []
     conexion.query('SELECT patron FROM patron', (err, rows) => {
-        if(err) throw err
-        rows.forEach(function (row){
+        if (err) throw err
+        rows.forEach(function (row) {
             lstPatrones.push(row["patron"])
 
         })
@@ -302,17 +311,16 @@ exports.postData = async(req, res)=>{
 
     //Permutaciones si tiene link o sucesor_de; los codigos son iguales solo cambia el insert, si se puede mejorar chido sino no
     //TODO: atrapar la excepcion si una etiqueta no es unica (evitar que el progreso del modal desaparezca si se puede); porque no lo hice con los patrones... no se pero ya lo hice joder
-    if(data.hasOwnProperty("link") && data.hasOwnProperty("sucesor_de")) {
-
+    if (data.hasOwnProperty("link") && data.hasOwnProperty("sucesor_de")) {
         setTimeout(() => {
 
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
-                if(lstPatrones.indexOf(patron) !== -1) isRepetido = true
+                if (lstPatrones.indexOf(patron) !== -1) isRepetido = true
             })
 
             //Condicional si esta repetido
-            if(!isRepetido){
+            if (!isRepetido) {
                 conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria, sucesor_de, link) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}', '${data['sucesor_de']}',  '${data['link']}' ); `, function (err, result) {
                     if (err) throw err;
                     console.log("Agregado con exito en interaccion");
@@ -330,31 +338,19 @@ exports.postData = async(req, res)=>{
 
         }, 500);
 
-    } else if (data.hasOwnProperty("link") && !data.hasOwnProperty("sucesor_de")){
+    } else if (data.hasOwnProperty("link") && !data.hasOwnProperty("sucesor_de")) {
         setTimeout(() => {
-
-            var isRepetido = false
-            data['patrones'].forEach(function (patron) {
-                if(lstPatrones.indexOf(patron) !== -1) isRepetido = true
-            })
-
-            //Condicional si esta repetido
-            if(!isRepetido){
-                conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria, link) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}', '${data['link']}' ); `, function (err, result) {
-                    if (err) throw err;
-                    console.log("Agregado con exito en interaccion");
-                });
+        
+            conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria, link) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}', '${data['link']}' ); `, function (err, result) {
+                if (err) throw err;
+                console.log("Agregado con exito en interaccion");
+            });
 
 
+            setTimeout(() => {
+                addPreguntasRespuestas(data['patrones'], data['respuestas'])
+            }, 500)
 
-                setTimeout(() => {
-                    addPreguntasRespuestas(data['patrones'], data['respuestas'])
-                }, 500)
-
-            } else {
-                console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
-                //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
-            }
 
         }, 500);
 
@@ -363,11 +359,11 @@ exports.postData = async(req, res)=>{
 
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
-                if(lstPatrones.indexOf(patron) !== -1) isRepetido = true
+                if (lstPatrones.indexOf(patron) !== -1) isRepetido = true
             })
 
             //Condicional si esta repetido
-            if(!isRepetido){
+            if (!isRepetido) {
 
                 conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria, sucesor_de) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}', '${data['sucesor_de']}' ); `, function (err, result) {
                     if (err) throw err;
@@ -388,26 +384,14 @@ exports.postData = async(req, res)=>{
     } else {
         setTimeout(() => {
 
-            var isRepetido = false
-            data['patrones'].forEach(function (patron) {
-                if(lstPatrones.indexOf(patron) !== -1) isRepetido = true
-            })
+            conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}' ); `, function (err, result) {
+                if (err) throw err;
+                console.log("Agregado con exito en interaccion");
+            });
 
-            //Condicional si esta repetido
-            if(!isRepetido){
-                conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}' ); `, function (err, result) {
-                    if (err) throw err;
-                    console.log("Agregado con exito en interaccion");
-                });
-
-                setTimeout(() => {
-                    addPreguntasRespuestas(data['patrones'], data['respuestas'])
-                }, 500)
-
-            } else {
-                console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
-                //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
-            }
+            setTimeout(() => {
+                addPreguntasRespuestas(data['patrones'], data['respuestas'])
+            }, 500)
 
         }, 500);
     }
@@ -419,7 +403,7 @@ exports.postData = async(req, res)=>{
 }
 
 //Update
-exports.postUpdate = async(req, res)=>{
+exports.postUpdate = async (req, res) => {
     this.deleteData(req, res)
     this.postData(req, res)
     res.status(201)
@@ -427,11 +411,11 @@ exports.postUpdate = async(req, res)=>{
 
 //Delete
 //ES BUENA PRACTICA HACER UN FAKEDELETE PERO ME VALE
-exports.deleteData = async(req,res)=> {
+exports.deleteData = async (req, res) => {
     var data = req.body
 
     conexion.query(`DELETE FROM interaccion WHERE etiqueta= '${data['etiqueta']}' `, (err) => {
-        if(err) throw err
+        if (err) throw err
     })
 
     res.status(201)
