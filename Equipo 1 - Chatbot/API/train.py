@@ -15,15 +15,15 @@ with open('interacciones.json', 'r') as f:
 def recursiveTrain(intents, tags, all_words, xy):
      # loop through each sentence in our intents patterns
     for intent in intents:
-        tag = intent['Etiqueta']
+        tag = intent['etiqueta']
         # add to tag list
         tags.append(tag)
-        for pattern in intent['Patron']:
+        for pattern in intent['patron']:
             # tokenize each word in the sentence
-            if intent['Sucesor_de'] is None:
+            if intent['sucesor_de'] is None:
                 w = tokenize(pattern)
             else:
-                w = tokenize(str(intent['Sucesor_de'])+" "+pattern)
+                w = tokenize(str(intent['sucesor_de'])+" "+pattern)
             # add to our words list
             all_words.extend(w)
             # add to xy pair
@@ -46,9 +46,9 @@ def train(intents):
     all_words = sorted(set(all_words))
     tags = sorted(set(tags))
 
-    print(len(xy), "patterns")
-    print(len(tags), "tags:", tags)
-    print(len(all_words), "unique stemmed words:", all_words)
+    print(len(xy), "patrones")
+    print(len(tags), "etiquetas:", tags)
+    print(len(all_words), "Palabras unicas derivadas:", all_words)
 
     # create training data
     X_train = []
@@ -137,6 +137,6 @@ def train(intents):
     FILE = "data.pth"
     torch.save(data, FILE)
 
-    print(f'training complete. file saved to {FILE}')
+    print(f'Entrenamiento completado. archivo guardado en: {FILE}')
 
 train(intents)

@@ -38,17 +38,17 @@ def get_response(msg, old_children):
 
 
     if len(old_children) != 0 and old_children is not None:
-        sentence_child = tokenize(str(old_children[0]['Sucesor_de'])+" "+msg)
+        sentence_child = tokenize(str(old_children[0]['sucesor_de'])+" "+msg)
         tag_child, prob_child = get_tag(sentence_child,tags,all_words,device,model)
         if prob_child.item() > 0.75:
             for old_child in old_children:
-                if tag_child == old_child["Etiqueta"]:
-                    return (random.choice(old_child['Respuesta']),  old_child['Link'], old_child['Tipo'], old_child['children'])
+                if tag_child == old_child["etiqueta"]:
+                    return (random.choice(old_child['respuesta']),  old_child['link'], old_child['tipo'], old_child['children'])
 
     if prob.item() > 0.75:
         for intent in intents['interacciones']:
-            if tag == intent["Etiqueta"]:
-                return (random.choice(intent['Respuesta']),  intent['Link'], intent['Tipo'], intent['children'])
+            if tag == intent["etiqueta"]:
+                return (random.choice(intent['respuesta']),  intent['link'], intent['tipo'], intent['children'])
     
     return (random.choice([
         "Lo siento. No te entendí.",
