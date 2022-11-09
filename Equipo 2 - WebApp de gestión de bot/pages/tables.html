@@ -174,15 +174,15 @@
     console.log(data.length)
 
     function createTable(array) {
-      catArray = []
+      cateArray = []
       fetch('http://127.0.0.1:8080/artefactos/readCount').then((result)=> result.json()).then(function(data){
         for(i in data){
-          catArray.push(i)
+          cateArray.push(i)
         }
-        console.log(catArray)
+        console.log(cateArray)
         var table = document.getElementById('table-areas');
       var tableBody = document.getElementById('table-areas-body');
-      catArray.forEach(function (rowData) {
+      cateArray.forEach(function (rowData) {
         var div = document.createElement('div');
         div.className = 'd-flex flex-column justify-content-center'
         var row = document.createElement('tr');
