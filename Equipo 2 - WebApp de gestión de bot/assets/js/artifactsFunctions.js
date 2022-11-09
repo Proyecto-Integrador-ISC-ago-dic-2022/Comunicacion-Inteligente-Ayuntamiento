@@ -229,6 +229,10 @@ function deleteArtifact(etiqueta) {
     }).then(raw => raw.json)
         .then(data => console.log(data))
 
+    setTimeout(()=> {
+        document.location.reload()
+    }, 1000)
+
 }
 
 function editArtifact(etiqueta) {

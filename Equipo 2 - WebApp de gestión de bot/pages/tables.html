@@ -152,37 +152,26 @@
     function handleSubmit(event) {
       event.preventDefault();
       const data = new FormData(event.target);
-      var checked_boxes = document.querySelectorAll('[name^="area"]:checked');
-      const checked = document.getElementsByName('area');
-      console.log(checked_boxes)
-      console.log(checked)
       const value = Object.fromEntries(data.entries())
 
       console.log(JSON.stringify(value))
-      value.categorias = data.getAll('area')
-      value.areas = data.getAll('area')
       //console.log(value)
     }
     const form = document.querySelector('form');
     form.addEventListener('submit', handleSubmit)
   </script>
   <script>
-    var data = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
-
-
-    var counter = 1
-    console.log(data.length)
+    //var data = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
 
     function createTable(array) {
-      cateArray = []
+      catArray = []
       fetch('http://127.0.0.1:8080/artefactos/readCount').then((result)=> result.json()).then(function(data){
         for(i in data){
-          cateArray.push(i)
+          catArray.push(i)
         }
-        console.log(cateArray)
         var table = document.getElementById('table-areas');
       var tableBody = document.getElementById('table-areas-body');
-      cateArray.forEach(function (rowData) {
+      catArray.forEach(function (rowData) {
         var div = document.createElement('div');
         div.className = 'd-flex flex-column justify-content-center'
         var row = document.createElement('tr');
@@ -199,7 +188,6 @@
         toggle.id = rowData
         toggle.name = rowData
         toggle.checked = true;
-        counter++;
         toggleDiv.appendChild(toggleCell);
         toggleCell.appendChild(toggle);
         row.appendChild(toggleDiv);
@@ -216,7 +204,7 @@
 
       
     }
-    createTable(data)
+    createTable()
   </script>
   <script>
     function saveChanges() {
