@@ -289,32 +289,15 @@ function editArtifact(etiqueta) {
             var link = document.getElementById('link')
             //desabilitar el cambio de nombre de la etiqueta para evitar errores
             tag.disabled = !tag.disabled
-            //adds empty spaces if needed to populate the edit table
-            const lenPatrones = data.patrones.length
-            const lenRespuestas = data.respuestas.length
-            if (lenPatrones != lenRespuestas) {
-                const diferencia = Math.max(lenPatrones, lenRespuestas) - Math.min(lenPatrones, lenRespuestas)
-                //Patrones array is smaller than respustas
-                if (lenPatrones < lenRespuestas) {
-                    for (var i = 0; i < diferencia; i++) {
-                        data.patrones.push("")
-                    }
-                    //Respuestas array is smaller
-                } else {
-                    for (var i = 0; i < diferencia; i++) {
-                        data.respuestas.push("")
-                    }
-                }
-            }
 
             var patrones = document.getElementById('tablaPat-body')
             var respuestas = document.getElementById('tablaRes-body')
-            patrones.innerHTML = ''
-            respuestas.innerHTML = ''
 
             for (var j = 0; j < data.patrones.length; j++) {
                 addRow('tablaPat-body', 'pregunta', 'pregunta', data.patrones[j])
-                addRow('tablaRes-body', 'respuestas', 'respuesta',data.respuestas[j])
+            }
+            for(var k = 0; k < data.respuestas.length; k++){
+                addRow('tablaRes-body', 'respuestas', 'respuesta',data.respuestas[k])
             }
 
 
@@ -343,8 +326,8 @@ function cancelTree() {
 }
 
 function cancelCreate() {
-    var patrones = document.getElementById('tablaPat')
-    var respuesta = document.getElementById('tablaRes')
+    var patrones = document.getElementById('tablaPat-body')
+    var respuesta = document.getElementById('tablaRes-body')
     patrones.innerHTML = ''
     respuesta.innerHTML = ''
     showAside()
