@@ -27,35 +27,41 @@ fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
 
 
 //add more rows for each question and answer, won't let you go lower than 1 question and answer
-function addRow() {
-    var table = document.getElementById('tablaInt');
+function addRow(tableId, inputName, inputPlaceholder) {
+    var table = document.getElementById(tableId);
     var row = document.createElement('tr');
-    var cellPregunta = document.createElement('td');
-    var cellRespuesta = document.createElement('td');
-    // Pregunta
+    var cell = document.createElement('td');
+    var buttonCell = document.createElement('td')
+    buttonCell.className = 'text-center my-3'
+    // Elemento generado
     // HTML: <input class="form-control" type="text" placeholder="pregunta" name="pregunta">
     var pregunta = document.createElement('input');
     pregunta.type = 'text';
-    pregunta.name = 'patrones';
+    pregunta.name = inputName;
     pregunta.className = "form-control";
-    pregunta.placeholder = "pregunta";
+    pregunta.placeholder = inputPlaceholder;
+    var btnDelete = document.createElement('button');
+    btnDelete.type = 'button'
+    btnDelete.className = 'btn btn-danger visible'
+    btnDelete.appendChild(document.createTextNode('Borrar ' + inputPlaceholder))
+    btnDelete.addEventListener('click', function(){
+        console.log('borrando: ' + inputName)
+        var td = event.target.parentNode
+        var tr = td.parentNode
+        tr.parentNode.removeChild(tr)
+    })
 
-    // Respuesta
-    // HTML: <input class="form-control" type="text" placeholder="respuesta" name="respuesta">
-    var respuesta = document.createElement('input');
-    respuesta.className = 'form-control';
-    respuesta.name = 'respuestas';
-    respuesta.type = 'text';
-    respuesta.placeholder = 'respuesta';
-    cellPregunta.appendChild(pregunta);
-    cellRespuesta.appendChild(respuesta);
-    row.appendChild(cellPregunta);
-    row.appendChild(cellRespuesta)
+    buttonCell.appendChild(btnDelete);
+
+    cell.appendChild(pregunta);
+    row.appendChild(cell);
+    row.appendChild(buttonCell);
     table.appendChild(row);
 }
 
-function deleteRow() {
-    var table = document.getElementById('tablaInt');
+//Deprecated, we found a better way to delete rows and more user friendly
+function deleteRow(tableId) {
+    var table = document.getElementById(tableId);
     var rowCount = table.rows.length;
     if (rowCount > '1') {
         var row = table.deleteRow(rowCount - 1);
@@ -389,6 +395,7 @@ function handleSubmit(event) {
     value.etiqueta = document.getElementById('etiqueta').value
     if(isCreate){
         console.log('creating')
+        console.log(value)
         postCreate(value)
     }else {
         console.log('updating')
