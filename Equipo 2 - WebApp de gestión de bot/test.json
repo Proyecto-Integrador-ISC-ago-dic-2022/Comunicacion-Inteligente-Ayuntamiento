@@ -1,73 +1,77 @@
-[
-    {
-        "id": 1,
-        "etiqueta": "saludo",
-        "tipo": 1,
-        "categoria": "a",
-        "link": "ASDF",
-        "sucesor_de": 0,
-        "nivel": 0,
-        "children": [
-                        {
-                        "id": 156,
-                        "etiqueta": "Juan",
-                        "tipo": 2,
-                        "categoria": "Educación",
-                        "link": "https://www.youtube.com/watch?v=JT5sAVwAN9c&ab_channel=iGozi",
-                        "sucesor_de": 1,
-                        "nivel": 1,
-                        "children": [],
-                        "patrones": ["Como le fue a los pumas ? "],
-                        "respuestas ":["Dejame ver "]
-                        },
-                        {"id ":157,
-                        "etiqueta ":"Educacion ",
-                        "tipo ":2,
-                        "categoria ":"Educación ",
-                        "link ":"https: //www.youtube.com/watch?v=v-TNUDgbajY&ab_channel=MisterCumbia-Topic",
-                        "sucesor_de":1,
-                        "nivel":1,
-                        "children":[],
-                        "patrones":["Gano papa ?"],
-                        "respuestas ":["Gano papa "]
-                        }
-                    ],
-            "patrones ":["hey ","hola ","buenas"],
-            "respuestas ":["bien ","mal ","regular ","lorem ","ipsum ","lorem ","ipsum ","lorem ","ipsum ","lorem ","ipsum "]
-    },
-    {
-        "id ":2,
-        "etiqueta":"direccion ",
-        "tipo ":2,
-        "categoria ":"b",
-        "link ":"ASDF ",
-        "sucesor_de ":0,
-        "nivel ":0,
-        "children ":[
-                        {
-                            "id ":158,
-                            "etiqueta ":"ai ",
-                            "tipo ":1,
-                            "categoria ":"sapasa ",
-                            "link ":null,
-                            "sucesor_de ":2,
-                            "nivel ":1,
-                            "children ":[],
-                            "patrones ":["gorefield "],
-                            "respuestas ":["lorem ","ipsum"]
-                        }
-                    ],
-        "patrones ":["norte ","sur "],
-        "respuestas ":["si ","no "]},
-    {"id ":3,
-    "etiqueta ":"edad ",
-    "tipo ":3,
-    "categoria ":"c",
-    "link ":"ASDF ",
-    "sucesor_de ":0,
-    "nivel ":0,
-    "children ":[],
-    "patrones ":["55 "],
-    "respuestas ":["mi viejo"]
-    }
-]
+{
+    "interacciones": [
+
+        {
+            "id": 1,
+            "etiqueta": "saludo",
+            "tipo": 1,
+            "categoria": "a",
+            "link": "ASDF",
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [{
+                    "id": 156,
+                    "etiqueta": "Juan",
+                    "tipo": 2,
+                    "categoria": "Educación",
+                    "link": "https://www.youtube.com/watch?v=JT5sAVwAN9c&ab_channel=iGozi",
+                    "sucesor_de": 1,
+                    "nivel": 1,
+                    "children": [],
+                    "patrones": ["Como le fue a los pumas ? "],
+                    "respuestas ": ["Dejame ver "]
+                },
+                {
+                    "id ": 157,
+                    "etiqueta ": "Educacion ",
+                    "tipo ": 2,
+                    "categoria ": "Educación ",
+                    "link ": "https: //www.youtube.com/watch?v=v-TNUDgbajY&ab_channel=MisterCumbia-Topic",
+                    "sucesor_de": 1,
+                    "nivel": 1,
+                    "children": [],
+                    "patrones": ["Gano papa ?"],
+                    "respuestas ": ["Gano papa "]
+                }
+            ],
+            "patrones ": ["hey ", "hola ", "buenas"],
+            "respuestas ": ["bien ", "mal ", "regular ", "lorem ", "ipsum ", "lorem ", "ipsum ", "lorem ", "ipsum ", "lorem ", "ipsum "]
+        },
+        {
+            "id ": 2,
+            "etiqueta": "direccion ",
+            "tipo ": 2,
+            "categoria ": "b",
+            "link ": "ASDF ",
+            "sucesor_de ": 0,
+            "nivel ": 0,
+            "children ": [{
+                "id ": 158,
+                "etiqueta ": "ai ",
+                "tipo ": 1,
+                "categoria ": "sapasa ",
+                "link ": null,
+                "sucesor_de ": 2,
+                "nivel ": 1,
+                "children ": [],
+                "patrones ": ["gorefield "],
+                "respuestas ": ["lorem ", "ipsum"]
+            }],
+            "patrones ": ["norte ", "sur "],
+            "respuestas ": ["si ", "no "]
+        },
+        {
+            "id ": 3,
+            "etiqueta ": "edad ",
+            "tipo ": 3,
+            "categoria ": "c",
+            "link ": "ASDF ",
+            "sucesor_de ": 0,
+            "nivel ": 0,
+            "children ": [],
+            "patrones ": ["55 "],
+            "respuestas ": ["mi viejo"]
+        }
+
+    ]
+}
