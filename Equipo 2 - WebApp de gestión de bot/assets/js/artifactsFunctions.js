@@ -15,7 +15,7 @@ fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
     return response.json();
 }).then(function (data) {
     data.forEach(function (rowData) {
-        var option = document.createElement('option') 
+        var option = document.createElement('option')
         option.value = rowData.id
         option.appendChild(document.createTextNode(rowData.id + ' - ' + rowData.etiqueta))
         dropSucesores.appendChild(option)
@@ -27,7 +27,7 @@ fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
 
 
 //add more rows for each question and answer, won't let you go lower than 1 question and answer
-function addRow(tableId, inputName, inputPlaceholder) {
+function addRow(tableId, inputName, inputPlaceholder, inputValue) {
     var table = document.getElementById(tableId);
     var row = document.createElement('tr');
     var cell = document.createElement('td');
@@ -35,31 +35,46 @@ function addRow(tableId, inputName, inputPlaceholder) {
     buttonCell.className = 'text-center my-3'
     // Elemento generado
     // HTML: <input class="form-control" type="text" placeholder="pregunta" name="pregunta">
-    var pregunta = document.createElement('input');
-    pregunta.type = 'text';
-    pregunta.name = inputName;
-    pregunta.className = "form-control";
-    pregunta.placeholder = inputPlaceholder;
+    var entrada = document.createElement('input');
+    if(inputValue != ''){
+        entrada.value = inputValue
+    }
+    entrada.type = 'text';
+    entrada.name = inputName;
+    entrada.className = "form-control";
+    entrada.placeholder = inputPlaceholder;
     var btnDelete = document.createElement('button');
     btnDelete.type = 'button'
     btnDelete.className = 'btn btn-danger visible'
     btnDelete.appendChild(document.createTextNode('Borrar ' + inputPlaceholder))
-    btnDelete.addEventListener('click', function(){
-        console.log('borrando: ' + inputName)
-        var td = event.target.parentNode
-        var tr = td.parentNode
-        tr.parentNode.removeChild(tr)
+    btnDelete.addEventListener('click', function () {
+        var table = document.getElementById(tableId);
+        console.log(tableId)
+        var rowCount = table.rows.length;
+        console.log(rowCount)
+        if(rowCount == '0'){
+            console.log('genera un dato')
+        }
+        if (rowCount > '1') {
+            console.log('borrando: ' + inputName)
+            var td = event.target.parentNode
+            var tr = td.parentNode
+            tr.parentNode.removeChild(tr)
+        } else {
+            alert('Se tiene que registrar una ' + inputPlaceholder)
+        }
+
     })
 
     buttonCell.appendChild(btnDelete);
 
-    cell.appendChild(pregunta);
+    cell.appendChild(entrada);
     row.appendChild(cell);
     row.appendChild(buttonCell);
     table.appendChild(row);
 }
 
-//Deprecated, we found a better way to delete rows and more user friendly
+//DEPRECATED, we found a better way to delete rows and more user friendly
 function deleteRow(tableId) {
     var table = document.getElementById(tableId);
     var rowCount = table.rows.length;
@@ -154,12 +169,12 @@ function genrateTreeTable(id) {
             tableRow.forEach(function (cellData, index, array) {
                 //if(cellData == null){cellData = ' '}
                 console.log(array[0])
-                if(index === 1){
-                    if(cellData == 1){
+                if (index === 1) {
+                    if (cellData == 1) {
                         cellData = 'Menu'
-                    }else if (cellData == 2){
+                    } else if (cellData == 2) {
                         cellData = 'Link'
-                    }else if(cellData == 3){
+                    } else if (cellData == 3) {
                         cellData = 'Respuesta'
                     }
                     console.log(cellData)
@@ -235,7 +250,7 @@ function deleteArtifact(etiqueta) {
     }).then(raw => raw.json)
         .then(data => console.log(data))
 
-    setTimeout(()=> {
+    setTimeout(() => {
         document.location.reload()
     }, 1000)
 
@@ -259,7 +274,7 @@ function editArtifact(etiqueta) {
     botonCancelarEdit.addEventListener('click', function () {
         cancelTree()
         cancelCreate()
-        cancelEdit(btnTransferCancelar)        
+        cancelEdit(btnTransferCancelar)
         isCreate = true
         console.log('cancelado el edit iscreate: ' + isCreate)
     })
@@ -274,52 +289,15 @@ function editArtifact(etiqueta) {
             var link = document.getElementById('link')
             //desabilitar el cambio de nombre de la etiqueta para evitar errores
             tag.disabled = !tag.disabled
-            console.log(data.patrones)
-            console.log(data.respuestas)
-            //adds empty spaces if needed to populate the edit table
-            const lenPatrones = data.patrones.length
-            const lenRespuestas = data.respuestas.length
-            if (lenPatrones != lenRespuestas) {
-                const diferencia = Math.max(lenPatrones, lenRespuestas) - Math.min(lenPatrones, lenRespuestas)
-                //Patrones array is smaller than respustas
-                if (lenPatrones < lenRespuestas) {
-                    for (var i = 0; i < diferencia; i++) {
-                        data.patrones.push("")
-                    }
-                    //Respuestas array is smaller
-                } else {
-                    for (var i = 0; i < diferencia; i++) {
-                        data.respuestas.push("")
-                    }
-                }
-            }
-            for (var j = 0; j < data.patrones.length; j++) {
-                var table = document.getElementById('tablaInt');
-                var row = document.createElement('tr');
-                var cellPregunta = document.createElement('td');
-                var cellRespuesta = document.createElement('td');
-                // Pregunta
-                // HTML: <input class="form-control" type="text" placeholder="pregunta" name="pregunta">
-                var pregunta = document.createElement('input');
-                pregunta.type = 'text';
-                pregunta.name = 'patrones';
-                pregunta.className = "form-control";
-                pregunta.placeholder = "pregunta";
-                pregunta.value = data.patrones[j]
 
-                // Respuesta
-                // HTML: <input class="form-control" type="text" placeholder="respuesta" name="respuesta">
-                var respuesta = document.createElement('input');
-                respuesta.className = 'form-control';
-                respuesta.name = 'respuestas';
-                respuesta.type = 'text';
-                respuesta.placeholder = 'respuesta';
-                respuesta.value = data.respuestas[j]
-                cellPregunta.appendChild(pregunta);
-                cellRespuesta.appendChild(respuesta);
-                row.appendChild(cellPregunta);
-                row.appendChild(cellRespuesta)
-                table.appendChild(row);
+            var patrones = document.getElementById('tablaPat-body')
+            var respuestas = document.getElementById('tablaRes-body')
+
+            for (var j = 0; j < data.patrones.length; j++) {
+                addRow('tablaPat-body', 'pregunta', 'pregunta', data.patrones[j])
+            }
+            for(var k = 0; k < data.respuestas.length; k++){
+                addRow('tablaRes-body', 'respuestas', 'respuesta',data.respuestas[k])
             }
 
 
@@ -348,8 +326,10 @@ function cancelTree() {
 }
 
 function cancelCreate() {
-    var interacciones = document.getElementById("tablaInt")
-    interacciones.innerHTML = ''
+    var patrones = document.getElementById('tablaPat-body')
+    var respuesta = document.getElementById('tablaRes-body')
+    patrones.innerHTML = ''
+    respuesta.innerHTML = ''
     showAside()
 }
 
@@ -393,22 +373,22 @@ function handleSubmit(event) {
     value.patrones = cleansedPreguntas;
     value.respuestas = cleansedRespuestas;
     value.etiqueta = document.getElementById('etiqueta').value
-    if(isCreate){
+    if (isCreate) {
         console.log('creating')
         console.log(value)
         postCreate(value)
-    }else {
+    } else {
         console.log('updating')
         postUpdate(value)
     }
 
-    
+
 
 
 
 
 }
- 
+
 function postUpdate(value) {
     let url = 'http://127.0.0.1:8080/artefactos/update'
     setTimeout(() => {
@@ -419,10 +399,10 @@ function postUpdate(value) {
         }).then(raw => raw.json)
             .then(data => console.log(data))
     }, 500)
-        //Reloads the page so the update on the database will be seen on the artifacts main page
-        
-        isCreate = true
-        setTimeout(() => document.location.reload(), 1000)
+    //Reloads the page so the update on the database will be seen on the artifacts main page
+
+    isCreate = true
+    setTimeout(() => document.location.reload(), 1000)
 }
 
 function postCreate(value) {
