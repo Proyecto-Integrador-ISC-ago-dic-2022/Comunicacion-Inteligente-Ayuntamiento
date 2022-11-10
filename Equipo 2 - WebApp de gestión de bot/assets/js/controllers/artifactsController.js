@@ -262,26 +262,36 @@ function addPreguntasRespuestas(patrones, respuestas) {
 
 function getDadsId(id) {
     var lstDads = []
+    var db
+    conexion.query(`SELECT id, sucesor_de FROM interaccion`, (err, rows) => {
+        if (err) throw err
+        db = rows
+    })
+
     function findDad(dadId){
-        conexion.query(`SELECT sucesor_de FROM interaccion WHERE id= ${dadId}`, (err, row) => {
-            if (err) throw err
-            console.log('el papa es:')
+        console.log("------------" + dadId)
+        lstDads.push(dadId)
 
-            if(row[0]['sucesor_de'] != 0){
-                console.log(achhu)
-                dadId = row[0]['sucesor_de']
-                idIntPatrones.push(dadId)
+        console.log("123456789 " + db)
 
-            } else{
-                haveDad = false
-                
-            }
-        })
+        // if(db[0]['sucesor_de'] != 0){
+
+        //     var nextDadId = row[0]['sucesor_de']
+        //     findDad(nextDadId, lst)
+        // } else {
+        //     return lst
+        // }
+
     }
 
-    findDad(id)
+    setTimeout(() => {
 
-    return lstDads
+        return findDad(id)
+
+    }, 500)
+
+    
+ 
 
 
 }
@@ -294,7 +304,8 @@ exports.postData = async (req, res) => {
 
     if(data.hasOwnProperty("sucesor_de")){
 
-        idIntPatrones = getDadsId(data['sucesor_de'])
+        idIntPatrones = await getDadsId(data['sucesor_de'])
+        console.log("asdfasdfa" + idIntPatrones)
 
     }
 
