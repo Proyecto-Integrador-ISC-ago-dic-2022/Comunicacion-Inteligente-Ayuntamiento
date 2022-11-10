@@ -140,9 +140,7 @@
                                             <tbody class="table-body" id="tablaPat-body">
                                             </tbody>
                                         </table>
-                                        <button type="button" class="btn btn-primary" id="btnNewPat">Nuevo
-                                            campo</button>
-                                        <button type="button" class="btn btn-secondary" onclick="deleteRow()" id="btnDelPat">Eliminar
+                                        <button type="button" class="btn btn-warning" id="btnNewPat">Nuevo
                                             campo</button>
                                     </div>
                                     <div class="form-group">
@@ -157,9 +155,7 @@
                                             <tbody class="table-body" id="tablaRes-body">
                                             </tbody>
                                         </table>
-                                        <button type="button" class="btn btn-primary" id="btnNewRes">Nuevo
-                                            campo</button>
-                                        <button type="button" class="btn btn-secondary" onclick="deleteRow()" id="btnDelRes">Eliminar
+                                        <button type="button" class="btn btn-warning" id="btnNewRes">Nuevo
                                             campo</button>
                                     </div>
                                     <div class="form-group">
@@ -235,10 +231,10 @@
 
 
     btnPat.addEventListener('click', function(){
-        addRow('tablaPat', 'pregunta', 'pregunta')
+        addRow('tablaPat-body', 'pregunta', 'pregunta', '')
     })
     btnRes.addEventListener('click', function(){
-        addRow('tablaRes', 'respuestas', 'respuesta')
+        addRow('tablaRes-body', 'respuestas', 'respuesta','')
     })
     </script>
     <script>
