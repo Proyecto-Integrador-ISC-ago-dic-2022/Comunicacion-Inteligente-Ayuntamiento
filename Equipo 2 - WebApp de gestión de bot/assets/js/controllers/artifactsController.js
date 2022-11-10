@@ -227,9 +227,6 @@ exports.readOneData = async (req, res) => {
     var retJson = JSON.stringify(rets)
     res.send(retJson)
 
-
-
-
 }
 
 function addPreguntasRespuestas(patrones, respuestas) {
@@ -260,39 +257,31 @@ function addPreguntasRespuestas(patrones, respuestas) {
     }, 500)
 }
 
-function getDadsId(id) {
+function getDadsId(id, inDb) {
     var lstDads = []
-    var db
-    conexion.query(`SELECT id, sucesor_de FROM interaccion`, (err, rows) => {
-        if (err) throw err
-        db = rows
-    })
-
+    var db = inDb
+   
     function findDad(dadId){
-        console.log("------------" + dadId)
         lstDads.push(dadId)
+        var abuelo = 0
 
-        console.log("123456789 " + db)
 
-        // if(db[0]['sucesor_de'] != 0){
+        //buscar su papa
+        db.forEach(function (i) {
+            if(i['id'] == dadId){
+                abuelo = i['sucesor_de'] 
+            }
+        })
 
-        //     var nextDadId = row[0]['sucesor_de']
-        //     findDad(nextDadId, lst)
-        // } else {
-        //     return lst
-        // }
-
+        //si su papa tiene otro papa, recurrir, de lo contrario terminar
+        if(abuelo != 0){
+            findDad(abuelo)
+        }
     }
 
-    setTimeout(() => {
+    findDad(id)
 
-        return findDad(id)
-
-    }, 500)
-
-    
- 
-
+    return lstDads
 
 }
 
@@ -300,33 +289,45 @@ function getDadsId(id) {
 //Create
 exports.postData = async (req, res) => {
     var data = req.body
-    var idIntPatrones
 
-    if(data.hasOwnProperty("sucesor_de")){
 
-        idIntPatrones = await getDadsId(data['sucesor_de'])
-        console.log("asdfasdfa" + idIntPatrones)
 
-    }
 
-    //Obtenemos la lista de los patrones ya agregados
     var lstPatrones = []
-    conexion.query('SELECT patron FROM patron', (err, rows) => {
-        if (err) throw err
-        rows.forEach(function (row) {
-            lstPatrones.push(row["patron"])
 
+    if(data["sucesor_de"] != 0){
+        conexion.query(`SELECT id, sucesor_de FROM interaccion`, (err, rows) => {
+            if (err) throw err
+            var lstIdDads = getDadsId(data["sucesor_de"], rows)
+
+            var sql = "SELECT patron from patron WHERE id_interaccion=0 "
+
+            lstIdDads.forEach(function (i) {
+                let str = "OR id_interaccion=" + i + " "
+                sql+= str
+            })
+
+            conexion.query(sql, (err, rows) => {
+                if (err) throw err
+                rows.forEach(function (row) {
+                    lstPatrones.push(row['patron'])
+                })
+
+            })
+            
+            
         })
-    })
+    }
 
 
     //Permutaciones si tiene link o sucesor_de; los codigos son iguales solo cambia el insert, si se puede mejorar chido sino no
     //TODO: atrapar la excepcion si una etiqueta no es unica (evitar que el progreso del modal desaparezca si se puede); porque no lo hice con los patrones... no se pero ya lo hice joder
-    if (data.hasOwnProperty("link") && data.hasOwnProperty("sucesor_de")) {
+    if (data.hasOwnProperty("link")) {
         setTimeout(() => {
 
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
+                
                 if (lstPatrones.indexOf(patron) !== -1) isRepetido = true
             })
 
@@ -349,27 +350,12 @@ exports.postData = async (req, res) => {
 
         }, 500);
 
-    } else if (data.hasOwnProperty("link") && !data.hasOwnProperty("sucesor_de")) {
-        setTimeout(() => {
-        
-            conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria, link) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}', '${data['link']}' ); `, function (err, result) {
-                if (err) throw err;
-                console.log("Agregado con exito en interaccion");
-            });
-
-
-            setTimeout(() => {
-                addPreguntasRespuestas(data['patrones'], data['respuestas'])
-            }, 500)
-
-
-        }, 500);
-
-    } else if (!data.hasOwnProperty("link") && data.hasOwnProperty("sucesor_de")) {
+    } else {
         setTimeout(() => {
 
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
+                console.log(patron)
                 if (lstPatrones.indexOf(patron) !== -1) isRepetido = true
             })
 
@@ -387,24 +373,10 @@ exports.postData = async (req, res) => {
 
             } else {
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
-                //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
             }
 
         }, 500);
 
-    } else {
-        setTimeout(() => {
-
-            conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}' ); `, function (err, result) {
-                if (err) throw err;
-                console.log("Agregado con exito en interaccion");
-            });
-
-            setTimeout(() => {
-                addPreguntasRespuestas(data['patrones'], data['respuestas'])
-            }, 500)
-
-        }, 500);
     }
 
 
