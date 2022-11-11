@@ -118,6 +118,7 @@
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/updateAI.js"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -136,7 +137,7 @@
       for (i in value) {
         value[i] = true
       }
-      console.log(JSON.stringify(value))
+      //console.log(JSON.stringify(value))
 
       let url = 'http://127.0.0.1:8080/artefactos/changeCatStatus'
       setTimeout(() => {
@@ -148,10 +149,10 @@
           .then(data => console.log(data))
       }, 500)
 
-      
+      updateAI()
 
       //Reloads the page so the update on the database will be seen on the artifacts main page
-      setTimeout(() => document.location.reload(), 1000)
+      //setTimeout(() => document.location.reload(), 1000)
 
     }
     const form = document.querySelector('form');

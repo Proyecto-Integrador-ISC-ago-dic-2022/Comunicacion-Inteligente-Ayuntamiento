@@ -223,6 +223,7 @@
     <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script src="../assets/js/formSubmit.js"></script>
     <script src="../assets/js/artifactsFunctions.js"></script>
+    <script src="../assets/js/updateAI.js"></script>
     <!-- EVENT LISTENERS-->
     <script>
         var btnPat = document.getElementById('btnNewPat');
@@ -233,7 +234,7 @@
 
         btnNewInt.addEventListener('click', function () {
             var dropSucesores = document.getElementById('sucesor_de')
-            dropSucesores.innerHTML='<option value="0">Ninguno</option>'
+            dropSucesores.innerHTML = '<option value="0">Ninguno</option>'
             fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
                 return response.json();
             }).then(function (data) {

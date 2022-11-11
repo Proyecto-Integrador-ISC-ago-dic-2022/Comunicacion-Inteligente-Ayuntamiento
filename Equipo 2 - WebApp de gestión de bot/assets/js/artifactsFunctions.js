@@ -9,23 +9,6 @@ data.forEach(function (row) {
     option.appendChild(document.createTextNode(row));
     dropdown.appendChild(option);
 });
-/*
- var dropSucesores = document.getElementById('sucesor_de')
- fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
-     return response.json();
- }).then(function (data) {
-     data.forEach(function (rowData) {
-         var option = document.createElement('option')
-         option.value = rowData.id
-         option.appendChild(document.createTextNode(rowData.id + ' - ' + rowData.etiqueta))
-         dropSucesores.appendChild(option)
-     })
-
- }).catch(function (err) {
-     console.log(err);
- });
-*/
-
 
 //add more rows for each question and answer, won't let you go lower than 1 question and answer
 function addRow(tableId, inputName, inputPlaceholder, inputValue) {
