@@ -28,7 +28,20 @@ var conexion = mysql.createConnection({
 
 //QUE DIOS NOS AMPARE PORQUE NO REVISAMOS QUE SE CONECTE PORQUE ROMPE LA APP Y SI LO ACEMOS SE ROMPE ESTA MADRE
 
-//const lstCat = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
+//ESTE SE USA PARA AGREGAR LAS CATEGORIAS, SOLO DEBERIA UTILIZARSE UNA VEZ
+/*
+const lstCat = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
+
+exports.temAddCategories = async (req, res) => {
+    lstCat.forEach(function (cat) {
+        conexion.query(`INSERT INTO categoria (categoria) VALUES ('${cat}');`, function (err, result) {
+            if (err) throw err
+        })
+    })
+
+    res.status(201)
+}
+*/
 
 function recTree(array) {
     function getChildren(parents, db, lst) {
@@ -65,11 +78,12 @@ exports.readForAI = async (req, res) => {
 
     var allDB = []
 
+    const sql = 'SELECT * FROM interaccion WHERE categoria IN (SELECT categoria FROM categoria WHERE isOn = true)'
 
-    conexion.query('SELECT * from interaccion', (err, rows) => {
+    conexion.query(sql, (err, rows) => {
         if (err) throw err
 
-
+        console.log(rows)
 
         rows.forEach(function (row) {
 
@@ -127,6 +141,27 @@ exports.readForAI = async (req, res) => {
 }
 
 
+exports.readCatStatus = async (req, res) => {
+    conexion.query('SELECT categoria FROM interaccion GROUP BY categoria', (err, ints) => {
+        if (err) throw err
+        var diccs = {}
+        var sql = "SELECT categoria, isOn FROM categoria WHERE categoria = ''"
+        
+        ints.forEach(function (inte) {
+            sql += ` OR categoria= '${inte['categoria']}'`   
+        })
+        
+
+        conexion.query(sql, (err, cats) => {
+            if (err) throw err
+            cats.forEach(function (cat) {
+                diccs[cat['categoria']] = cat['isOn']
+            })
+            res.send(JSON.stringify(diccs))
+        })
+        
+    })
+}
 
 
 //Read
@@ -137,11 +172,10 @@ exports.readCount = async (req, res) => {
 
         rows.forEach(function (row) {
             diccs[row['categoria']] = row['total']
-
         })
+        
         res.send(JSON.stringify(diccs))
     })
-
 }
 
 exports.readTest = async (req, res) => {
@@ -160,7 +194,6 @@ exports.readData = async (req, res) => {
         if (err) throw err
         res.send(JSON.stringify(rows))
     })
-
 }
 
 

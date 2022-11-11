@@ -2,8 +2,13 @@ const router = require('express').Router();
 const controller = require('../controllers/artifactsController');
 
 
+//SE DEBERIA USAR SOLO UNA VEZ CUANDO SE CREA LA BASE DE DATOS
+//router.get('/addCategories', controller.temAddCategories)
+
 
 router.get('/readCat/:categ', controller.readData)
+
+router.get('/readCatStatus', controller.readCatStatus)
 
 router.get('/readCount', controller.readCount)
 
