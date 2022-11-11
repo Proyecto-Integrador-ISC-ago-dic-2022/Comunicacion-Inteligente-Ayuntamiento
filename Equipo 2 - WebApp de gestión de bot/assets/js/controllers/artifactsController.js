@@ -134,7 +134,9 @@ exports.readForAI = async (req, res) => {
         })
 
         setTimeout(() => {
-            var jsonRet = {"interaccion" : recTree(allDB)}
+            var jsonRet = {
+                "interaccion": recTree(allDB)
+            }
             res.send(JSON.stringify(jsonRet))
         }, 2500)
 
@@ -149,11 +151,11 @@ exports.readCatStatus = async (req, res) => {
         if (err) throw err
         var diccs = {}
         var sql = "SELECT categoria, isOn FROM categoria WHERE categoria = ''"
-        
+
         ints.forEach(function (inte) {
-            sql += ` OR categoria= '${inte['categoria']}'`   
+            sql += ` OR categoria= '${inte['categoria']}'`
         })
-        
+
 
         conexion.query(sql, (err, cats) => {
             if (err) throw err
@@ -162,7 +164,7 @@ exports.readCatStatus = async (req, res) => {
             })
             res.send(JSON.stringify(diccs))
         })
-        
+
     })
 }
 
@@ -178,7 +180,7 @@ exports.readCount = async (req, res) => {
         rows.forEach(function (row) {
             diccs[row['categoria']] = row['total']
         })
-        
+
         res.send(JSON.stringify(diccs))
     })
 }
@@ -202,11 +204,28 @@ exports.readData = async (req, res) => {
 }
 
 exports.changeCatStatus = async (req, res) => {
+    var data = req.body
     conexion.query('UPDATE categoria SET isOn=0', (err) => {
         if (err) throw err
     })
 
-    req.send('todo cool')
+    setTimeout(() => {
+        var sql = 'UPDATE categoria SET isOn=1 WHERE '
+        for (const [key] of Object.entries(data)) {
+            sql += `categoria= '${key}' OR `
+        }
+
+        const sqlRet = sql.slice(0, sql.length-4)
+
+        conexion.query(sqlRet, (err, rows) => {
+            if (err) throw err
+        })
+
+        setTimeout(() => {
+            res.send('todo cool')
+        }, 500);
+        
+    }, 500)
 
 }
 
@@ -307,21 +326,21 @@ function addPreguntasRespuestas(patrones, respuestas) {
 function getDadsId(id, inDb) {
     var lstDads = []
     var db = inDb
-   
-    function findDad(dadId){
+
+    function findDad(dadId) {
         lstDads.push(dadId)
         var abuelo = 0
 
 
         //buscar su papa
         db.forEach(function (i) {
-            if(i['id'] == dadId){
-                abuelo = i['sucesor_de'] 
+            if (i['id'] == dadId) {
+                abuelo = i['sucesor_de']
             }
         })
 
         //si su papa tiene otro papa, recurrir, de lo contrario terminar
-        if(abuelo != 0){
+        if (abuelo != 0) {
             findDad(abuelo)
         }
     }
@@ -336,13 +355,9 @@ function getDadsId(id, inDb) {
 //Create
 exports.postData = async (req, res) => {
     var data = req.body
-
-
-
-
     var lstPatrones = []
 
-    if(data["sucesor_de"] != 0){
+    if (data["sucesor_de"] != 0) {
         conexion.query(`SELECT id, sucesor_de FROM interaccion`, (err, rows) => {
             if (err) throw err
             var lstIdDads = getDadsId(data["sucesor_de"], rows)
@@ -351,7 +366,7 @@ exports.postData = async (req, res) => {
 
             lstIdDads.forEach(function (i) {
                 let str = "OR id_interaccion=" + i + " "
-                sql+= str
+                sql += str
             })
 
             conexion.query(sql, (err, rows) => {
@@ -361,8 +376,8 @@ exports.postData = async (req, res) => {
                 })
 
             })
-            
-            
+
+
         })
     }
 
@@ -374,7 +389,7 @@ exports.postData = async (req, res) => {
 
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
-                
+
                 if (lstPatrones.indexOf(patron) !== -1) isRepetido = true
             })
 
