@@ -85,9 +85,6 @@ exports.readForAI = async (req, res) => {
 
     conexion.query(sql, (err, rows) => {
         if (err) throw err
-
-        console.log(rows)
-
         rows.forEach(function (row) {
 
             var interaccion = new Object()
@@ -138,7 +135,7 @@ exports.readForAI = async (req, res) => {
                 "interaccion": recTree(allDB)
             }
             res.send(JSON.stringify(jsonRet))
-        }, 2500)
+        }, 500)
 
 
 
