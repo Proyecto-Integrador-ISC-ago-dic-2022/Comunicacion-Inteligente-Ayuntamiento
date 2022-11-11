@@ -10,6 +10,8 @@ router.get('/readCat/:categ', controller.readData)
 
 router.get('/readCatStatus', controller.readCatStatus)
 
+router.post('/changeCatStatus', controller.changeCatStatus)
+
 router.get('/readCount', controller.readCount)
 
 router.get('/read', controller.readTest)

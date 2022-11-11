@@ -21,10 +21,13 @@ var conexion = mysql.createConnection({
     user: 'root',
 });
 
-// conexion.connect(function(err) {
-//     if (err) throw err;
-//     console.log("Connected!");
-//   });
+//ESTA FUNCION SE USA PARA PROBAR LA CONEXION CON LA BASE DE DATOS
+/*
+conexion.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+  });
+*/
 
 //QUE DIOS NOS AMPARE PORQUE NO REVISAMOS QUE SE CONECTE PORQUE ROMPE LA APP Y SI LO ACEMOS SE ROMPE ESTA MADRE
 
@@ -164,6 +167,8 @@ exports.readCatStatus = async (req, res) => {
 }
 
 
+
+
 //Read
 exports.readCount = async (req, res) => {
     conexion.query('SELECT categoria, COUNT(id) AS total FROM interaccion GROUP BY categoria', (err, rows) => {
@@ -194,6 +199,15 @@ exports.readData = async (req, res) => {
         if (err) throw err
         res.send(JSON.stringify(rows))
     })
+}
+
+exports.changeCatStatus = async (req, res) => {
+    conexion.query('UPDATE categoria SET isOn=0', (err) => {
+        if (err) throw err
+    })
+
+    req.send('todo cool')
+
 }
 
 
