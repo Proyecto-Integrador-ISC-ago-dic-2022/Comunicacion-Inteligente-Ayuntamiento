@@ -87,27 +87,6 @@
             <div class="card-body px-0 pt-0 pb-2">
               <form>
               <div class="table-responsive p-0">
-
-                <table class="table align-items-center mb-0">
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h3 class="mb-0 text-sm">¿Desplegar en la página?</h3>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="form-check form-switch">
-                          <input class="form-check-input" role="switch" type="checkbox" name="encendido" checked>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
                 <table class="table align-items-center mb-0" id="table-areas">
                   <thead>
                     <tr>
@@ -154,8 +133,12 @@
       const data = new FormData(event.target);
       const value = Object.fromEntries(data.entries())
 
+      for(i in value){
+        value[i] = true
+      } 
+
       console.log(JSON.stringify(value))
-      //console.log(value)
+      console.log(value)
     }
     const form = document.querySelector('form');
     form.addEventListener('submit', handleSubmit)

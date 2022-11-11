@@ -76,7 +76,7 @@
                         <div class="card-header pb-0 pt-3 bg-transparent">
                             <h6 class="text-capitalize">Interacciones</h6>
                             <button type="button" class="btn btn-success" id="btnNewInt" data-bs-toggle="modal"
-                                data-bs-target="#modalInteraccion" onclick="hideAside()">
+                                data-bs-target="#modalInteraccion">
                                 Nueva interacción
                             </button>
                         </div>
@@ -223,19 +223,39 @@
     <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script src="../assets/js/formSubmit.js"></script>
     <script src="../assets/js/artifactsFunctions.js"></script>
+    <!-- EVENT LISTENERS-->
     <script>
-    var btnPat = document.getElementById('btnNewPat');
-    var btnRes = document.getElementById('btnNewRes');
-    var btnDeletePat = document.getElementById('btnDelPat');
-    var btnDeleteRes = document.getElementById('btnDelRes');
+        var btnPat = document.getElementById('btnNewPat');
+        var btnRes = document.getElementById('btnNewRes');
+        var btnDeletePat = document.getElementById('btnDelPat');
+        var btnDeleteRes = document.getElementById('btnDelRes');
+        var btnNewInt = document.getElementById('btnNewInt');
+
+        btnNewInt.addEventListener('click', function () {
+            var dropSucesores = document.getElementById('sucesor_de')
+            dropSucesores.innerHTML='<option value="0">Ninguno</option>'
+            fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                data.forEach(function (rowData) {
+                    var option = document.createElement('option')
+                    option.value = rowData.id
+                    option.appendChild(document.createTextNode(rowData.id + ' - ' + rowData.etiqueta))
+                    dropSucesores.appendChild(option)
+                })
+
+            }).catch(function (err) {
+                console.log(err);
+            });
+        })
 
 
-    btnPat.addEventListener('click', function(){
-        addRow('tablaPat-body', 'pregunta', 'pregunta', '')
-    })
-    btnRes.addEventListener('click', function(){
-        addRow('tablaRes-body', 'respuestas', 'respuesta','')
-    })
+        btnPat.addEventListener('click', function () {
+            addRow('tablaPat-body', 'pregunta', 'pregunta', '')
+        })
+        btnRes.addEventListener('click', function () {
+            addRow('tablaRes-body', 'respuestas', 'respuesta', '')
+        })
     </script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;

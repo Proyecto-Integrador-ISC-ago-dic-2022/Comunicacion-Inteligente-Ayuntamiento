@@ -10,20 +10,20 @@ data.forEach(function (row) {
     dropdown.appendChild(option);
 });
 
-var dropSucesores = document.getElementById('sucesor_de')
-fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
-    return response.json();
-}).then(function (data) {
-    data.forEach(function (rowData) {
-        var option = document.createElement('option')
-        option.value = rowData.id
-        option.appendChild(document.createTextNode(rowData.id + ' - ' + rowData.etiqueta))
-        dropSucesores.appendChild(option)
-    })
+// var dropSucesores = document.getElementById('sucesor_de')
+// fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
+//     return response.json();
+// }).then(function (data) {
+//     data.forEach(function (rowData) {
+//         var option = document.createElement('option')
+//         option.value = rowData.id
+//         option.appendChild(document.createTextNode(rowData.id + ' - ' + rowData.etiqueta))
+//         dropSucesores.appendChild(option)
+//     })
 
-}).catch(function (err) {
-    console.log(err);
-});
+// }).catch(function (err) {
+//     console.log(err);
+// });
 
 
 //add more rows for each question and answer, won't let you go lower than 1 question and answer
@@ -36,7 +36,7 @@ function addRow(tableId, inputName, inputPlaceholder, inputValue) {
     // Elemento generado
     // HTML: <input class="form-control" type="text" placeholder="pregunta" name="pregunta">
     var entrada = document.createElement('input');
-    if(inputValue != ''){
+    if (inputValue != '') {
         entrada.value = inputValue
     }
     entrada.type = 'text';
@@ -52,7 +52,7 @@ function addRow(tableId, inputName, inputPlaceholder, inputValue) {
         console.log(tableId)
         var rowCount = table.rows.length;
         console.log(rowCount)
-        if(rowCount == '0'){
+        if (rowCount == '0') {
             console.log('genera un dato')
         }
         if (rowCount > '1') {
@@ -167,8 +167,6 @@ function genrateTreeTable(id) {
         data.forEach(function (tableRow) {
             var row = document.createElement('tr')
             tableRow.forEach(function (cellData, index, array) {
-                //if(cellData == null){cellData = ' '}
-                console.log(array[0])
                 if (index === 1) {
                     if (cellData == 1) {
                         cellData = 'Menu'
@@ -177,7 +175,6 @@ function genrateTreeTable(id) {
                     } else if (cellData == 3) {
                         cellData = 'Respuesta'
                     }
-                    console.log(cellData)
                 }
                 if (index === array.length - 1) {
                     var cell = document.createElement('td');
@@ -194,10 +191,30 @@ function genrateTreeTable(id) {
                     button.setAttribute('data-bs-target', '#modalInteraccion')
                     button.appendChild(document.createTextNode('Editar Rama'))
                     button.addEventListener('click', function () {
+                        console.log(button.id)
+                        var dropSucesores = document.getElementById('sucesor_de')
+                        dropSucesores.innerHTML = '<option value="0">Ninguno</option>'
+                        fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
+                            return response.json();
+                        }).then(function (data) {
+                            data.forEach(function (rowData) {
+                                if (button.id == rowData.etiqueta) {
+
+                                } else {
+                                    var option = document.createElement('option')
+                                    option.value = rowData.id
+                                    option.appendChild(document.createTextNode(rowData.id + ' - ' + rowData.etiqueta))
+                                    dropSucesores.appendChild(option)
+                                }
+
+                            })
+
+                        }).catch(function (err) {
+                            console.log(err);
+                        });
                         editArtifact(button.id)
                         hideAside()
                         isCreate = false
-                        console.log(isCreate)
                     })
                     buttonCell.appendChild(button);
 
@@ -296,8 +313,8 @@ function editArtifact(etiqueta) {
             for (var j = 0; j < data.patrones.length; j++) {
                 addRow('tablaPat-body', 'pregunta', 'pregunta', data.patrones[j])
             }
-            for(var k = 0; k < data.respuestas.length; k++){
-                addRow('tablaRes-body', 'respuestas', 'respuesta',data.respuestas[k])
+            for (var k = 0; k < data.respuestas.length; k++) {
+                addRow('tablaRes-body', 'respuestas', 'respuesta', data.respuestas[k])
             }
 
 
