@@ -86,25 +86,25 @@
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <form>
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0" id="table-areas">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7">Categoría</th>
-                      <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">Mantenimiento
-                        / Activo</th>
-                    </tr>
-                  </thead>
-                  <tbody id="table-areas-body">
-                  </tbody>
-                </table>
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">
-                    Guardar
-                  </button>
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center mb-0" id="table-areas">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7">Categoría</th>
+                        <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">Mantenimiento
+                          / Activo</th>
+                      </tr>
+                    </thead>
+                    <tbody id="table-areas-body">
+                    </tbody>
+                  </table>
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">
+                      Guardar
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </form> 
+              </form>
             </div>
           </div>
         </div>
@@ -133,12 +133,26 @@
       const data = new FormData(event.target);
       const value = Object.fromEntries(data.entries())
 
-      for(i in value){
+      for (i in value) {
         value[i] = true
-      } 
-
+      }
       console.log(JSON.stringify(value))
-      console.log(value)
+
+      let url = 'http://127.0.0.1:8080/artefactos/changeCatStatus'
+      setTimeout(() => {
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(value)
+        }).then(raw => raw.json)
+          .then(data => console.log(data))
+      }, 500)
+
+      
+
+      //Reloads the page so the update on the database will be seen on the artifacts main page
+      setTimeout(() => document.location.reload(), 1000)
+
     }
     const form = document.querySelector('form');
     form.addEventListener('submit', handleSubmit)
@@ -148,44 +162,50 @@
 
     function createTable(array) {
       catArray = []
-      fetch('http://127.0.0.1:8080/artefactos/readCount').then((result)=> result.json()).then(function(data){
-        for(i in data){
-          catArray.push(i)
+      fetch('http://127.0.0.1:8080/artefactos/readCatStatus').then((result) => result.json()).then(function (data) {
+        for (i in data) {
+          if (data[i] == 0) {
+            catArray.push([i, false])
+          } else {
+            catArray.push([i, true])
+          }
+
         }
+        console.log(data)
         var table = document.getElementById('table-areas');
-      var tableBody = document.getElementById('table-areas-body');
-      catArray.forEach(function (rowData) {
-        var div = document.createElement('div');
-        div.className = 'd-flex flex-column justify-content-center'
-        var row = document.createElement('tr');
-        var cell = document.createElement('td');
-        cell.className = 'px-5'
-        cell.appendChild(document.createTextNode(rowData));
-        row.appendChild(cell)
-        var toggleDiv = document.createElement('div');
-        toggleDiv.className = 'form-check form-switch mx-7'
-        var toggleCell = document.createElement('td');
-        var toggle = document.createElement("input");
-        toggle.className = "form-check-input";
-        toggle.type = "checkbox";
-        toggle.id = rowData
-        toggle.name = rowData
-        toggle.checked = true;
-        toggleDiv.appendChild(toggleCell);
-        toggleCell.appendChild(toggle);
-        row.appendChild(toggleDiv);
-        /*rowData.forEach(function (cellData) {
+        var tableBody = document.getElementById('table-areas-body');
+        catArray.forEach(function (rowData) {
+          var div = document.createElement('div');
+          div.className = 'd-flex flex-column justify-content-center'
+          var row = document.createElement('tr');
           var cell = document.createElement('td');
-          cell.appendChild(document.createTextNode(cellData));
-          row.appendChild(cell);
-          
-        });*/
-        tableBody.appendChild(row);
-      });
-      table.appendChild(tableBody);
+          cell.className = 'px-5'
+          cell.appendChild(document.createTextNode(rowData[0]));
+          row.appendChild(cell)
+          var toggleDiv = document.createElement('div');
+          toggleDiv.className = 'form-check form-switch mx-7'
+          var toggleCell = document.createElement('td');
+          var toggle = document.createElement("input");
+          toggle.className = "form-check-input";
+          toggle.type = "checkbox";
+          toggle.id = rowData[0]
+          toggle.name = rowData[0]
+          toggle.checked = rowData[1];
+          toggleDiv.appendChild(toggleCell);
+          toggleCell.appendChild(toggle);
+          row.appendChild(toggleDiv);
+          /*rowData.forEach(function (cellData) {
+            var cell = document.createElement('td');
+            cell.appendChild(document.createTextNode(cellData));
+            row.appendChild(cell);
+            
+          });*/
+          tableBody.appendChild(row);
+        });
+        table.appendChild(tableBody);
       })
 
-      
+
     }
     createTable()
   </script>
