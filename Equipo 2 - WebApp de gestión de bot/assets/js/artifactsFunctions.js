@@ -9,21 +9,22 @@ data.forEach(function (row) {
     option.appendChild(document.createTextNode(row));
     dropdown.appendChild(option);
 });
+/*
+ var dropSucesores = document.getElementById('sucesor_de')
+ fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
+     return response.json();
+ }).then(function (data) {
+     data.forEach(function (rowData) {
+         var option = document.createElement('option')
+         option.value = rowData.id
+         option.appendChild(document.createTextNode(rowData.id + ' - ' + rowData.etiqueta))
+         dropSucesores.appendChild(option)
+     })
 
-// var dropSucesores = document.getElementById('sucesor_de')
-// fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
-//     return response.json();
-// }).then(function (data) {
-//     data.forEach(function (rowData) {
-//         var option = document.createElement('option')
-//         option.value = rowData.id
-//         option.appendChild(document.createTextNode(rowData.id + ' - ' + rowData.etiqueta))
-//         dropSucesores.appendChild(option)
-//     })
-
-// }).catch(function (err) {
-//     console.log(err);
-// });
+ }).catch(function (err) {
+     console.log(err);
+ });
+*/
 
 
 //add more rows for each question and answer, won't let you go lower than 1 question and answer
@@ -112,9 +113,9 @@ function createTable() {
                     button.setAttribute('data-bs-toggle', 'modal')
                     button.setAttribute('data-bs-target', '#modalRamas')
                     button.appendChild(document.createTextNode('Ver Ramas'))
-                    //Implements the functions that the button will do after clicked,
-                    // in this case, this will hide the aside bar to show all the interactions
-                    // on a modal which will retrieve from a query it's required data
+//Implements the functions that the button will do after clicked,
+// in this case, this will hide the aside bar to show all the interactions
+// on a modal which will retrieve from a query it's required data
                     button.addEventListener('click', function () {
                         console.log(button.id)
                         genrateTreeTable(button.id)
