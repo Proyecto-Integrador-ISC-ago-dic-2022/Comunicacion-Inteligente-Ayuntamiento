@@ -1,1 +1,183 @@
-{"interacciones": [{"id": 1, "etiqueta": "Saludo", "tipo": 1, "categoria": "Lenguaje", "patron": ["Buenas", "Hola", "Que tal"], "respuesta": ["Hola, en que te puedo ayudar?"], "sucesor_de": null, "link": null, "nivel": 0, "children": []}, {"id": 2, "etiqueta": "Directorio", "tipo": 2, "categoria": "Informacion", "patron": ["Contactos", "Directorio"], "respuesta": ["Ponemos a tu alcance la siguiente informaci\u00f3n: \\n1. Regidores\\n2. Directores\\n\\n\u00bfQu\u00e9 deseas consultar?"], "sucesor_de": null, "link": null, "nivel": 0, "children": [{"id": 3, "etiqueta": "Regidores", "tipo": 3, "categoria": "link Informacion", "patron": ["Regidores", "Regidores"], "respuesta": ["Aqui esta tu link"], "sucesor_de": 2, "link": "https://atizapan.gob.mx/regidores/", "nivel": 1, "children": []}, {"id": 4, "etiqueta": "Directores", "tipo": 3, "categoria": "link Informacion", "patron": ["Directores", "Directores"], "respuesta": ["link a continuacion", "link", "Enlace"], "sucesor_de": 2, "link": "https://atizapan.gob.mx/directores/", "nivel": 1, "children": []}]}, {"id": 5, "etiqueta": "Transparencia", "tipo": 2, "categoria": "Informacion", "patron": ["Transparencia"], "respuesta": ["Ponemos a tu alcance la siguiente informaci\u00f3n: \\n\\n1. Avisos de privacidad\\n2. Registro de denuncias\\n3. IPOMEX\\n\\n\u00bfQu\u00e9 deseas consultar?"], "sucesor_de": null, "link": null, "nivel": 0, "children": [{"id": 6, "etiqueta": "Avisos de Privacidad", "tipo": 2, "categoria": "Menu Informacion", "patron": ["Avisos de Privacidad", "Aviso"], "respuesta": ["Ponemos a tu alcance la siguiente informaci\u00f3n: \\n\\n1. Avisos de privacidad de tesoreria\\n2. Avisos de privacidad de sipinna\\n3. Avisos de privacidad de servicios publicos\\n\\n\u00bfQu\u00e9 deseas consultar?"], "sucesor_de": 5, "link": null, "nivel": 1, "children": [{"id": 7, "etiqueta": "Avisos de Privacidad de Tesoreria", "tipo": 3, "categoria": "link Informacion", "patron": ["Avisos de Privacidad de Tesoreria", "Avisos de Privacidad de Tesoreria"], "respuesta": ["Toma tu link"], "sucesor_de": 6, "link": "https://atizapan.gob.mx/avisos-de-privacidad/#1659027685883-8add730e-ac92", "nivel": 2, "children": []}, {"id": 8, "etiqueta": "Avisos de Privacidad de Sipinna", "tipo": 3, "categoria": "link Informacion", "patron": ["Avisos de Privacidad de Sipinna", "Avisos de Privacidad de Sipinna"], "respuesta": ["El siguiente enlace te puede ayudar"], "sucesor_de": 6, "link": "https://atizapan.gob.mx/avisos-de-privacidad/#1659027896817-abdce76c-ba4d", "nivel": 2, "children": []}, {"id": 9, "etiqueta": "Avisos de Privacidad de Servicios Publicos", "tipo": 3, "categoria": "link Informacion", "patron": ["Avisos de Privacidad de Servicios Publicos", "Avisos de Privacidad de Servicios Publicos"], "respuesta": ["link"], "sucesor_de": 6, "link": "https://atizapan.gob.mx/avisos-de-privacidad/#1659028215096-93cbfa02-50e4", "nivel": 2, "children": []}]}, {"id": 10, "etiqueta": "Registro de denuncias", "tipo": 3, "categoria": "link externo", "patron": ["Registro de denuncias"], "respuesta": ["link a continuacion"], "sucesor_de": 5, "link": "https://www.transparenciaestadodemexico.org.mx/denciu/denuncia/insert.page", "nivel": 1, "children": []}, {"id": 11, "etiqueta": "IPOMEX", "tipo": 3, "categoria": "link externo", "patron": ["IPOMEX"], "respuesta": ["Enlace"], "sucesor_de": 5, "link": "https://www.ipomex.org.mx/ipo3/lgt/indice/atizapandezaragoza.web?token=03AIIukzhq2gtycwSGN0DbuXv82WYqRc1RT5nnWJoLha0zuCFUEJKyD0YFjku2pkz9lTQ0uZXR27oHSeftrcKH5HmzR_E1R9adijzVMJkdzJuQWHizKBMb182_5undr8Rf4Af2_Vuky8BObct2VazeZ9qClcADWx2z-aMt2UC7849z4LX_MTdnSOghHA0uKIhXiJS7hFvAe1GSIwESjKAMdCtCxk39EfAyVc7tkFnltZi3kGJpxdMn3TnHVMFuvaHbFA_iV97W1O0se1SNx993Azx6BS_xivrSXGscb5UxoBarkpcud1A9LQgJ0kmoXJmDUaQ0z3-GXoPPFTDC206zsKh8_sTWCprycXDy6HAMidTJB85MxaqpfHCQY8-s10Bk8eVC1ZngWQep1Q-Dgq6LzIynmrRknT6GqW9zWDYFkMBivH1IuuyHZwdPd3rZZKUuIISRCpcOhMoCYwePkgJS8IjM_3R_up7kvizC-JVjTCdzIu7IuoXWa03RqFgouqOLWnwIPaYLa1iUH7Hr5hvkMOAHrg2x9heDp9Duvjq2uX1AmF9QylT3zB-LEi9BRJLuJUp327pErkNu", "nivel": 1, "children": []}]}]}
+{
+    "interacciones": [
+        {
+            "id": 1,
+            "etiqueta": "Saludos",
+            "tipo": 1,
+            "categoria": "SAPASA",
+            "link": null,
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [],
+            "patrones": [
+                "Hola",
+                "Que tal",
+                "Buenas",
+                "Que tal?",
+                "Hols",
+                "Ola",
+                "Buenos dias",
+                "Buen dia",
+                "Buenas tardes",
+                "Buena tarde",
+                "Buenas noches",
+                "Buena noche"
+            ],
+            "respuestas": [
+                "¡Hola!",
+                "¿Qué tal?",
+                "¿En qué te puedo ayudar?",
+                "¿Cómo estás?",
+                "¿Cómo puedo apoyarte?",
+                "¿Qué necesitas encontrar?"
+            ]
+        },
+        {
+            "id": 2,
+            "etiqueta": "Directorio",
+            "tipo": 2,
+            "categoria": "SAPASA",
+            "link": null,
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [],
+            "patrones": ["Directorio"],
+            "respuestas": [
+                "Ponemos a tu alcance la siguiente información sobre directorios:\n\n- Regidores\n\n- Directores\n\n\nSelecciona alguna opción:"
+            ]
+        },
+        {
+            "id": 3,
+            "etiqueta": "Transparencia",
+            "tipo": 2,
+            "categoria": "SAPASA",
+            "link": null,
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [],
+            "patrones": ["Regidores"],
+            "respuestas": [
+                "Ponemos a tu alcance la siguiente información sobre transparencia:\n\n- Avisos de privacidad\n\n- SAIMEX\n\n- Registro de unidades económicas\n\n- SARCOEM\n\n- Programa anual de evaluación\n\n- Cuenta pública\n\n- INFOEM\n\n- Bando 2022\n\n- Actas y gacetas\n\n- CONAC\n\n- IPOMEX\n\n- Manual al sistema IPOMEX\n\n\nSelecciona alguna opción:"
+            ]
+        },
+        {
+            "id": 4,
+            "etiqueta": "Avisos de Privacidad",
+            "tipo": 2,
+            "categoria": "SAPASA",
+            "link": null,
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [],
+            "patrones": ["Directores"],
+            "respuestas": [
+                "Ponemos a tu alcance los siguientes avisos de privacidad:\n\n- Avisos de privacidad de tesorería\n\n- Avisos de privacidad de Sipinna\n\n- Avisos de privacidad de servicios públicos\n\n- Avisos de privacidad de seguridad pública\n\n- Avisos de privacidad de secretaría del ayuntamiento\n\n- Avisos de privacidad de oficina de presidencia\n\n- Avisos de privacidad de obras públicas\n\n- Avisos de privacidad de instituto de la mujer\n\n- Avisos de privacidad de mejora regulatoria\n\n- Avisos de privacidad de juventud\n\n- Avisos de privacidad de jurídico y consultivo\n\n- Avisos de privacidad de innovación y comunicación\n\n- Avisos de privacidad de educación\n\n- Avisos de privacidad de desarrollo económico\n\n- Avisos de privacidad de desarrollo social\n\n- Avisos de privacidad de derechos humanos\n\n- Avisos de privacidad de protección civil, bomberos y medio ambiente\n\n- Avisos de privacidad ordenamiento territorial y desarrollo urbano\n\n- Avisos de privacidad sindicatura\n\n\nSelecciona alguna opción:"
+            ]
+        },
+        {
+            "id": 5,
+            "etiqueta": "Mejora Regulatoria",
+            "tipo": 2,
+            "categoria": "SAPASA",
+            "link": null,
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [],
+            "patrones": ["Transparencia"],
+            "respuestas": [
+                "Ponemos a tu alcance la siguiente información sobre mejora regulatoria:\n\n- Catalogo municipal de regulaciones\n\n- Catalogo municipal de trámites y servicios\n\n- Registro Municipal de Inspectores, Visitadores y Verificadores\n\n- Agenda Regulatoria\n\n- Protesta Ciudadana\n\n- Agenda Regulatoria del primer periodo 2022\n\n- Lineamientos de operación para el uso y disfrute de los módulos PREP\n\n- Reglamento Municipal de Dictamenes de Giro de Atizapan de Zaragoza\n\n- Segundo reporte trimestral avance del programa anual\n\n- Programa anual municipal de mejora regulatoria 2022\n\n- Acta de instalación municipal de mejora regulatoria\n\n- Actas de integración de los comites internos\n\n- Acta de la primera sesión extraordinaria de la comisión municipal de mejora regulatoria 2022\n\n- Acta segunda sesión extraordinaria de la comision municipal de mejora regulatoria\n\n- Primer reporte trimestral de avance del programa anual\n\n- Segundo reporte trimestral de avance del programa anual\n\n- Formatos 2RTAPA\n\n\nSelecciona alguna opción:"
+            ]
+        },
+        {
+            "id": 6,
+            "etiqueta": "Servicios en Linea",
+            "tipo": 2,
+            "categoria": "SAPASA",
+            "link": null,
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [],
+            "patrones": [
+                "Avisos de privacidad",
+                "Aviso de privacidad",
+                "Avisos de privacidad",
+                "Avisos",
+                "Aviso",
+                "Privacidad"
+            ],
+            "respuestas": [
+                "Ponemos a tu alcance una lista de los servicios en línea que ofrecemos:\n\n- CAE\n\n- Tesorería digital\n\n- Atizapan te escucha\n\n- Cita Constancias de Identidad y Constancias de Vecindad\n\n\nSelecciona alguna opción:"
+            ]
+        },
+        {
+            "id": 7,
+            "etiqueta": "Regidores",
+            "tipo": 3,
+            "categoria": "SAPASA",
+            "link": "https://atizapan.gob.mx/regidores/",
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [],
+            "patrones": ["SAIMEX"],
+            "respuestas": [
+                "Ponemos a tu alcance la siguiente información:\n\n- Licitaciónes y Convocatorias\n\n- Desarrollo Urbano\n\n- EDICTO\n\n- SAREN\n- Medio Ambiente\n\n- Proceso competitivo crédito corto plazo\n\n\nSelecciona alguna opción:"
+            ]
+        },
+        {
+            "id": 8,
+            "etiqueta": "Directores",
+            "tipo": 3,
+            "categoria": "SAPASA",
+            "link": "https://atizapan.gob.mx/directores/",
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [],
+            "patrones": [
+                "Registro de unidades economicas",
+                "Registro",
+                "Unidades economicas"
+            ],
+            "respuestas": ["El siguiente enlace te puede ser de utilidad"]
+        },
+        {
+            "id": 9,
+            "etiqueta": "Saimex",
+            "tipo": 3,
+            "categoria": "SAPASA",
+            "link": "https://saimex.org.mx/saimex/ciudadano/login.page",
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [],
+            "patrones": ["SARCOEM"],
+            "respuestas": ["El siguiente enlace te puede ser de utilidad"]
+        },
+        {
+            "id": 10,
+            "etiqueta": "Registro de unidades economicas",
+            "tipo": 3,
+            "categoria": "SAPASA",
+            "link": "https://atizapan.gob.mx/wp-content/uploads/2021/03/Unidades-economicas-septiembre-actual-30-03-2-pdf",
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [],
+            "patrones": [
+                "Programa anual de evaluacion",
+                "Programa anual",
+                "Evaluacion"
+            ],
+            "respuestas": ["El siguiente enlace te puede ser de utilidad"]
+        },
+        {
+            "id": 11,
+            "etiqueta": "Sarcoem",
+            "tipo": 3,
+            "categoria": "SAPASA",
+            "link": "https://www.sarcoem.org.mx/sarcoem/ciudadano/login.page",
+            "sucesor_de": 0,
+            "nivel": 0,
+            "children": [],
+            "patrones": ["Cuenta publica", "Cuenta"],
+            "respuestas": ["El siguiente enlace te puede ser de utilidad"]
+        }
+    ]
+}

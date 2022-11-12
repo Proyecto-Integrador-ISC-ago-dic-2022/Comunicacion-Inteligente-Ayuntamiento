@@ -18,7 +18,7 @@ def recursiveTrain(intents, tags, all_words, xy):
         tag = intent['etiqueta']
         # add to tag list
         tags.append(tag)
-        for pattern in intent['patron']:
+        for pattern in intent['patrones']:
             # tokenize each word in the sentence
             if intent['sucesor_de'] is None:
                 w = tokenize(pattern)

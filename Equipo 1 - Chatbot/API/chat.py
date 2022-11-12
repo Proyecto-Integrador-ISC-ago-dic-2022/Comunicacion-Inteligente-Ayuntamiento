@@ -43,12 +43,12 @@ def get_response(msg, old_children):
         if prob_child.item() > 0.75:
             for old_child in old_children:
                 if tag_child == old_child["etiqueta"]:
-                    return (random.choice(old_child['respuesta']),  old_child['link'], old_child['tipo'], old_child['children'])
+                    return (random.choice(old_child['respuestas']),  old_child['link'], old_child['tipo'], old_child['children'])
 
     if prob.item() > 0.75:
         for intent in intents['interacciones']:
             if tag == intent["etiqueta"]:
-                return (random.choice(intent['respuesta']),  intent['link'], intent['tipo'], intent['children'])
+                return (random.choice(intent['respuestas']),  intent['link'], intent['tipo'], intent['children'])
     
     return (random.choice([
         "Lo siento. No te entendí.",
