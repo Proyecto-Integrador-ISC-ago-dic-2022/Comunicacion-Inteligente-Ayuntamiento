@@ -67,6 +67,9 @@
                 </li>
             </ul>
         </div>
+        <div class="sidenav-footer align-items-center">
+            <button type="button" class="btn btn-warning" id="btnUpdate">Actualizar bot</button>
+          </div>
     </aside>
     <main class="main-content position-relative border-radius-lg ">
         <div class="container-fluid p-3">
@@ -129,7 +132,6 @@
                                         <select class="form-select" id="categoria" name="categoria"></select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="interaccion">Preguntas y respuestas</label>
                                         <h6>Preguntas y respuestas</h6>
                                         <table class="table table-striped-rows" id="tablaPat">
                                             <thead>
@@ -159,7 +161,7 @@
                                             campo</button>
                                     </div>
                                     <div class="form-group">
-                                        <label for="sucesor_de">Sucesor</label>
+                                        <label for="sucesor_de">Antecesor</label>
                                         <select class="form-select" id="sucesor_de" name="sucesor_de">
                                             <option value="0">Ninguno</option>
                                         </select>
@@ -224,6 +226,7 @@
     <script src="../assets/js/formSubmit.js"></script>
     <script src="../assets/js/artifactsFunctions.js"></script>
     <script src="../assets/js/updateAI.js"></script>
+    
     <!-- EVENT LISTENERS-->
     <script>
         var btnPat = document.getElementById('btnNewPat');
@@ -231,6 +234,7 @@
         var btnDeletePat = document.getElementById('btnDelPat');
         var btnDeleteRes = document.getElementById('btnDelRes');
         var btnNewInt = document.getElementById('btnNewInt');
+        var btnUpdate = document.getElementById('btnUpdate');
 
         btnNewInt.addEventListener('click', function () {
             var dropSucesores = document.getElementById('sucesor_de')
@@ -256,6 +260,9 @@
         })
         btnRes.addEventListener('click', function () {
             addRow('tablaRes-body', 'respuestas', 'respuesta', '')
+        })
+        btnUpdate.addEventListener('click', function(){
+            alert('this should update the AI.')
         })
     </script>
     <script>
