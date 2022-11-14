@@ -17,7 +17,8 @@ def predict():
         text = request.get_json().get("message")
         old_children = request.get_json().get("old_children")
         response, link, type, children = get_response(text, old_children)
-        message = {"answer": response, "link": link, "type": type, "children": children}
+        message = {"answer": response.replace("\n", "<br>"), "link": link, "type": type, "children": children}
+        print(response)
         return jsonify(message)
     except Exception as e:
         print("Se a producido el siguiente error: ", e)
@@ -50,7 +51,7 @@ def update():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, use_reloader=False)
+    app.run(debug=True)
 
 # Para producción
 """ if __name__ == "__main__":
