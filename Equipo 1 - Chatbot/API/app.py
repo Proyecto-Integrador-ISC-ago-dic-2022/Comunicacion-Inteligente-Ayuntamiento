@@ -10,8 +10,6 @@ import json
 app = Flask(__name__)
 CORS(app)
 
-fuera_de_servicio = False
-
 
 @app.post("/predict")
 def predict():
@@ -42,10 +40,7 @@ def update():
                 with open('interacciones.json', 'r') as f:
                     intents = json.load(f)
                 train(intents)
-                #Bajar bandera de fuera de servicio
-                fuera_de_servicio = False
                 #Avisar que el modelo fue entrenado exitosamente
-                print("Status fuera de servicio: ", fuera_de_servicio)
                 return Response("El modelo se ha entrenado",status=200)
             else:
                 #Avisar que la estructura no es la adecuada
@@ -55,4 +50,11 @@ def update():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
+
+# Para producción
+""" if __name__ == "__main__":
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=8080) 
+    https://stackoverflow.com/questions/51025893/flask-at-first-run-do-not-use-the-development-server-in-a-production-environmen
+    """

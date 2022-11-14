@@ -9,9 +9,6 @@ from torch.utils.data import Dataset, DataLoader
 from nltk_utils import bag_of_words, tokenize, stem
 from model import NeuralNet
 
-with open('interacciones.json', 'r') as f:
-    intents = json.load(f)
-
 def recursiveTrain(intents, tags, all_words, xy):
     try:
         # loop through each sentence in our intents patterns
@@ -146,5 +143,3 @@ def train(intents):
         print(f'Entrenamiento completado. archivo guardado en: {FILE}')
     except Exception as e:
         print("Se a producido el siguiente error: ", e)
-
-train(intents)
