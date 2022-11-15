@@ -59,7 +59,8 @@
       </ul>
     </div>
     <div class="sidenav-footer">
-      <button type="button" class="btn btn-warning mx-6" id="btnUpdate" style="position:absolute; bottom: 5%;">Actualizar bot</button>
+      <button type="button" class="btn btn-warning mx-6" id="btnUpdate"
+        style="position:absolute; bottom: 5%;" data-bs-toggle="modal" data-bs-target="#modalUpdate">Actualizar bot</button>
     </div>
   </aside>
   <main class="main-content position-relative border-radius-lg ">
@@ -106,6 +107,22 @@
 
     </div>
     </div>
+    <!--Modal Actualizando-->
+    <div class="modal fade" id="modalUpdate" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+      <div class="modal-dialog">
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6>Actualizando...</h6>
+          </div>
+          <div class="modal-body">
+              <p>Actualizando bot. Favor de Esperar</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--MODAL END-->
+
   </main>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
@@ -113,13 +130,17 @@
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../assets/js/updateAI.js"></script>
-  
+
   <!--EVENT LISTENERS-->
   <script>
     var btnUpdate = document.getElementById('btnUpdate');
-    btnUpdate.addEventListener('click', function(){
-            alert('this should update the AI.')
-        })
+    btnUpdate.addEventListener('click', function () {
+      //alert('se esta actualizando el bot, espera un momento por favor.')
+      updateAI()
+      // setTimeout(() => {
+      //   document.location.reload()
+      // }, 20000)
+    })
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
@@ -141,15 +162,15 @@
       }
 
       let url = 'http://127.0.0.1:8080/artefactos/changeCatStatus'
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(value)
+      }).then(raw => raw.json)
+        .then(data => console.log(data));
       setTimeout(() => {
-        fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(value)
-        }).then(raw => raw.json)
-          .then(data => console.log(data))
-      }, 500)
-      document.location.reload()
+        document.location.reload()
+      }, 1000)
 
     }
     const form = document.querySelector('form');

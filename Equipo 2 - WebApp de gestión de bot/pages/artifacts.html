@@ -58,9 +58,10 @@
                 </li>
             </ul>
         </div>
-        <div class="sidenav-footer align-items-center">
-            <button type="button" class="btn btn-warning mx-6    " id="btnUpdate" style="position:absolute; bottom: 5%;">Actualizar bot</button>
-          </div>
+        <div class="sidenav-footer">
+            <button type="button" class="btn btn-warning mx-6" id="btnUpdate"
+            style="position:absolute; bottom: 5%;" data-bs-toggle="modal" data-bs-target="#modalUpdate">Actualizar bot</button>
+        </div>
     </aside>
     <main class="main-content position-relative border-radius-lg ">
         <div class="container-fluid p-3">
@@ -205,6 +206,21 @@
                         </div>
                     </div>
                 </div>
+                <!--Modal Actualizando-->
+                <div class="modal fade" id="modalUpdate" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+                    <div class="modal-dialog">
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6>Actualizando...</h6>
+                            </div>
+                            <div class="modal-body">
+                                <p>Actualizando bot. Favor de Esperar</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--MODAL END-->
 
             </div>
         </div>
@@ -217,7 +233,7 @@
     <script src="../assets/js/formSubmit.js"></script>
     <script src="../assets/js/artifactsFunctions.js"></script>
     <script src="../assets/js/updateAI.js"></script>
-    
+
     <!-- EVENT LISTENERS-->
     <script>
         var btnPat = document.getElementById('btnNewPat');
@@ -252,8 +268,12 @@
         btnRes.addEventListener('click', function () {
             addRow('tablaRes-body', 'respuestas', 'respuesta', '')
         })
-        btnUpdate.addEventListener('click', function(){
-            alert('this should update the AI.')
+        btnUpdate.addEventListener('click', function () {
+            updateAI()
+
+            setTimeout(() => {
+                document.location.reload()
+            }, 20000)
         })
     </script>
     <script>
