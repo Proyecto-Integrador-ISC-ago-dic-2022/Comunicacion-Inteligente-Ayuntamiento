@@ -73,7 +73,7 @@ class Chatbox {
                     let msg2 = {
                         name: "Asistente Virtual Atizapan",
                         message:
-                            "Lo siento, por el momento no tengo la respuesta. Intenta mas tarde.",
+                            "Lo siento, por el momento no tengo la respuesta. Intenta más tarde.",
                         link: null,
                         type: null,
                         children: [],
