@@ -1,7 +1,7 @@
 //dropdown menu data and creation
 
 var isCreate = true
-var data = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
+var data = ["Conversación","Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
 var dropdown = document.getElementById('categoria');
 data.forEach(function (row) {
     var option = document.createElement('option');
@@ -153,11 +153,11 @@ function genrateTreeTable(id) {
             tableRow.forEach(function (cellData, index, array) {
                 if (index === 1) {
                     if (cellData == 1) {
-                        cellData = 'Menu'
-                    } else if (cellData == 2) {
-                        cellData = 'Link'
-                    } else if (cellData == 3) {
                         cellData = 'Respuesta'
+                    } else if (cellData == 2) {
+                        cellData = 'Menu'
+                    } else if (cellData == 3) {
+                        cellData = 'Link'
                     }
                 }
                 if (index === array.length - 1) {
@@ -277,7 +277,6 @@ function editArtifact(etiqueta) {
         cancelCreate()
         cancelEdit(btnTransferCancelar)
         isCreate = true
-        console.log('cancelado el edit iscreate: ' + isCreate)
     })
     botonCancelar.replaceWith(botonCancelarEdit)
 
@@ -295,7 +294,7 @@ function editArtifact(etiqueta) {
             var respuestas = document.getElementById('tablaRes-body')
 
             for (var j = 0; j < data.patrones.length; j++) {
-                addRow('tablaPat-body', 'pregunta', 'pregunta', data.patrones[j])
+                addRow('tablaPat-body', 'patrones', 'pregunta', data.patrones[j])
             }
             for (var k = 0; k < data.respuestas.length; k++) {
                 addRow('tablaRes-body', 'respuestas', 'respuesta', data.respuestas[k])

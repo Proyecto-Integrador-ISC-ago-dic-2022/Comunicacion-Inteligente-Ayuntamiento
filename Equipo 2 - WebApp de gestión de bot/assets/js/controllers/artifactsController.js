@@ -135,10 +135,10 @@ exports.readForAI = async (req, res) => {
 
         setTimeout(() => {
             var jsonRet = {
-                "interaccion": recTree(allDB)
+                "interacciones": recTree(allDB)
             }
             res.send(JSON.stringify(jsonRet))
-        }, 2500)
+        }, 15000)
 
 
 
@@ -441,9 +441,9 @@ exports.postData = async (req, res) => {
 
     }
 
-
-    res.send("Agregado todo exitosamente")
     res.status(201)
+    res.send("Agregado todo exitosamente")
+    
 
 }
 

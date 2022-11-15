@@ -3,7 +3,7 @@ function updateAI() {
         console.log(response)
         return response.json()
     }).then(function (data) {
-        /*fetch('127.0.0.1:5000/update', {
+        /*fetch('http://127.0.0.1:5000/update', {
             method: 'POST',
             headers: {'Content-Type': 'appliaction/json'},
             body: JSON.stringify(data),
