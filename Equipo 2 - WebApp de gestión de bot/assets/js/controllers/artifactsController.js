@@ -243,7 +243,7 @@ function getOneInter(data) {
     var intId = 0
 
     return new Promise((resolve, reject) => {
-        conexion.query(`select * FROM interaccion WHERE etiqueta= '${data}' `, (err, row) => {
+        conexion.query(`select * FROM interaccion WHERE etiqueta= '${data}'`, (err, row) => {
             if (err) treject(err)
 
             intId = row[0]["id"]
@@ -376,8 +376,8 @@ exports.postData = async (req, res) => {
                 sql += str
             })
 
-            conexion.query(sql, (err, rows) => {
-                if (err) throw err
+           conexion.query(sql, (err, rows) => {
+                if (err) throw err 
                 rows.forEach(function (row) {
                     lstPatrones.push(row['patron'])
                 })
@@ -456,15 +456,29 @@ exports.postData = async (req, res) => {
 
 //Update
 exports.postUpdate = async (req, res) => {
-    this.deleteData(req, res)
-    this.postData(req, res)
-    res.status(201)
+    var data = req.body
+    var id = 0
+    conexion.query(`select id FROM interaccion WHERE etiqueta= '${data['etiqueta']}'`, (err, row) => {
+        if (err) throw err
+        this.deleteData(req, res)
+        this.postData(req, res)
+
+        setTimeout(() => {
+            conexion.query(`UPDATE interaccion SET id = ${id} WHERE etiqueta= '${data['etiqueta']}' `, (err) => {
+                if (err) throw err
+                res.status(201)
+            })
+        }, 500)
+        
+    })
+
 }
 
 //Delete
 //ES BUENA PRACTICA HACER UN FAKEDELETE PERO ME VALE
 exports.deleteData = async (req, res) => {
     var data = req.body
+    
 
     conexion.query(`DELETE FROM interaccion WHERE etiqueta= '${data['etiqueta']}' `, (err) => {
         if (err) throw err
