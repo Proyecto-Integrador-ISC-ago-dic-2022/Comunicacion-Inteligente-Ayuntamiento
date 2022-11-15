@@ -79,70 +79,77 @@ function recTree(array) {
 
 exports.readForAI = async (req, res) => {
 
-    var allDB = []
-
     const sql = 'SELECT * FROM interaccion WHERE categoria IN (SELECT categoria FROM categoria WHERE isOn = true)'
 
-    conexion.query(sql, (err, rows) => {
-        if (err) throw err
-
-        console.log(rows)
-
-        rows.forEach(function (row) {
-
-            var interaccion = new Object()
-            var intId = 0
-
-            interaccion.id = row["id"]
-
-            interaccion.etiqueta = row["etiqueta"]
-            interaccion.tipo = row["tipo"]
-            interaccion.categoria = row["categoria"]
-            interaccion.link = row["link"]
-            interaccion.sucesor_de = row["sucesor_de"]
-            interaccion.nivel = 0
-            interaccion.children = []
-
-            var patrones = []
-            var respuestas = []
-
-            conexion.query(`select patron FROM patron WHERE id_interaccion= '${interaccion.id}' `, (err, rows) => {
-                if (err) throw reject(err)
-
+    function getInts() {
+        var allDB = []
+        return new Promise((resolve, reject) => {
+            conexion.query(sql, (err, rows) => {
+                if (err) throw err
+        
                 rows.forEach(function (row) {
-                    patrones.push(row["patron"])
+        
+                    var interaccion = new Object()
+                    var intId = 0
+        
+                    interaccion.id = row["id"]
+        
+                    interaccion.etiqueta = row["etiqueta"]
+                    interaccion.tipo = row["tipo"]
+                    interaccion.categoria = row["categoria"]
+                    interaccion.link = row["link"]
+                    interaccion.sucesor_de = row["sucesor_de"]
+                    interaccion.nivel = 0
+                    interaccion.children = []
+    
+                    allDB.push(interaccion)
+    
                 })
+
+                resolve(allDB)
             })
-
-            conexion.query(`select respuesta FROM respuesta WHERE id_interaccion= '${interaccion.id}' `, (err, rows) => {
-                if (err) reject(err)
-
-                rows.forEach(function (row) {
-                    respuestas.push(row["respuesta"])
-                })
-            })
-
-
-            interaccion.patrones = patrones
-            interaccion.respuestas = respuestas
-
-            setTimeout(() => {
-                allDB.push(interaccion)
-            }, 500)
-
-
         })
-
-        setTimeout(() => {
-            var jsonRet = {
-                "interacciones": recTree(allDB)
-            }
-            res.send(JSON.stringify(jsonRet))
-        }, 15000)
+        
 
 
+    }
 
-    })
+    function getPatResp(db) {
+        return new Promise((resolve, reject) => {
+            conexion.query(`select patron, id_interaccion FROM patron`, (err, patrones) => {
+                if (err) throw reject(err)
+    
+    
+                db.forEach(function (inte) {
+                    inte.patrones = []
+                    patrones.forEach(function (p) {
+                        if (p['id_interaccion'] == inte.id) inte.patrones.push(p['patron'])
+                    })
+                })
+    
+                
+                conexion.query(`select respuesta, id_interaccion FROM respuesta`, (err, resp) => {
+                    if (err) reject(err)
+    
+                    db.forEach(function (inte) {
+                        inte.respuestas = []
+                        resp.forEach(function (r) {
+                            if (r['id_interaccion'] == inte.id) inte.respuestas.push(r['respuesta'])
+                        })
+                    })
+
+                    resolve(db)
+                })
+            })
+    
+        })
+       
+    }
+
+    var jsonRet = {
+        "interacciones": recTree(await getPatResp(await getInts()))
+    }
+    res.send(JSON.stringify(jsonRet))
 }
 
 
@@ -441,9 +448,9 @@ exports.postData = async (req, res) => {
 
     }
 
-    res.status(201)
+
     res.send("Agregado todo exitosamente")
-    
+    res.status(201)
 
 }
 
