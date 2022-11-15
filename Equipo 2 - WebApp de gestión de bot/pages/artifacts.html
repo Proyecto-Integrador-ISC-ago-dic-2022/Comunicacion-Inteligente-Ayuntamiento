@@ -71,7 +71,7 @@
                         <div class="card-header pb-0 pt-3 bg-transparent">
                             <h6 class="text-capitalize">Interacciones</h6>
                             <button type="button" class="btn btn-success" id="btnNewInt" data-bs-toggle="modal"
-                                data-bs-target="#modalInteraccion">
+                                data-bs-target="#modalInteraccion" onclick="hideAside()">
                                 Nueva interacción
                             </button>
                         </div>
@@ -104,7 +104,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" id="modalInt-Body">
                                 <form autocomplete="off">
                                     <div class="form-group">
                                         <label for="etiqueta">Etiqueta</label>
@@ -167,12 +167,12 @@
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
                                             onclick="cancelCreate()" id="cancelarCreate">Cancelar
                                         </button>
-                                        <button type="submit" class="btn btn-success px-5" onclick="showAside()"
-                                            id="guardarCreate" data-bs-dismiss="modal">Guardar</button>
+                                        <button type="submit" class="btn btn-success px-5"
+                                            id="guardarCreate">Guardar</button>
                                     </div>
 
                             </div>
-                            <div class="modal-footer">
+                            <div class="modal-footer" id="modalInt-footer">
 
                             </div>
                             </form>
@@ -273,7 +273,7 @@
 
             setTimeout(() => {
                 document.location.reload()
-            }, 20000)
+            }, 25000)
         })
     </script>
     <script>
