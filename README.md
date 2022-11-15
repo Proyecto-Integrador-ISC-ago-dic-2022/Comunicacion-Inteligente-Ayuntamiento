@@ -29,12 +29,12 @@ Partiendo de lo anterior, es que el presente proyecto tiene como **objetivo**: _
 
 #### Equipo encargado de _chatbot_
 
--   SpacecOOk - Michel Antoine Dionne Gutiérrez
--   RodrigoCravioto - Rodrigo Cravioto Caballero
--   OscarMaRo - Oscar Macías Rodríguez
 -   CurielVF - Victor Fernando Curiel Ortega
 -   HowlandAlek - Alek Fernando Howland Aguilar
 -   pacoeldeveloper - Francisco Ariel Arenas Enciso
+-   SpacecOOk - Michel Antoine Dionne Gutiérrez
+-   RodrigoCravioto - Rodrigo Cravioto Caballero
+-   OscarMaRo - Oscar Macías Rodríguez
 
 #### Equipo encargado de _dashboard_
 
