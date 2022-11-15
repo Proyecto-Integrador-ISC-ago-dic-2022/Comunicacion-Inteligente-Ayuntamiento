@@ -74,3 +74,4 @@ def get_tag(sentence,tags,all_words,device,model):
         return tag, prob
     except Exception as e:
         print("Se a producido el siguiente error: ", e)
+
