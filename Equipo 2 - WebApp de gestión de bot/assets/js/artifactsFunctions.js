@@ -32,15 +32,8 @@ function addRow(tableId, inputName, inputPlaceholder, inputValue) {
     btnDelete.className = 'btn btn-danger visible'
     btnDelete.appendChild(document.createTextNode('Borrar ' + inputPlaceholder))
     btnDelete.addEventListener('click', function () {
-        var table = document.getElementById(tableId);
-        console.log(tableId)
-        var rowCount = table.rows.length;
-        console.log(rowCount)
-        if (rowCount == '0') {
-            console.log('genera un dato')
-        }
+
         if (rowCount > '1') {
-            console.log('borrando: ' + inputName)
             var td = event.target.parentNode
             var tr = td.parentNode
             tr.parentNode.removeChild(tr)
@@ -92,7 +85,6 @@ function createTable() {
                     button.type = 'button'
                     button.className = 'btn btn-primary'
                     button.id = array[0]
-                    console.log(array[0])
                     button.setAttribute('data-bs-toggle', 'modal')
                     button.setAttribute('data-bs-target', '#modalRamas')
                     button.appendChild(document.createTextNode('Ver Ramas'))
@@ -100,7 +92,6 @@ function createTable() {
                     // in this case, this will hide the aside bar to show all the interactions
                     // on a modal which will retrieve from a query it's required data
                     button.addEventListener('click', function () {
-                        console.log(button.id)
                         genrateTreeTable(button.id)
 
                         hideAside()
@@ -175,7 +166,6 @@ function genrateTreeTable(id) {
                     button.setAttribute('data-bs-target', '#modalInteraccion')
                     button.appendChild(document.createTextNode('Editar Rama'))
                     button.addEventListener('click', function () {
-                        console.log(button.id)
                         var dropSucesores = document.getElementById('sucesor_de')
                         dropSucesores.innerHTML = '<option value="0">Ninguno</option>'
                         fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
@@ -239,7 +229,6 @@ function genrateTreeTable(id) {
     }).catch(function (err) {
         console.log(err)
     })
-    //console.log(data)
 }
 
 function deleteArtifact(etiqueta) {
@@ -258,7 +247,6 @@ function deleteArtifact(etiqueta) {
 }
 
 function editArtifact(etiqueta) {
-    //console.log(etiqueta)
     //<button type="submit" class="btn btn-success" onclick="showAside()" id='guardarCreate'>Guardar</button> 
 
     url = 'http://127.0.0.1:8080/artefactos/readone/' + etiqueta
@@ -282,7 +270,6 @@ function editArtifact(etiqueta) {
 
     fetch(url).then((result) => result.json())
         .then((data) => {
-            console.log(data)
 
             var tag = document.getElementById('etiqueta')
             var type = document.getElementById('tipo')
@@ -381,10 +368,8 @@ function handleSubmit(event) {
             createAlert('Debes subir al menos una pregunta y una respuesta', 'warning')
         } else {
             if (isCreate) {
-                console.log('creating')
                 postCreate(value)
             } else {
-                console.log('updating')
                 postUpdate(value)
             }
         }
@@ -448,7 +433,6 @@ function postCreate(value) {
             .then(data => console.log(data))
     }, 500)
 
-    console.log(JSON.stringify(value))
     showAside()
     //Reloads the page so the update on the database will be seen on the artifacts main page
     setTimeout(() => document.location.reload(), 1000)

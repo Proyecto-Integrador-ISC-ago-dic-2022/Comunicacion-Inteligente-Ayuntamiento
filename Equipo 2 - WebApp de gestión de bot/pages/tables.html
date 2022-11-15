@@ -59,8 +59,8 @@
       </ul>
     </div>
     <div class="sidenav-footer">
-      <button type="button" class="btn btn-warning mx-6" id="btnUpdate"
-        style="position:absolute; bottom: 5%;" data-bs-toggle="modal" data-bs-target="#modalUpdate">Actualizar bot</button>
+      <button type="button" class="btn btn-warning mx-6" id="btnUpdate" style="position:absolute; bottom: 5%;"
+        data-bs-toggle="modal" data-bs-target="#modalUpdate">Actualizar bot</button>
     </div>
   </aside>
   <main class="main-content position-relative border-radius-lg ">
@@ -116,7 +116,7 @@
             <h6>Actualizando...</h6>
           </div>
           <div class="modal-body">
-              <p>Actualizando bot. Favor de Esperar</p>
+            <p>Actualizando bot. Favor de Esperar</p>
           </div>
         </div>
       </div>
@@ -137,8 +137,8 @@
       //alert('se esta actualizando el bot, espera un momento por favor.')
       updateAI()
       setTimeout(() => {
-         document.location.reload()
-       }, 25000)
+        document.location.reload()
+      }, 25000)
     })
   </script>
   <script>
@@ -156,21 +156,26 @@
       const data = new FormData(event.target);
       const value = Object.fromEntries(data.entries())
 
-      for (i in value) {
-        value[i] = true
+      if (Object.keys(value).length === 0) {
+        alert('you should have at least one on')
+
+      } else {
+
+        for (i in value) {
+          value[i] = true
+        }
+
+        let url = 'http://127.0.0.1:8080/artefactos/changeCatStatus'
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(value)
+        }).then(raw => raw.json)
+          .then(data => console.log(data));
+        setTimeout(() => {
+          document.location.reload()
+        }, 1000)
       }
-
-      let url = 'http://127.0.0.1:8080/artefactos/changeCatStatus'
-      fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(value)
-      }).then(raw => raw.json)
-        .then(data => console.log(data));
-      setTimeout(() => {
-        document.location.reload()
-      }, 1000)
-
     }
     const form = document.querySelector('form');
     form.addEventListener('submit', handleSubmit)
@@ -189,7 +194,6 @@
           }
 
         }
-        console.log(data)
         var table = document.getElementById('table-areas');
         var tableBody = document.getElementById('table-areas-body');
         catArray.forEach(function (rowData) {
