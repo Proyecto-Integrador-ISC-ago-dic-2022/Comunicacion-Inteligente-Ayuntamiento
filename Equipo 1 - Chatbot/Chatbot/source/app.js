@@ -69,9 +69,23 @@ class Chatbox {
                     type: r.type,
                     children: r.children,
                 };
-                this.messages.push(msg2);
-                this.updateChatText(chatbox);
-                textField.value = "";
+                if (r == "Error interno") {
+                    let msg2 = {
+                        name: "Asistente Virtual Atizapan",
+                        message:
+                            "Lo siento, por el momento no tengo la respuesta. Intenta mas tarde.",
+                        link: null,
+                        type: null,
+                        children: [],
+                    };
+                    this.messages.push(msg2);
+                    this.updateChatText(chatbox);
+                    textField.value = "";
+                } else {
+                    this.messages.push(msg2);
+                    this.updateChatText(chatbox);
+                    textField.value = "";
+                }
             })
             .catch((error) => {
                 console.error("Error:", error);

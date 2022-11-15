@@ -1,0 +1,50 @@
+
+2022-11-14 20:37:49,775 | INFO: *** Inicio de logs - 14/11/2022 20:37:49 ****
+
+2022-11-14 20:37:49,797 | INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+
+2022-11-14 20:37:49,797 | INFO: [33mPress CTRL+C to quit[0m
+
+2022-11-14 20:37:49,799 | INFO:  * Restarting with stat
+
+2022-11-14 20:37:52,722 | INFO: *** Inicio de logs - 14/11/2022 20:37:52 ****
+
+2022-11-14 20:37:52,750 | WARNING:  * Debugger is active!
+
+2022-11-14 20:37:52,758 | INFO:  * Debugger PIN: 872-297-316
+
+2022-11-14 20:38:01,280 | INFO: 127.0.0.1 - - [14/Nov/2022 20:38:01] "OPTIONS /predict HTTP/1.1" 200 -
+
+2022-11-14 20:38:01,283 | ERROR:  *** Se a producido el siguiente error: ***
+
+2022-11-14 20:38:01,284 | ERROR: cannot unpack non-iterable NoneType object
+
+2022-11-14 20:38:01,284 | INFO: 127.0.0.1 - - [14/Nov/2022 20:38:01] "POST /predict HTTP/1.1" 200 -
+
+2022-11-14 20:38:26,101 | INFO: *** Inicio de logs - 14/11/2022 20:38:26 ****
+
+2022-11-14 20:38:26,116 | INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+
+2022-11-14 20:38:26,117 | INFO: [33mPress CTRL+C to quit[0m
+
+2022-11-14 20:38:26,118 | INFO:  * Restarting with stat
+
+2022-11-14 20:38:28,457 | INFO: *** Inicio de logs - 14/11/2022 20:38:28 ****
+
+2022-11-14 20:38:28,469 | WARNING:  * Debugger is active!
+
+2022-11-14 20:38:28,472 | INFO:  * Debugger PIN: 872-297-316
+
+2022-11-14 20:38:29,918 | INFO: 127.0.0.1 - - [14/Nov/2022 20:38:29] "OPTIONS /predict HTTP/1.1" 200 -
+
+2022-11-14 20:38:29,921 | ERROR:  *** Se a producido el siguiente error: ***
+
+2022-11-14 20:38:29,921 | ERROR: cannot unpack non-iterable NoneType object
+
+2022-11-14 20:38:29,922 | INFO: 127.0.0.1 - - [14/Nov/2022 20:38:29] "POST /predict HTTP/1.1" 200 -
+
+2022-11-14 20:40:40,160 | INFO: 127.0.0.1 - - [14/Nov/2022 20:40:40] "[31m[1mPOST /update HTTP/1.1[0m" 403 -
+
+2022-11-14 20:41:00,320 | INFO: 127.0.0.1 - - [14/Nov/2022 20:41:00] "POST /update HTTP/1.1" 200 -

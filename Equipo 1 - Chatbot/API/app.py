@@ -5,10 +5,20 @@ from chat import get_response
 from train import train
 from structure import revisarEstructura
 import json
+import logging
+from datetime import datetime
 # -*- coding: utf-8 -*-
 
 app = Flask(__name__)
 CORS(app)
+
+logging.basicConfig(filename="log.txt", level=logging.DEBUG,
+                    format='\n%(asctime)s | %(levelname)s: %(message)s', filemode="a")
+
+now = datetime.now()
+dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+logging.info("*** Inicio de logs - {} ****".format(dt_string))
+
 
 
 @app.post("/predict")
@@ -21,7 +31,9 @@ def predict():
         return jsonify(message)
     except Exception as e:
         print("Se a producido el siguiente error: ", e)
-        return Response("Error interno", status=500)
+        logging.error(" *** Se a producido el siguiente error: ***")
+        logging.error('{}'.format(e))
+        return jsonify("Error interno")
 
 
 #Post para recibir la info del dashboard
