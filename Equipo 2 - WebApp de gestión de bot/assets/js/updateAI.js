@@ -14,7 +14,6 @@ function updateAI() {
 
     }).catch(function (err) {
         console.log(err)
-        console.log(data)
     })
 
 }

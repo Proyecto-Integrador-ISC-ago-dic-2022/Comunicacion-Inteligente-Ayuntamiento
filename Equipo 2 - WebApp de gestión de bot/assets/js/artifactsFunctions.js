@@ -125,12 +125,9 @@ function genrateTreeTable(id) {
     fetch(url).then(function (response) {
         return response.json();
     }).then(function (query) {
-        //console.log(query);
         query.forEach(function (row) {
             var rowArray = []
-            //console.log(row)
             for (var i in row) {
-                //console.log(row[i])
                 rowArray.push(row[i])
             }
             data.push(rowArray)
