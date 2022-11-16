@@ -158,7 +158,7 @@
                                             <option value="0">Ninguno</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" id="linkInput" style="visibility: hidden;">
                                         <label for="link">Link</label>
                                         <input type="text" class="form-control" id="link"
                                             placeholder="Liga de respuesta.">
@@ -242,6 +242,18 @@
         var btnDeleteRes = document.getElementById('btnDelRes');
         var btnNewInt = document.getElementById('btnNewInt');
         var btnUpdate = document.getElementById('btnUpdate');
+        var dropdownTipos = document.getElementById('tipo');
+        dropdownTipos.addEventListener('change', function(){
+            if(dropdownTipos.value == 3){
+                console.log('haces display del campo link')
+                document.getElementById('linkInput').style.visibility = 'visible'
+
+            }else{
+                console.log('input link stays hidden')
+                document.getElementById('linkInput').style.visibility = 'hidden'
+
+            }
+        })
 
         btnNewInt.addEventListener('click', function () {
             var dropSucesores = document.getElementById('sucesor_de')

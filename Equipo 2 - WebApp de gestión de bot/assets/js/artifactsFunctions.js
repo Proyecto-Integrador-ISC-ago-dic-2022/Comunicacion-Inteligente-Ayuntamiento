@@ -362,17 +362,22 @@ function handleSubmit(event) {
     //                   second, there must be at least one question AND one answer
     if (value.etiqueta != '') {
         if (value.patrones.length < 1 || value.respuestas.length < 1) {
-            createAlert('Debes subir al menos una pregunta y una respuesta', 'warning')
+            var alert = createAlert('Debes subir al menos una pregunta y una respuesta', 'warning')
+            modal = document.getElementById('modalInt-footer')
+            modal.appendChild(alert)
         } else {
-            if (isCreate) {
-                postCreate(value)
-            } else {
-                postUpdate(value)
-            }
+            // if (isCreate) {
+            //     postCreate(value)
+            // } else {
+            //     postUpdate(value)
+            // }
+            alert('all good')
         }
 
     } else {
-        createAlert('La etiqueta no puede estar vacia', 'warning');
+        var alert = createAlert('La etiqueta no puede estar vacia', 'warning');
+        modal = document.getElementById('modalInt-footer')
+        modal.appendChild(alert)
     }
 
 
@@ -397,8 +402,7 @@ function createAlert(message, severity) {
     button.className = 'btn btn-close'
     button.setAttribute('data-bs-dismiss', 'alert')
     alert.appendChild(button)
-    modal = document.getElementById('modalInt-footer')
-    modal.appendChild(alert)
+    return alert
 
 }
 
