@@ -369,14 +369,16 @@ exports.postData = async (req, res) => {
             if (err) throw err
             var lstIdDads = getDadsId(data["sucesor_de"], rows)
 
-            var sql = "SELECT patron from patron WHERE id_interaccion=0 "
+            var sql = "SELECT patron from patron WHERE "
 
             lstIdDads.forEach(function (i) {
-                let str = "OR id_interaccion=" + i + " "
+                let str = "id_interaccion=" + i + " OR "
                 sql += str
             })
+            
+            var sqlFin = sql.slice(0, sql.length-3)
 
-           conexion.query(sql, (err, rows) => {
+           conexion.query(sqlFin, (err, rows) => {
                 if (err) throw err 
                 rows.forEach(function (row) {
                     lstPatrones.push(row['patron'])
@@ -405,15 +407,14 @@ exports.postData = async (req, res) => {
                 conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria, sucesor_de, link) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}', '${data['sucesor_de']}',  '${data['link']}' ); `, function (err, result) {
                     if (err) throw err;
                     console.log("Agregado con exito en interaccion");
+                    addPreguntasRespuestas(data['patrones'], data['respuestas'])
                 });
 
-
-                setTimeout(() => {
-                    addPreguntasRespuestas(data['patrones'], data['respuestas'])
-                }, 500)
+                    
 
             } else {
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
+                res.status(501)
                 //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
             }
 
@@ -434,14 +435,12 @@ exports.postData = async (req, res) => {
                 conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria, sucesor_de) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}', '${data['sucesor_de']}' ); `, function (err, result) {
                     if (err) throw err;
                     console.log("Agregado con exito en interaccion");
-                });
-
-                setTimeout(() => {
                     addPreguntasRespuestas(data['patrones'], data['respuestas'])
-                }, 500)
+                });
 
             } else {
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
+                res.status(501)
             }
 
         }, 500);
