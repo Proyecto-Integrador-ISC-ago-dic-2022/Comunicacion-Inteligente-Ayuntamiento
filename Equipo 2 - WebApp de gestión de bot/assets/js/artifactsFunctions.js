@@ -239,7 +239,7 @@ function deleteArtifact(etiqueta) {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ "etiqueta": etiqueta })
-    }).then(raw => raw.json)
+    }).then(raw => raw.json())
         .then(data => console.log(data))
 
     setTimeout(() => {
@@ -408,7 +408,7 @@ function createAlert(message, severity) {
     //<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     var button = document.createElement('button')
     button.type = 'button'
-    button.className = 'btn btn-close'
+    button.className = 'btn-close text-right'
     button.setAttribute('data-bs-dismiss', 'alert')
     alert.appendChild(button)
     return alert
