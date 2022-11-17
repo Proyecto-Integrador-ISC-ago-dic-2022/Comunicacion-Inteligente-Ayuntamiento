@@ -12,6 +12,9 @@ function updateAI() {
             if(raw.status == 200){
                 document.location.reload()
             }
+            else{
+                alert('something went wrong.')
+            }
             raw.json()}).then(data => console.log(data))
         .catch(err=> console.log(err))
         console.log(data)
