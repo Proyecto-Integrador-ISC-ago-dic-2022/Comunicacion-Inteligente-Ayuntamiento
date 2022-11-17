@@ -32,13 +32,17 @@ function addRow(tableId, inputName, inputPlaceholder, inputValue) {
     btnDelete.className = 'btn btn-danger visible'
     btnDelete.appendChild(document.createTextNode('Borrar ' + inputPlaceholder))
     btnDelete.addEventListener('click', function () {
-
+        var table = document.getElementById(tableId);
+        var rowCount = table.rows.length;
         if (rowCount > '1') {
             var td = event.target.parentNode
             var tr = td.parentNode
             tr.parentNode.removeChild(tr)
         } else {
-            alert('Se tiene que registrar una ' + inputPlaceholder)
+            var alert = createAlert(('Se tiene que registrar una ' + inputPlaceholder), 'warning')
+            var preguntasRespuestas = document.getElementById('preguntasRespuestas')
+            preguntasRespuestas.appendChild(alert)
+
         }
 
     })
@@ -146,6 +150,7 @@ function genrateTreeTable(id) {
                         cellData = 'Menu'
                     } else if (cellData == 3) {
                         cellData = 'Link'
+                        document.getElementById('linkInput').style.visibility = 'visible'
                     }
                 }
                 if (index === array.length - 1) {
@@ -346,7 +351,12 @@ function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const value = Object.fromEntries(data.entries());
-    value.link = document.getElementById('link').value
+    if(document.getElementById('tipo').value == 3){
+        value.link = document.getElementById('link').value
+        console.log(document.getElementById('link').value)
+    }else{
+    }
+    
     value.patrones = data.getAll('patrones')
     value.respuestas = data.getAll('respuestas')
     const cleansedPreguntas = value.patrones.filter(element => {
@@ -366,12 +376,11 @@ function handleSubmit(event) {
             modal = document.getElementById('modalInt-footer')
             modal.appendChild(alert)
         } else {
-            // if (isCreate) {
-            //     postCreate(value)
-            // } else {
-            //     postUpdate(value)
-            // }
-            alert('all good')
+            if (isCreate) {
+                postCreate(value)
+            } else {
+                postUpdate(value)
+            }
         }
 
     } else {

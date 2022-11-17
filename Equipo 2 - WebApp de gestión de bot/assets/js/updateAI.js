@@ -8,7 +8,11 @@ function updateAI() {
             headers: {'Content-Type': 'appliaction/json'},
             body: JSON.stringify(data),
 
-        }).then(raw => raw.json()).then(data => console.log(data))
+        }).then(function (raw){ 
+            if(raw.status == 200){
+                document.location.reload()
+            }
+            raw.json()}).then(data => console.log(data))
         .catch(err=> console.log(err))
         console.log(data)
 
