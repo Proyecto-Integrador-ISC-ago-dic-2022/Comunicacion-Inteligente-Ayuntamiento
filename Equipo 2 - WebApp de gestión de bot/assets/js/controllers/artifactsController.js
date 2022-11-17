@@ -388,11 +388,31 @@ exports.postData = async (req, res) => {
 
 
         })
+    } else {
+        conexion.query(`SELECT id FROM interaccion WHERE sucesor_de= 0`, (err, rows) => {
+            if (err) throw err 
+            var sql = 'SELECT patron FROM patron WHERE '
+            rows.forEach(function (row) {
+                let str = "id_interaccion=" + row['id'] + " OR "
+                sql += str
+            })
+
+            var sqlFin = sql.slice(0, sql.length-3)
+
+            conexion.query(sqlFin, (err, rows) => {
+                if (err) throw err
+                rows.forEach(function (row) {
+                    lstPatrones.push(row['patron'])
+                })
+
+            })
+            
+            
+        })
     }
 
 
     //Permutaciones si tiene link o sucesor_de; los codigos son iguales solo cambia el insert, si se puede mejorar chido sino no
-    //TODO: atrapar la excepcion si una etiqueta no es unica (evitar que el progreso del modal desaparezca si se puede); porque no lo hice con los patrones... no se pero ya lo hice joder
     if (data.hasOwnProperty("link")) {
         setTimeout(() => {
 
@@ -405,17 +425,25 @@ exports.postData = async (req, res) => {
             //Condicional si esta repetido
             if (!isRepetido) {
                 conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria, sucesor_de, link) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}', '${data['sucesor_de']}',  '${data['link']}' ); `, function (err, result) {
-                    if (err) throw err;
-                    console.log("Agregado con exito en interaccion");
-                    addPreguntasRespuestas(data['patrones'], data['respuestas'])
+                    if (err){ 
+                        console.log("Error al agregar interaccion");
+                        res.status(441).send('Etiqueta Repetida')
+                        
+                    } else {
+                        console.log("Agregado con exito en interaccion");
+                        addPreguntasRespuestas(data['patrones'], data['respuestas'])
+                        res.send("Agregado todo exitosamente").status(201)
+                    }
                 });
 
                     
 
             } else {
-                console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
-                res.status(501)
-                //TODO: alguna excepcion que mande una alerta al front end para que sepa que el patron esta repetido
+                isAgregadoExito= false
+                console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS") 
+                res.status(440).send("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
+                
+
             }
 
         }, 500);
@@ -425,7 +453,6 @@ exports.postData = async (req, res) => {
 
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
-                console.log(patron)
                 if (lstPatrones.indexOf(patron) !== -1) isRepetido = true
             })
 
@@ -433,23 +460,29 @@ exports.postData = async (req, res) => {
             if (!isRepetido) {
 
                 conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria, sucesor_de) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}', '${data['sucesor_de']}' ); `, function (err, result) {
-                    if (err) throw err;
-                    console.log("Agregado con exito en interaccion");
-                    addPreguntasRespuestas(data['patrones'], data['respuestas'])
+                    if (err){ 
+                        console.log("Error al agregar interaccion");
+                        res.status(441).send('Etiqueta Repetida')
+                        
+                    } else {
+                        console.log("Agregado con exito en interaccion");
+                        addPreguntasRespuestas(data['patrones'], data['respuestas'])
+                        res.send("Agregado todo exitosamente").status(201)
+                    }
                 });
 
             } else {
+                isAgregadoExito= false
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
-                res.status(501)
+                res.status(440).send("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
             }
 
         }, 500);
 
     }
 
-
-    res.send("Agregado todo exitosamente")
-    res.status(201)
+    
+    
 
 }
 
@@ -484,6 +517,6 @@ exports.deleteData = async (req, res) => {
     })
 
     res.status(201)
-    //res.send("Se borro con exito")
+    res.send("Se borro con exito")
 
 }
