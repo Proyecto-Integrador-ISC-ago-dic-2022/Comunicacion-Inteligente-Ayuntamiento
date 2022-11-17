@@ -10,7 +10,11 @@ function updateAI() {
 
         }).then(function (raw){ 
             if(raw.status == 200){
-                document.location.reload()
+                var alert = createAlert('Robot Actualizado y Entrenado. Recargando Página.', 'success')
+                var modal = document.getElementById('updateAI-body')
+                modal.appendChild(alert)
+                setTimeout(()=>{document.location.reload()}, 5000)
+                
             }
             else{
                 alert('something went wrong.')
