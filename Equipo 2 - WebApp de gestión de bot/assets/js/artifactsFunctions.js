@@ -404,22 +404,7 @@ function handleSubmit(event) {
 
 }
 
-function createAlert(message, severity) {
-    var alert = document.createElement('div')
-    var alertSeverity = ' alert-' + severity
-    alert.className = 'alert alert-dismissable d-flex justify-content-between' + alertSeverity
-    alert.setAttribute('role', 'alert')
-    alert.appendChild(document.createTextNode(message))
-    //<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    var button = document.createElement('button')
-    button.type = 'button'
-    button.className = 'btn-close'
-    button.setAttribute('data-bs-dismiss', 'alert')
-    button.setAttribute('aria-label', 'Close')
-    alert.appendChild(button)
-    return alert
 
-}
 
 function postUpdate(value) {
     let url = 'http://127.0.0.1:8080/artefactos/update'

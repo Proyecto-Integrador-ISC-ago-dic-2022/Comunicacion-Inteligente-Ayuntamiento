@@ -93,7 +93,7 @@
                     <tbody id="table-areas-body">
                     </tbody>
                   </table>
-                  <div class="card-footer">
+                  <div class="card-footer" id="catFooter">
                     <button type="submit" class="btn btn-primary">
                       Actualizar Ramas
                     </button>
@@ -134,11 +134,7 @@
   <script>
     var btnUpdate = document.getElementById('btnUpdate');
     btnUpdate.addEventListener('click', function () {
-      //alert('se esta actualizando el bot, espera un momento por favor.')
       updateAI()
-      setTimeout(() => {
-        document.location.reload()
-      }, 25000)
     })
   </script>
   <script>
@@ -157,7 +153,9 @@
       const value = Object.fromEntries(data.entries())
 
       if (Object.keys(value).length === 0) {
-        alert('you should have at least one on')
+        var alert = createAlert('Tiene que haber al menos una categoría habilitada.', 'warning')
+        var card = document.getElementById('catFooter')
+        card.prepend(alert)
 
       } else {
 
