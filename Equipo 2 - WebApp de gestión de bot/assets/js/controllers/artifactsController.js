@@ -1,5 +1,3 @@
-// public instance IP: 35.247.112.172
-
 /*
 El formato de los json son asi, link y sucesor de son opcionales
 {
@@ -46,7 +44,9 @@ exports.temAddCategories = async (req, res) => {
 }
 */
 
+//Esta funcion recibe la BD y lo arregla para poner as interacciones hijas con su padre.
 function recTree(array) {
+    //Funcion recursiva para navegar el arbol
     function getChildren(parents, db, lst) {
 
         parents.forEach(function (dad) {
@@ -302,6 +302,8 @@ exports.readOneData = async (req, res) => {
 
 }
 
+var isInUpdate = false
+
 function addPreguntasRespuestas(patrones, respuestas) {
 
     //Calcula a cual va a ser el id de la interaccion como llave foranea de  patrones y respuestas
@@ -369,7 +371,7 @@ exports.postData = async (req, res) => {
             if (err) throw err
             var lstIdDads = getDadsId(data["sucesor_de"], rows)
 
-            var sql = "SELECT patron from patron WHERE "
+            var sql = `SELECT patron from patron WHERE id_interaccion=${data["sucesor_de"]} OR `
 
             lstIdDads.forEach(function (i) {
                 let str = "id_interaccion=" + i + " OR "
@@ -427,7 +429,12 @@ exports.postData = async (req, res) => {
                 conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria, sucesor_de, link) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}', '${data['sucesor_de']}',  '${data['link']}' ); `, function (err, result) {
                     if (err){ 
                         console.log("Error al agregar interaccion");
-                        res.status(441).send('Etiqueta Repetida')
+                        if(!isInUpdate){
+                            res.status(441).send('Etiqueta Repetida')
+                        }else{
+                            res.status(441)
+                        }
+                        
                         
                     } else {
                         console.log("Agregado con exito en interaccion");
@@ -441,7 +448,12 @@ exports.postData = async (req, res) => {
             } else {
                 isAgregadoExito= false
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS") 
-                res.status(440).send("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
+                if(!isInUpdate){
+                    res.status(440).send("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
+                }else{
+                    res.status(440)
+                }
+                
                 
 
             }
@@ -462,7 +474,11 @@ exports.postData = async (req, res) => {
                 conexion.query(`INSERT INTO interaccion (etiqueta, tipo, categoria, sucesor_de) VALUES ('${data['etiqueta']}', ${data['tipo']}, '${data['categoria']}', '${data['sucesor_de']}' ); `, function (err, result) {
                     if (err){ 
                         console.log("Error al agregar interaccion");
-                        res.status(441).send('Etiqueta Repetida')
+                        if(!isInUpdate){
+                            res.status(441).send('Etiqueta Repetida')
+                        }else{
+                            res.status(441)
+                        }
                         
                     } else {
                         console.log("Agregado con exito en interaccion");
@@ -474,7 +490,11 @@ exports.postData = async (req, res) => {
             } else {
                 isAgregadoExito= false
                 console.log("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
-                res.status(440).send("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
+                if(!isInUpdate){
+                    res.status(440).send("NO SE PUEDE AGREGAR PORQUE HAY PATRONES REPETIDOS")
+                }else{
+                    res.status(440)
+                }
             }
 
         }, 500);
@@ -486,21 +506,68 @@ exports.postData = async (req, res) => {
 
 }
 
+
 //Update
 exports.postUpdate = async (req, res) => {
     var data = req.body
+    var backup = new Object()
     var id = 0
-    conexion.query(`select id FROM interaccion WHERE etiqueta= '${data['etiqueta']}'`, (err, row) => {
-        if (err) throw err
-        this.deleteData(req, res)
-        this.postData(req, res)
+    isInUpdate = true
 
-        setTimeout(() => {
-            conexion.query(`UPDATE interaccion SET id = ${id} WHERE etiqueta= '${data['etiqueta']}' `, (err) => {
+    conexion.query(`select * FROM interaccion WHERE etiqueta= '${data['etiqueta']}'`, (err, int) => {
+        if (err) throw err
+        id = int[0]['id']
+        conexion.query(`select patron FROM patron WHERE id_interaccion= '${int[0]['id']}'`, (err, pat) => {
+            if (err) throw err
+            conexion.query(`select respuesta FROM respuesta WHERE id_interaccion= '${int[0]['id']}'`, (err, resp) => {
                 if (err) throw err
-                res.status(201)
+                
+                this.deleteData(req, res)
+                this.postData(req, res)
+
+                backup.etiqueta = int[0]['etiqueta']
+                backup.tipo = int[0]['tipo']
+                backup.categoria = int[0]['categoria']
+                backup.patrones = []
+                pat.forEach(function (p) {
+                    backup.patrones.push(p['patron'])
+                })
+                backup.respuestas = []
+                resp.forEach(function (r) {
+                    backup.respuestas.push(r['respuesta'])
+                })
+
+                backup.sucesor_de = int[0]['sucesor_de']
+                if(int[0]['link'])backup.link = int[0]['link']
+                
+                req.body = backup
+
+                setTimeout(() => {
+                    if(res.statusCode == 440 || res.statusCode == 441) {
+                        console.log('HUBO ERROR AL CREAR')
+                        isInUpdate = false
+                        this.postData(req, res)
+                        setTimeout(() => {
+                            conexion.query(`UPDATE interaccion SET id = ${id} WHERE etiqueta= '${data['etiqueta']}' `, (err) => {
+                                if (err) throw err
+                            })
+                            
+                        }, 500);
+                    }else{
+                        conexion.query(`UPDATE interaccion SET id = ${id} WHERE etiqueta= '${data['etiqueta']}' `, (err) => {
+                            if (err) throw err
+                            isInUpdate = false
+                        })
+                    }
+                    
+                }, 500)
             })
-        }, 500)
+        })
+
+  
+        
+
+    
         
     })
 
@@ -510,13 +577,11 @@ exports.postUpdate = async (req, res) => {
 //ES BUENA PRACTICA HACER UN FAKEDELETE PERO ME VALE
 exports.deleteData = async (req, res) => {
     var data = req.body
-    
 
     conexion.query(`DELETE FROM interaccion WHERE etiqueta= '${data['etiqueta']}' `, (err) => {
         if (err) throw err
     })
 
     res.status(201)
-    res.send("Se borro con exito")
 
 }
