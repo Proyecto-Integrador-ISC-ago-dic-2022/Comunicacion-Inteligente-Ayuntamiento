@@ -41,7 +41,7 @@ function addRow(tableId, inputName, inputPlaceholder, inputValue) {
         } else {
             var alert = createAlert(('Se tiene que registrar una ' + inputPlaceholder), 'warning')
             var preguntasRespuestas = document.getElementById('preguntasRespuestas')
-            preguntasRespuestas.appendChild(alert)
+            preguntasRespuestas.prepend(alert)
 
         }
 
@@ -150,7 +150,6 @@ function genrateTreeTable(id) {
                         cellData = 'Menu'
                     } else if (cellData == 3) {
                         cellData = 'Link'
-                        document.getElementById('linkInput').style.visibility = 'visible'
                     }
                 }
                 if (index === array.length - 1) {
@@ -291,7 +290,13 @@ function editArtifact(etiqueta) {
                 addRow('tablaRes-body', 'respuestas', 'respuesta', data.respuestas[k])
             }
 
+            if (data.tipo == 3) {
+                document.getElementById('linkInput').style.visibility = 'visible'
 
+            }
+            else {
+                document.getElementById('linkInput').style.visibility = 'hidden'
+            }
             tag.value = data.etiqueta
             type.value = data.tipo
             cat.value = data.categoria
@@ -351,12 +356,12 @@ function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const value = Object.fromEntries(data.entries());
-    if(document.getElementById('tipo').value == 3){
+    if (document.getElementById('tipo').value == 3) {
         value.link = document.getElementById('link').value
         console.log(document.getElementById('link').value)
-    }else{
+    } else {
     }
-    
+
     value.patrones = data.getAll('patrones')
     value.respuestas = data.getAll('respuestas')
     const cleansedPreguntas = value.patrones.filter(element => {
@@ -399,21 +404,7 @@ function handleSubmit(event) {
 
 }
 
-function createAlert(message, severity) {
-    var alert = document.createElement('div')
-    var alertSeverity = 'alert-' + severity
-    alert.className = 'alert alert-dismissable ' + alertSeverity
-    alert.setAttribute('role', 'alert')
-    alert.appendChild(document.createTextNode(message))
-    //<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    var button = document.createElement('button')
-    button.type = 'button'
-    button.className = 'btn-close text-right'
-    button.setAttribute('data-bs-dismiss', 'alert')
-    alert.appendChild(button)
-    return alert
 
-}
 
 function postUpdate(value) {
     let url = 'http://127.0.0.1:8080/artefactos/update'
@@ -439,13 +430,37 @@ function postCreate(value) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(value)
-        }).then(raw => raw.json)
+        }).then(function (raw) {
+            console.log(raw.status)
+            if (raw.status == 200) {
+                var alert = createAlert('Elemento creado exitosamente, recargando página', 'success');
+                modal = document.getElementById('modalInt-footer')
+                modal.appendChild(alert)
+                showAside()
+                setTimeout(() => document.location.reload(), 5000)
+            } else {
+                switch (raw.status) {
+                    case 441:
+                        var alert = createAlert('ERROR: La etiqueta ya existe.', 'danger')
+                        modal = document.getElementById('modalInt-footer')
+                        modal.appendChild(alert)
+                        break
+                    case 440:
+                        var alert = createAlert('ERROR: Ya existe un patron que intentas agregar.', 'danger')
+                        modal = document.getElementById('modalInt-footer')
+                        modal.appendChild(alert)
+                        break
+                    default: 
+                        console.log('No error status received, this should never happen.');
+                        break
+                }
+                console.log(raw.body)
+                console.log(raw.json())
+
+            }
+        })
             .then(data => console.log(data))
     }, 500)
-
-    showAside()
-    //Reloads the page so the update on the database will be seen on the artifacts main page
-    setTimeout(() => document.location.reload(), 1000)
 }
 
 const form = document.querySelector('form');
