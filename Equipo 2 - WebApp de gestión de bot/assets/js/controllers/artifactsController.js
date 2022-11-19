@@ -369,6 +369,12 @@ exports.postData = async (req, res) => {
     if (data["sucesor_de"] != 0) {
         conexion.query(`SELECT id, sucesor_de FROM interaccion`, (err, rows) => {
             if (err) throw err
+
+            conexion.query(`SELECT id, sucesor_de FROM interaccion`, (err, rows) => {
+                if (err) throw err
+                
+            })
+
             var lstIdDads = getDadsId(data["sucesor_de"], rows)
 
             var sql = `SELECT patron from patron WHERE id_interaccion=${data["sucesor_de"]} OR `
@@ -380,10 +386,20 @@ exports.postData = async (req, res) => {
             
             var sqlFin = sql.slice(0, sql.length-3)
 
-           conexion.query(sqlFin, (err, rows) => {
+           conexion.query(sqlFin, (err, dadPats) => {
                 if (err) throw err 
-                rows.forEach(function (row) {
-                    lstPatrones.push(row['patron'])
+                conexion.query(`SELECT patron FROM patron WHERE id_interaccion IN (SELECT id FROM interaccion WHERE sucesor_de = ${data["sucesor_de"]})`, (err, broPats) => {
+                    if (err) throw err 
+
+                    dadPats.forEach(function (p) {
+                        lstPatrones.push(p['patron'])
+                    })
+
+                    broPats.forEach(function (p) {
+                        lstPatrones.push(p['patron'])
+                        console.log(lstPatrones + "+++++")
+                    })
+
                 })
 
             })
@@ -420,7 +436,6 @@ exports.postData = async (req, res) => {
 
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
-
                 if (lstPatrones.indexOf(patron) !== -1) isRepetido = true
             })
 
@@ -458,13 +473,13 @@ exports.postData = async (req, res) => {
 
             }
 
-        }, 500);
+        }, 700);
 
     } else {
         setTimeout(() => {
-
             var isRepetido = false
             data['patrones'].forEach(function (patron) {
+                console.log("-------------" + lstPatrones)
                 if (lstPatrones.indexOf(patron) !== -1) isRepetido = true
             })
 
@@ -497,12 +512,9 @@ exports.postData = async (req, res) => {
                 }
             }
 
-        }, 500);
+        }, 700);
 
     }
-
-    
-    
 
 }
 
