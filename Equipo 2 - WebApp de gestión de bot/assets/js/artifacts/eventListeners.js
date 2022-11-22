@@ -35,10 +35,10 @@ btnNewInt.addEventListener('click', function () {
 
 
 btnPat.addEventListener('click', function () {
-    addRow('tablaPat-body', 'patrones', 'pregunta', '')
+    manageRows('tablaPat-body', 'patrones', 'pregunta', '')
 })
 btnRes.addEventListener('click', function () {
-    addRow('tablaRes-body', 'respuestas', 'respuesta', '')
+    manageRows('tablaRes-body', 'respuestas', 'respuesta', '')
 })
 btnUpdate.addEventListener('click', function () {
     hideAside()
