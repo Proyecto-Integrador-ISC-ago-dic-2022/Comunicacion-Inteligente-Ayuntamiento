@@ -39,7 +39,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" href="../pages/tables.html">
+          <a class="nav-link active" href="../pages/categorias.html">
             <div
               class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-ui-04 text-warning text-sm opacity-10"></i>
@@ -67,14 +67,6 @@
     <div class="container-fluid p-3">
       <div class="row">
         <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h1>Bot
-              </h1>
-            </div>
-            <div class="card-body px-0 pt-0 pb-2">
-            </div>
-          </div>
           <div class="card mb-4">
             <div class="card-header pb-0">
               <h2>Configuración de Categorias</h2>
@@ -129,14 +121,10 @@
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../assets/js/utilities.js"></script>
-
-  <!--EVENT LISTENERS-->
-  <script>
-    var btnUpdate = document.getElementById('btnUpdate');
-    btnUpdate.addEventListener('click', function () {
-      updateAI()
-    })
-  </script>
+  <script src="../assets/js/categorias/eventListeners.js"></script>
+  <script src="../assets/js/categorias/handleSubmit.js"></script>
+  <script src="../assets/js/categorias/catFunctions.js"></script>
+  <!--NAVBAR-->
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -146,89 +134,7 @@
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
   </script>
-  <script>
-    function handleSubmit(event) {
-      event.preventDefault();
-      const data = new FormData(event.target);
-      const value = Object.fromEntries(data.entries())
 
-      if (Object.keys(value).length === 0) {
-        var alert = createAlert('Tiene que haber al menos una categoría habilitada.', 'warning')
-        var card = document.getElementById('catFooter')
-        card.prepend(alert)
-
-      } else {
-
-        for (i in value) {
-          value[i] = true
-        }
-
-        let url = 'http://127.0.0.1:8080/artefactos/changeCatStatus'
-        fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(value)
-        }).then(raw => raw.json)
-          .then(data => console.log(data));
-        setTimeout(() => {
-          document.location.reload()
-        }, 1000)
-      }
-    }
-    const form = document.querySelector('form');
-    form.addEventListener('submit', handleSubmit)
-  </script>
-  <script>
-    //var data = ["Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
-
-    function createTable(array) {
-      catArray = []
-      fetch('http://127.0.0.1:8080/artefactos/readCatStatus').then((result) => result.json()).then(function (data) {
-        for (i in data) {
-          if (data[i] == 0) {
-            catArray.push([i, false])
-          } else {
-            catArray.push([i, true])
-          }
-
-        }
-        var table = document.getElementById('table-areas');
-        var tableBody = document.getElementById('table-areas-body');
-        catArray.forEach(function (rowData) {
-          var div = document.createElement('div');
-          div.className = 'd-flex flex-column justify-content-center'
-          var row = document.createElement('tr');
-          var cell = document.createElement('td');
-          cell.className = 'px-5'
-          cell.appendChild(document.createTextNode(rowData[0]));
-          row.appendChild(cell)
-          var toggleDiv = document.createElement('div');
-          toggleDiv.className = 'form-check form-switch mx-7'
-          var toggleCell = document.createElement('td');
-          var toggle = document.createElement("input");
-          toggle.className = "form-check-input";
-          toggle.type = "checkbox";
-          toggle.id = rowData[0]
-          toggle.name = rowData[0]
-          toggle.checked = rowData[1];
-          toggleDiv.appendChild(toggleCell);
-          toggleCell.appendChild(toggle);
-          row.appendChild(toggleDiv);
-          /*rowData.forEach(function (cellData) {
-            var cell = document.createElement('td');
-            cell.appendChild(document.createTextNode(cellData));
-            row.appendChild(cell);
-            
-          });*/
-          tableBody.appendChild(row);
-        });
-        table.appendChild(tableBody);
-      })
-
-
-    }
-    createTable()
-  </script>
 
 </body>
 

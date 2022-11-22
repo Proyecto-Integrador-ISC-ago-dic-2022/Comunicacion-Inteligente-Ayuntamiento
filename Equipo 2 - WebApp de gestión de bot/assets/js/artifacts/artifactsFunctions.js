@@ -11,7 +11,7 @@ data.forEach(function (row) {
 });
 
 //add more rows for each question and answer, won't let you go lower than 1 question and answer
-function addRow(tableId, inputName, inputPlaceholder, inputValue) {
+function manageRows(tableId, inputName, inputPlaceholder, inputValue) {
     var table = document.getElementById(tableId);
     var row = document.createElement('tr');
     var cell = document.createElement('td');
@@ -96,7 +96,7 @@ function createTable() {
                     // in this case, this will hide the aside bar to show all the interactions
                     // on a modal which will retrieve from a query it's required data
                     button.addEventListener('click', function () {
-                        genrateTreeTable(button.id)
+                        generateTreeTable(button.id)
 
                         hideAside()
                     })
@@ -123,7 +123,7 @@ function createTable() {
 
 }
 
-function genrateTreeTable(id) {
+function generateTreeTable(id) {
     var data = []
     url = 'http://127.0.0.1:8080/artefactos/readCat/' + id
     fetch(url).then(function (response) {
@@ -284,10 +284,10 @@ function editArtifact(etiqueta) {
             var respuestas = document.getElementById('tablaRes-body')
 
             for (var j = 0; j < data.patrones.length; j++) {
-                addRow('tablaPat-body', 'patrones', 'pregunta', data.patrones[j])
+                manageRows('tablaPat-body', 'patrones', 'pregunta', data.patrones[j])
             }
             for (var k = 0; k < data.respuestas.length; k++) {
-                addRow('tablaRes-body', 'respuestas', 'respuesta', data.respuestas[k])
+                manageRows('tablaRes-body', 'respuestas', 'respuesta', data.respuestas[k])
             }
 
             if (data.tipo == 3) {

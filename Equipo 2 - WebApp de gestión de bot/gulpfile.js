@@ -20,7 +20,7 @@ gulp.task('server', function(){
     livereload: true,
     open: true,
     port: 8081,
-    fallback: './pages/login.html'
+    fallback: './pages/categorias.html'
   }));
   console.log('server online on loopback address (127.0.0.1) port: 8081');
 });
@@ -44,7 +44,7 @@ gulp.task('watch', function() {
 
 //Abre una página en específico, uusado en pruebas de interacción yy visuales
 gulp.task('open', function() {
-  gulp.src('pages/login.html')
+  gulp.src('pages/categorias.html')
     .pipe(open());
 });
 
