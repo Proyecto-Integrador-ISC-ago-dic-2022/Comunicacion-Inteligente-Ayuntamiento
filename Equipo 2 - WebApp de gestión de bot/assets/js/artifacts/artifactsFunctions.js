@@ -1,7 +1,7 @@
 //dropdown menu data and creation
 
 var isCreate = true
-var data = ["Conversación", "Soporte", "Innovacion", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesoreria", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
+var data = ["Conversación", "Soporte", "Innovación", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesorería", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
 var dropdown = document.getElementById('categoria');
 data.forEach(function (row) {
     var option = document.createElement('option');
@@ -30,7 +30,7 @@ function manageRows(tableId, inputName, inputPlaceholder, inputValue) {
     var btnDelete = document.createElement('button');
     btnDelete.type = 'button'
     btnDelete.className = 'btn btn-danger visible'
-    btnDelete.appendChild(document.createTextNode('Borrar ' + inputPlaceholder))
+    btnDelete.appendChild(document.createTextNode('Borrar'))
     btnDelete.addEventListener('click', function () {
         var table = document.getElementById(tableId);
         var rowCount = table.rows.length;
@@ -171,7 +171,7 @@ function generateTreeTable(id) {
                         dropSucesores.innerHTML = '<option value="0">Ninguno</option>'
                         fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
                             return response.json();
-                        }).then(function (data) {
+                        }).then(function (data) {postData
                             data.forEach(function (rowData) {
                                 if (button.id == rowData.etiqueta) {
 
@@ -262,7 +262,7 @@ function editArtifact(etiqueta) {
     botonCancelarEdit.setAttribute('data-bs-dismiss', 'modal')
     botonCancelarEdit.appendChild(document.createTextNode('Cancelar cambios'))
     botonCancelarEdit.addEventListener('click', function () {
-        cancelTree()
+        closeCatModal()
         cancelCreate()
         cancelEdit(btnTransferCancelar)
         isCreate = true
@@ -284,10 +284,10 @@ function editArtifact(etiqueta) {
             var respuestas = document.getElementById('tablaRes-body')
 
             for (var j = 0; j < data.patrones.length; j++) {
-                manageRows('tablaPat-body', 'patrones', 'pregunta', data.patrones[j])
+                manageRows('tablaPat-body', 'patrones', '¿Qué mensaje quieres?', data.patrones[j])
             }
             for (var k = 0; k < data.respuestas.length; k++) {
-                manageRows('tablaRes-body', 'respuestas', 'respuesta', data.respuestas[k])
+                manageRows('tablaRes-body', 'respuestas', '', data.respuestas[k])
             }
 
             if (data.tipo == 3) {
@@ -315,7 +315,7 @@ function showAside() {
     aside.hidden = false
 }
 
-function cancelTree() {
+function closeCatModal() {
     var ramasTable = document.getElementById('tableRamas-body')
     ramasTable.innerHTML = ''
     showAside()

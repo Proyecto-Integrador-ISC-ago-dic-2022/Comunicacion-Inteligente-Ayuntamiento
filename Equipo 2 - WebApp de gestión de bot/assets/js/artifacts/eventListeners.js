@@ -5,6 +5,8 @@ var btnDeleteRes = document.getElementById('btnDelRes');
 var btnNewInt = document.getElementById('btnNewInt');
 var btnUpdate = document.getElementById('btnUpdate');
 var dropdownTipos = document.getElementById('tipo');
+
+
 dropdownTipos.addEventListener('change', function(){
     if(dropdownTipos.value == 3){
         document.getElementById('linkInput').style.visibility = 'visible'
