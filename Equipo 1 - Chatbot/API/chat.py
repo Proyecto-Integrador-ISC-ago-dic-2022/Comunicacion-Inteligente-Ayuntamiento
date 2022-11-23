@@ -50,7 +50,6 @@ def get_response(msg, old_children):
         sentence = tokenize(msg)
         tag, prob = get_tag(sentence,tags,all_words,device,model)
 
-        print("tag", tag, " prob", prob)
 
         if prob.item() > probabilidad_predict:
             for intent in intents['interacciones']:
