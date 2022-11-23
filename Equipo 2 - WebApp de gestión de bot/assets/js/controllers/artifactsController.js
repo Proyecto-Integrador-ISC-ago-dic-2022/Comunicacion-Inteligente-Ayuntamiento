@@ -206,7 +206,22 @@ exports.readData = async (req, res) => {
     var data = req.params["categ"]
     conexion.query(`SELECT etiqueta, tipo, sucesor_de, link FROM interaccion WHERE categoria= '${data}'`, (err, rows) => {
         if (err) throw err
-        res.send(JSON.stringify(rows))
+        
+        conexion.query(`SELECT id, etiqueta FROM interaccion `, (err, ids) => {
+            if (err) throw err
+            rows.forEach(function (row) {
+                if(row["sucesor_de"] == 0 ){
+                    row["sucesor_de"] = "Ninguno"
+                }else {
+                    ids.forEach(function (id){
+                        if(row["sucesor_de"] == id["id"]) row["sucesor_de"] = id["etiqueta"]
+                    })
+                }
+                
+            })
+            res.send(JSON.stringify(rows))
+
+        })
     })
 }
 
