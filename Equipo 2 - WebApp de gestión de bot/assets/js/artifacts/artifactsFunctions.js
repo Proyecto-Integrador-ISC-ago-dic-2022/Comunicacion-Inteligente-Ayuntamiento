@@ -162,7 +162,6 @@ function generateTreeTable(id) {
                 if (index === array.length - 1) {
                     var cell = document.createElement('td');
                     cell.appendChild(document.createTextNode(cellData));
-                    cell.className = 'px-5'
 
                     //Boton para ver las ramas
                     var buttonCell = document.createElement('td');
@@ -178,7 +177,7 @@ function generateTreeTable(id) {
                         dropSucesores.innerHTML = '<option value="0">Ninguno</option>'
                         fetch("http://127.0.0.1:8080/artefactos/read").then(function (response) {
                             return response.json();
-                        }).then(function (data) {postData
+                        }).then(function (data) {
                             data.forEach(function (rowData) {
                                 if (button.id == rowData.etiqueta) {
 
@@ -224,7 +223,6 @@ function generateTreeTable(id) {
                 else {
                     var cell = document.createElement('td');
                     cell.appendChild(document.createTextNode(cellData));
-                    cell.className = 'px-5'
                     row.appendChild(cell);
                 }
 
@@ -294,6 +292,7 @@ function editArtifact(etiqueta) {
                 manageRows('tablaPat-body', 'patrones', '¿Qué mensaje quieres?', data.patrones[j])
             }
             for (var k = 0; k < data.respuestas.length; k++) {
+                isPatron = false
                 manageRows('tablaRes-body', 'respuestas', '¿Qué respuesta quieres?', data.respuestas[k])
             }
 

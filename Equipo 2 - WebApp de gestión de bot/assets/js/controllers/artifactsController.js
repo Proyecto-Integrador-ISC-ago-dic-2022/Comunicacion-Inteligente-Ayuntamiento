@@ -217,6 +217,9 @@ exports.readData = async (req, res) => {
                         if(row["sucesor_de"] == id["id"]) row["sucesor_de"] = id["etiqueta"]
                     })
                 }
+                if(row["link"] == null  || row["link"] == ''){
+                    row["link"] = "Ninguno"
+                }
                 
             })
             res.send(JSON.stringify(rows))
