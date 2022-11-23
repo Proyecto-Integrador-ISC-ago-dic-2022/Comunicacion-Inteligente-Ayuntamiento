@@ -17,9 +17,12 @@ class Chatbox {
 
         sendButton.addEventListener("click", () => this.onSendButton(chatBox));
 
+        var chatbox = document.getElementById("chatbox");
+
         const node = chatBox.querySelector("input");
         node.addEventListener("keyup", ({ key }) => {
             if (key === "Enter") {
+                chatbox.scrollTop = chatbox.scrollHeight;
                 this.onSendButton(chatBox);
             }
         });
