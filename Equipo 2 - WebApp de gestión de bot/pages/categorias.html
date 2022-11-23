@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>
+    Configuración
+  </title>
+  <link rel="website icon" href="../assets/img/Atizapan.png" />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <!-- Nucleo Icons -->
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+
+</head>
+
+<body class="g-sidenav-show   bg-gray-100">
+  <div class="min-height-300 position-absolute w-100"
+    style="background-image: linear-gradient(45deg,#1cd6e7,rgb(211, 28, 187),  rgb(183, 49, 224));"></div>
+  <aside
+    class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 "
+    id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+        aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0" target="_blank">
+        <img src="../assets/img/Atizapan.png" alt="Atizapan_Logo">
+        <span class="ms-1 font-weight-bold mx-4">Zarati</span>
+      </a>
+    </div>
+    <hr class="horizontal dark mt-0">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="../pages/categorias.html">
+            <div
+              class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-ui-04 text-warning text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Configuración</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="../pages/artifacts.html">
+            <div
+              class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-bullet-list-67 text-success text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Interacciones</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidenav-footer">
+      <button type="button" class="btn btn-warning mx-6" id="btnUpdate" style="position:absolute; bottom: 5%;"
+        data-bs-toggle="modal" data-bs-target="#modalUpdate">Actualizar bot</button>
+    </div>
+  </aside>
+  <main class="main-content position-relative border-radius-lg ">
+    <div class="container-fluid p-3">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h2>Configuración de Categorías</h2>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <form>
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center mb-0" id="table-areas">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7">Categoría</th>
+                        <th class="text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">En mantenimiento
+                          / Activo</th>
+                      </tr>
+                    </thead>
+                    <tbody id="table-areas-body">
+                    </tbody>
+                  </table>
+                  <div class="card-footer" id="catFooter">
+                    <button type="submit" class="btn btn-primary">
+                      Actualizar Ramas
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+    <!--Modal Actualizando-->
+    <div class="modal fade" id="modalUpdate" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+      <div class="modal-dialog">
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6>Actualizando...</h6>
+          </div>
+          <div class="modal-body" id="updateAI-body">
+            <p>Actualizando bot. Favor de Esperar</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--MODAL END-->
+  </main>
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/utilities.js"></script>
+  <script src="../assets/js/categorias/eventListeners.js"></script>
+  <script src="../assets/js/categorias/handleSubmit.js"></script>
+  <script src="../assets/js/categorias/catFunctions.js"></script>
+  <!--NAVBAR-->
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+
+
+</body>
+
+</html>
