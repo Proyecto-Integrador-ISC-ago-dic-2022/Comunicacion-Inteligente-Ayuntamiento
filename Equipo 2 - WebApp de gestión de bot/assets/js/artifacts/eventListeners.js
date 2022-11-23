@@ -37,10 +37,11 @@ btnNewInt.addEventListener('click', function () {
 
 
 btnPat.addEventListener('click', function () {
-    manageRows('tablaPat-body', 'patrones', 'pregunta', '')
+    manageRows('tablaPat-body', 'patrones', '¿Qué mensaje quieres?', '')
 })
 btnRes.addEventListener('click', function () {
-    manageRows('tablaRes-body', 'respuestas', 'respuesta', '')
+    isPatron = false
+    manageRows('tablaRes-body', 'respuestas', '¿Qué respuesta quieres?', '')
 })
 btnUpdate.addEventListener('click', function () {
     hideAside()

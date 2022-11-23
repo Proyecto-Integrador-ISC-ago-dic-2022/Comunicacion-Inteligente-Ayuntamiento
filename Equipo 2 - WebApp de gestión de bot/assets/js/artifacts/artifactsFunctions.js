@@ -1,6 +1,7 @@
 //dropdown menu data and creation
 
 var isCreate = true
+var isPatron = true
 var data = ["Conversación", "Soporte", "Innovación", "Obras públicas", "Servicios Públicos", "SAPASA", "Seguridad Pública", "Desarrollo Urbano", "Contraloría Municipal", "Protección Civil", "Normatividad", "Subdirección de Tránsito", "Desarrollo Social", "Desarrollo Económico", "Derechos Humanos", "Seguridad Pública y Tránsito", "Secretaría General", "Tesorería", "Servicios Jurídicos", "Instituto de la Mujer", "Educación", "Juventud", "DIF", "Jurídico", "Presidencia"]
 var dropdown = document.getElementById('categoria');
 data.forEach(function (row) {
@@ -19,7 +20,13 @@ function manageRows(tableId, inputName, inputPlaceholder, inputValue) {
     buttonCell.className = 'text-center my-3'
     // Elemento generado
     // HTML: <input class="form-control" type="text" placeholder="pregunta" name="pregunta">
-    var entrada = document.createElement('input');
+    if(isPatron){
+        var entrada = document.createElement('input')
+    }else{
+        var entrada = document.createElement('textarea')
+        entrada.rows = '4'
+        isPatron = true
+    }
     if (inputValue != '') {
         entrada.value = inputValue
     }
@@ -287,7 +294,7 @@ function editArtifact(etiqueta) {
                 manageRows('tablaPat-body', 'patrones', '¿Qué mensaje quieres?', data.patrones[j])
             }
             for (var k = 0; k < data.respuestas.length; k++) {
-                manageRows('tablaRes-body', 'respuestas', '', data.respuestas[k])
+                manageRows('tablaRes-body', 'respuestas', '¿Qué respuesta quieres?', data.respuestas[k])
             }
 
             if (data.tipo == 3) {
@@ -381,6 +388,7 @@ function handleSubmit(event) {
             modal = document.getElementById('modalInt-footer')
             modal.appendChild(alert)
         } else {
+            console.log(value)
             if (isCreate) {
                 postCreate(value)
             } else {
