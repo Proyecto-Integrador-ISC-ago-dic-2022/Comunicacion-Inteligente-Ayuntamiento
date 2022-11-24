@@ -58,9 +58,13 @@ def get_response(msg, old_children):
                     return (random.choice(intent['respuestas']),  intent['link'], intent['tipo'], intent['children'])
         
         return (random.choice([
-            "Lo siento. No te entendí.",
-            "Perdon, no comprendo.", 
-            "Una disculpa, podría repetirlo."]), "", 1, [])
+    "Lo siento. No te entendí.",
+    "No comprendí, una disculpa.",
+    "Perdón, no comprendo.",
+    "¿Podrías repetirlo? No logré comprender tu solicitud.",
+    "Disculpa, no entendí.",
+    "Una disculpa, podría repetirlo."
+    ]), "", 1, [])
     except Exception as e:
          print("Se a producido el siguiente error: ", e)
 

@@ -4,7 +4,7 @@ import nltk
 # -*- coding: utf-8 -*-
 from nltk.stem.snowball import SpanishStemmer
 stemmer = SpanishStemmer()
-
+import unicodedata
 
 def tokenize(sentence):
     try:
@@ -14,7 +14,7 @@ def tokenize(sentence):
 
 def stem(word):
     try:
-        return stemmer.stem(word.lower())
+        return stemmer.stem(str(unicodedata.normalize('NFKD', word).encode('ASCII', 'ignore').decode('ASCII').lower()))
     except Exception as e:
         print("Se a producido el siguiente error: ", e)
 
