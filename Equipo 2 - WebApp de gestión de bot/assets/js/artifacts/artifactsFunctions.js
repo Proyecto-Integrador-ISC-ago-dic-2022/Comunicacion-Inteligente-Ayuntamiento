@@ -267,6 +267,10 @@ function editArtifact(etiqueta) {
     botonCancelarEdit.setAttribute('data-bs-dismiss', 'modal')
     botonCancelarEdit.appendChild(document.createTextNode('Cancelar cambios'))
     botonCancelarEdit.addEventListener('click', function () {
+        document.getElementById('etiqueta').value = ''
+        document.getElementById('sucesor_de').value = 0
+        document.getElementById('link').value = 1
+
         closeCatModal()
         cancelCreate()
         cancelEdit(btnTransferCancelar)
