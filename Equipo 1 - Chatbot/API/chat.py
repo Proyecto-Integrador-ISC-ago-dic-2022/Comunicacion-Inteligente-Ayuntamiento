@@ -7,7 +7,7 @@ from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
 
 def get_response(msg, old_children):
-    probabilidad_predict = 0.75
+    probabilidad_predict = 0.9
     try:
         with open('interacciones.json', 'r', encoding="utf-8") as json_data:
             intents = json.load(json_data)
@@ -40,7 +40,6 @@ def get_response(msg, old_children):
             if len(old_children) != 0:
                 sentence_child = tokenize(str(old_children[0]['sucesor_de'])+" "+msg)
                 tag_child, prob_child = get_tag(sentence_child,tags,all_words,device,model)
-                
                 if prob_child.item() > probabilidad_predict:
                     for old_child in old_children:
                         if tag_child == old_child["etiqueta"]:
@@ -49,7 +48,6 @@ def get_response(msg, old_children):
 
         sentence = tokenize(msg)
         tag, prob = get_tag(sentence,tags,all_words,device,model)
-
 
         if prob.item() > probabilidad_predict:
             for intent in intents['interacciones']:
